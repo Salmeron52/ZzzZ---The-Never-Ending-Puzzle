@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * Icono personalizado de deshacer: flecha curva hacia atrás con estilo de "rebobinar".
+ * Icono personalizado de deshacer: flecha curva hacia la izquierda con punta hacia la derecha.
+ * Similar al icono clásico de Undo.
  */
 @Composable
 fun IconoDeshacer(
@@ -28,15 +29,15 @@ fun IconoDeshacer(
         val altura = this.size.height
         val grosor = anchura * 0.12f
         
-        // Arco circular (flecha de retroceso)
+        // Arco circular que va desde la derecha, hacia arriba, hacia la izquierda
         val path = Path().apply {
-            // Punto inicial arriba a la derecha
-            moveTo(anchura * 0.75f, altura * 0.25f)
-            // Arco hacia la izquierda y abajo
+            // Punto inicial a la derecha abajo
+            moveTo(anchura * 0.8f, altura * 0.65f)
+            // Curva hacia arriba y luego hacia la izquierda
             cubicTo(
-                anchura * 0.35f, altura * 0.1f,
-                anchura * 0.2f, altura * 0.45f,
-                anchura * 0.35f, altura * 0.7f
+                anchura * 0.8f, altura * 0.35f,
+                anchura * 0.55f, altura * 0.25f,
+                anchura * 0.25f, altura * 0.35f
             )
         }
         
@@ -46,11 +47,11 @@ fun IconoDeshacer(
             style = Stroke(width = grosor, cap = StrokeCap.Round)
         )
         
-        // Punta de flecha en la parte superior
+        // Punta de flecha apuntando hacia la derecha (en el extremo izquierdo del arco)
         val flechaPath = Path().apply {
-            moveTo(anchura * 0.75f, altura * 0.1f)
-            lineTo(anchura * 0.75f, altura * 0.38f)
-            lineTo(anchura * 0.52f, altura * 0.24f)
+            moveTo(anchura * 0.35f, altura * 0.2f)
+            lineTo(anchura * 0.2f, altura * 0.38f)
+            lineTo(anchura * 0.4f, altura * 0.45f)
             close()
         }
         
