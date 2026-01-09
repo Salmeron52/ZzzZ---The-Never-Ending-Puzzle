@@ -36,12 +36,19 @@ class JuegoViewModel @Inject constructor(
     private fun cargarPartida() {
         viewModelScope.launch {
             runCatching {
-                val partidaGuardada = repositorio.cargarPartida()
-                if (partidaGuardada != null) {
-                    val (tablero, puntuacion, record) = partidaGuardada
+                val datosPartida = repositorio.cargarPartida()
+                if (datosPartida != null) {
+                    val tablero = datosPartida.tablero
+                    val puntuacion = datosPartida.puntuacion
+                    val record = datosPartida.record
+                    val nivelId = datosPartida.nivelId
+                    
                     val maxId = tablero.flatten().filterNotNull().maxOfOrNull { it.id } ?: 0L
                     reglasJuego.establecerContadorId(maxId)
                     
+                    // Recuperar el nivel
+                    val nivel = NivelDificultad.entries.find { it.id == nivelId } ?: NivelDificultad.NORMAL
+
                     _estado.update {
                         it.copy(
                             tablero = tablero,
@@ -50,7 +57,8 @@ class JuegoViewModel @Inject constructor(
                             finDelJuego = reglasJuego.esFinDeJuego(tablero),
                             cargando = false,
                             puedeDeshacer = false,
-                            estadoAnterior = null
+                            estadoAnterior = null,
+                            nivelActual = nivel
                         )
                     }
                 } else {
@@ -214,7 +222,8 @@ class JuegoViewModel @Inject constructor(
                 repositorio.guardarPartida(
                     tablero = estadoActual.tablero,
                     puntuacion = estadoActual.puntuacion,
-                    record = estadoActual.record
+                    record = estadoActual.record,
+                    nivelId = estadoActual.nivelActual.id
                 )
             }
         }

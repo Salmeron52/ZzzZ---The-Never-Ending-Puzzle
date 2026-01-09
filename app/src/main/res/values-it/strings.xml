@@ -20,6 +20,9 @@
     <string name="delete_game_desc">Elimina partita</string>
     <string name="delete_game_title">Elimina Partita</string>
     <string name="delete_game_confirmation">Sei sicuro di voler eliminare questa partita?</string>
+    <string name="no_saved_games">Nessuna partita salvata</string>
+    <string name="save_game_hint">Salva una partita durante il gioco\nper vederla qui</string>
+    <string name="back_desc">Indietro</string>
     
     <!-- Levels -->
     <string name="level_label">Livello</string>

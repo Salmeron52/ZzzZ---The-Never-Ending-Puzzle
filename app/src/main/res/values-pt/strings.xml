@@ -20,6 +20,9 @@
     <string name="delete_game_desc">Excluir jogo</string>
     <string name="delete_game_title">Excluir Jogo</string>
     <string name="delete_game_confirmation">Tem certeza que deseja excluir este jogo?</string>
+    <string name="no_saved_games">Nenhum jogo salvo</string>
+    <string name="save_game_hint">Salve um jogo enquanto joga\npara vê-lo aqui</string>
+    <string name="back_desc">Voltar</string>
     
     <!-- Levels -->
     <string name="level_label">Nível</string>

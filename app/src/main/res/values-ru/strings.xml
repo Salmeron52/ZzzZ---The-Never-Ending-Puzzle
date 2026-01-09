@@ -20,6 +20,9 @@
     <string name="delete_game_desc">Удалить игру</string>
     <string name="delete_game_title">Удалить Игру</string>
     <string name="delete_game_confirmation">Вы уверены, что хотите удалить эту игру?</string>
+    <string name="no_saved_games">Нет сохраненных игр</string>
+    <string name="save_game_hint">Сохраните игру во время игры,\nчтобы увидеть ее здесь</string>
+    <string name="back_desc">Назад</string>
     
     <!-- Levels -->
     <string name="level_label">Уровень</string>

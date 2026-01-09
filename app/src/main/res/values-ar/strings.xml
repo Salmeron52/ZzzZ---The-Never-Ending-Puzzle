@@ -20,6 +20,9 @@
     <string name="delete_game_desc">حذف اللعبة</string>
     <string name="delete_game_title">حذف اللعبة</string>
     <string name="delete_game_confirmation">هل أنت متأكد أنك تريد حذف هذه اللعبة؟</string>
+    <string name="no_saved_games">لا توجد ألعاب محفوظة</string>
+    <string name="save_game_hint">احفظ لعبة أثناء اللعب\nلرؤيتها هنا</string>
+    <string name="back_desc">رجوع</string>
     
     <!-- Levels -->
     <string name="level_label">مستوى</string>

@@ -20,6 +20,9 @@
     <string name="delete_game_desc">Supprimer la partie</string>
     <string name="delete_game_title">Supprimer la Partie</string>
     <string name="delete_game_confirmation">Êtes-vous sûr de vouloir supprimer cette partie ?</string>
+    <string name="no_saved_games">Aucune partie sauvegardée</string>
+    <string name="save_game_hint">Sauvegardez une partie pendant le jeu\npour la voir ici</string>
+    <string name="back_desc">Retour</string>
     
     <!-- Levels -->
     <string name="level_label">Niveau</string>

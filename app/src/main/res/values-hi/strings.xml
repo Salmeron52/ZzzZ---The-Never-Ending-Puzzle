@@ -20,6 +20,9 @@
     <string name="delete_game_desc">खेल हटाएं</string>
     <string name="delete_game_title">खेल हटाएं</string>
     <string name="delete_game_confirmation">क्या आप वाकई इस खेल को हटाना चाहते हैं?</string>
+    <string name="no_saved_games">कोई सहेजा गया खेल नहीं</string>
+    <string name="save_game_hint">इसे यहाँ देखने के लिए\nखेलते समय खेल सहेजें</string>
+    <string name="back_desc">वापस</string>
     
     <!-- Levels -->
     <string name="level_label">स्तर</string>

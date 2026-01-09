@@ -20,6 +20,9 @@
     <string name="delete_game_desc">게임 삭제</string>
     <string name="delete_game_title">게임 삭제</string>
     <string name="delete_game_confirmation">이 게임을 삭제하시겠습니까?</string>
+    <string name="no_saved_games">저장된 게임 없음</string>
+    <string name="save_game_hint">여기에서 보려면\n게임 중에 저장하세요</string>
+    <string name="back_desc">뒤로</string>
     
     <!-- Levels -->
     <string name="level_label">레벨</string>

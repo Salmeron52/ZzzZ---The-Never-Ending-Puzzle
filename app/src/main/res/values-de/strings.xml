@@ -20,6 +20,9 @@
     <string name="delete_game_desc">Spiel löschen</string>
     <string name="delete_game_title">Spiel Löschen</string>
     <string name="delete_game_confirmation">Möchtest du dieses Spiel wirklich löschen?</string>
+    <string name="no_saved_games">Keine gespeicherten Spiele</string>
+    <string name="save_game_hint">Speichere ein Spiel während des Spielens,\num es hier zu sehen</string>
+    <string name="back_desc">Zurück</string>
     
     <!-- Levels -->
     <string name="level_label">Level</string>

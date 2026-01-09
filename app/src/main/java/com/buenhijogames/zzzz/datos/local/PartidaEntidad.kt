@@ -19,5 +19,6 @@ data class PartidaEntidad(
     val tableroJson: String,
     val puntuacion: Long,
     val record: Long,
-    val contadorFichas: Long = 0L
+    val contadorFichas: Long = 0L,
+    val nivelId: Int = 1
 )

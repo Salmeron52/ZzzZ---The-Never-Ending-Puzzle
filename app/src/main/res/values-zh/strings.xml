@@ -20,6 +20,9 @@
     <string name="delete_game_desc">删除游戏</string>
     <string name="delete_game_title">删除游戏</string>
     <string name="delete_game_confirmation">您确定要删除此存档吗？</string>
+    <string name="no_saved_games">没有存档</string>
+    <string name="save_game_hint">在游戏中保存游戏\n以便在这里查看</string>
+    <string name="back_desc">返回</string>
     
     <!-- Levels -->
     <string name="level_label">等级</string>

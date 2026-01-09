@@ -20,6 +20,9 @@
     <string name="delete_game_desc">ゲームを削除</string>
     <string name="delete_game_title">ゲームを削除</string>
     <string name="delete_game_confirmation">このゲームを削除してもよろしいですか？</string>
+    <string name="no_saved_games">保存されたゲームはありません</string>
+    <string name="save_game_hint">ここで見るには\nプレイ中にゲームを保存してください</string>
+    <string name="back_desc">戻る</string>
     
     <!-- Levels -->
     <string name="level_label">レベル</string>

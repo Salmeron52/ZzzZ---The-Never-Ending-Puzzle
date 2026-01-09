@@ -31,13 +31,31 @@ interface RepositorioJuego {
     suspend fun guardarPartida(
         tablero: List<List<Ficha?>>,
         puntuacion: Long,
-        record: Long
+        record: Long,
+        nivelId: Int = 1
     )
 
     /**
      * Carga la partida actual.
+     * Retorna: Triple(Tablero, Puntuacion, Record) + NivelId -> Vamos a usar una data class o Cuarteto si fuera posible,
+     * pero mejor cambiemos el retorno a un objeto simple o añadimos el Int al final.
+     * Para mantener compatibilidad simple, retornaremos un objeto con todo.
+     * O mejor, Quadruple no existe. Usaremos:
+     * Pair<Triple<List<List<Ficha?>>, Long, Long>, Int>?
+     * No, es muy feo.
+     * Vamos a retornar un objeto PartidaActual?
+     * O simplemente Triple y asumimos nivel? No, el bug es ese.
+     * Vamos a cambiar a:
+     * suspend fun cargarPartida(): DatosPartidaActual?
      */
-    suspend fun cargarPartida(): Triple<List<List<Ficha?>>, Long, Long>?
+    data class DatosPartidaActual(
+        val tablero: List<List<Ficha?>>,
+        val puntuacion: Long,
+        val record: Long,
+        val nivelId: Int
+    )
+
+    suspend fun cargarPartida(): DatosPartidaActual?
 
     /**
      * Elimina la partida actual.

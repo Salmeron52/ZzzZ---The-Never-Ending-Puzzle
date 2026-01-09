@@ -28,7 +28,8 @@ class RepositorioJuegoImpl @Inject constructor(
     override suspend fun guardarPartida(
         tablero: List<List<Ficha?>>,
         puntuacion: Long,
-        record: Long
+        record: Long,
+        nivelId: Int
     ) {
         runCatching {
             val tableroJson = Convertidores.tableroAJson(tablero)
@@ -38,17 +39,23 @@ class RepositorioJuegoImpl @Inject constructor(
                 tableroJson = tableroJson,
                 puntuacion = puntuacion,
                 record = record,
-                contadorFichas = contadorFichas
+                contadorFichas = contadorFichas,
+                nivelId = nivelId
             )
             partidaDao.guardarPartida(entidad)
         }
     }
 
-    override suspend fun cargarPartida(): Triple<List<List<Ficha?>>, Long, Long>? {
+    override suspend fun cargarPartida(): RepositorioJuego.DatosPartidaActual? {
         return runCatching {
             val entidad = partidaDao.obtenerPartida() ?: return null
             val tablero = Convertidores.jsonATablero(entidad.tableroJson)
-            Triple(tablero, entidad.puntuacion, entidad.record)
+            RepositorioJuego.DatosPartidaActual(
+                tablero = tablero,
+                puntuacion = entidad.puntuacion,
+                record = entidad.record,
+                nivelId = entidad.nivelId
+            )
         }.getOrNull()
     }
 
