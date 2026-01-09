@@ -165,6 +165,21 @@ class ReglasJuego @Inject constructor() {
     /**
      * Ejecuta un movimiento en la dirección especificada.
      */
+    /**
+     * Compara si dos fichas son funcionalmente diferentes (ignora flags de animación).
+     * Retorna true si hubo un cambio real (movimiento o fusión).
+     */
+    private fun fichasSonDiferentes(f1: Ficha?, f2: Ficha?): Boolean {
+        if (f1 == null && f2 == null) return false
+        if (f1 == null || f2 == null) return true
+        // Si el ID es el mismo, es la misma ficha (aunque hayan cambiado flags)
+        // Si hubo fusión, el ID cambia, así que retornará true
+        return f1.id != f2.id || f1.valor != f2.valor
+    }
+
+    /**
+     * Ejecuta un movimiento en la dirección especificada.
+     */
     fun mover(tablero: List<List<Ficha?>>, direccion: Direccion): ResultadoMovimiento {
         val tableroMutable = tablero.map { it.toMutableList() }.toMutableList()
         var puntuacionGanada = 0L
@@ -177,7 +192,7 @@ class ReglasJuego @Inject constructor() {
                         (0 until TAMANO_TABLERO).map { tableroMutable[it][columna] }
                     )
                     for (fila in 0 until TAMANO_TABLERO) {
-                        if (tableroMutable[fila][columna] != resultado.linea[fila]) {
+                        if (fichasSonDiferentes(tableroMutable[fila][columna], resultado.linea[fila])) {
                             huboMovimiento = true
                         }
                         tableroMutable[fila][columna] = resultado.linea[fila]
@@ -191,7 +206,7 @@ class ReglasJuego @Inject constructor() {
                         (TAMANO_TABLERO - 1 downTo 0).map { tableroMutable[it][columna] }
                     )
                     for ((indice, fila) in (TAMANO_TABLERO - 1 downTo 0).withIndex()) {
-                        if (tableroMutable[fila][columna] != resultado.linea[indice]) {
+                        if (fichasSonDiferentes(tableroMutable[fila][columna], resultado.linea[indice])) {
                             huboMovimiento = true
                         }
                         tableroMutable[fila][columna] = resultado.linea[indice]
@@ -202,9 +217,12 @@ class ReglasJuego @Inject constructor() {
             Direccion.IZQUIERDA -> {
                 for (fila in 0 until TAMANO_TABLERO) {
                     val resultado = procesarLinea(tableroMutable[fila].toList())
-                    if (tableroMutable[fila] != resultado.linea) {
-                        huboMovimiento = true
+                    for (columna in 0 until TAMANO_TABLERO) {
+                        if (fichasSonDiferentes(tableroMutable[fila][columna], resultado.linea[columna])) {
+                            huboMovimiento = true
+                        }
                     }
+                    // if (tableroMutable[fila] != resultado.linea) { ... } // Reemplazado por loop para precisión
                     tableroMutable[fila] = resultado.linea.toMutableList()
                     puntuacionGanada += resultado.puntuacion
                 }
@@ -213,8 +231,10 @@ class ReglasJuego @Inject constructor() {
                 for (fila in 0 until TAMANO_TABLERO) {
                     val resultado = procesarLinea(tableroMutable[fila].reversed())
                     val lineaInvertida = resultado.linea.reversed()
-                    if (tableroMutable[fila] != lineaInvertida) {
-                        huboMovimiento = true
+                    for (columna in 0 until TAMANO_TABLERO) {
+                         if (fichasSonDiferentes(tableroMutable[fila][columna], lineaInvertida[columna])) {
+                            huboMovimiento = true
+                        }
                     }
                     tableroMutable[fila] = lineaInvertida.toMutableList()
                     puntuacionGanada += resultado.puntuacion

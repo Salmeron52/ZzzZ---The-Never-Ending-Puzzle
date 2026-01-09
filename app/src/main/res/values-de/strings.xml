@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames präsentiert</string>
     <string name="score_label">Punktzahl</string>
     <string name="high_score_label">Rekord</string>
     <string name="game_over_title">Spiel Vorbei!</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">Möchtest du dieses Spiel wirklich löschen?</string>
     
     <!-- Levels -->
-    <string name="level_normal">Normal</string>
+    <string name="level_label">Level</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">Der Klassiker</string>
-    <string name="level_hard">Schwer</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% niedrigere Kacheln</string>
-    <string name="level_expert">Experte</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% niedrigere Kacheln</string>
-    <string name="level_master">Meister</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% niedrigere Kacheln</string>
-    <string name="level_impossible">Unmöglich</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% niedrigere Kacheln</string>
     
     <string name="menu_hint">Wischen zum Bewegen • Kacheln verbinden</string>

@@ -139,7 +139,7 @@ fun PantallaMenu(
                 // Botones de nivel
                 BotonNivel(
                     nivel = NivelDificultad.NORMAL,
-                    titulo = stringResource(R.string.level_normal),
+                    titulo = "${stringResource(R.string.level_label)} ${stringResource(R.string.level_normal)}",
                     descripcion = stringResource(R.string.level_normal_desc),
                     colorFondo = MaterialTheme.colorScheme.primaryContainer,
                     colorTexto = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -150,7 +150,7 @@ fun PantallaMenu(
 
                 BotonNivel(
                     nivel = NivelDificultad.DIFICIL,
-                    titulo = stringResource(R.string.level_hard),
+                    titulo = "${stringResource(R.string.level_label)} ${stringResource(R.string.level_hard)}",
                     descripcion = stringResource(R.string.level_hard_desc),
                     colorFondo = MaterialTheme.colorScheme.secondaryContainer,
                     colorTexto = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -161,7 +161,7 @@ fun PantallaMenu(
 
                 BotonNivel(
                     nivel = NivelDificultad.EXPERTO,
-                    titulo = stringResource(R.string.level_expert),
+                    titulo = "${stringResource(R.string.level_label)} ${stringResource(R.string.level_expert)}",
                     descripcion = stringResource(R.string.level_expert_desc),
                     colorFondo = MaterialTheme.colorScheme.tertiaryContainer,
                     colorTexto = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -172,7 +172,7 @@ fun PantallaMenu(
 
                 BotonNivel(
                     nivel = NivelDificultad.MAESTRO,
-                    titulo = stringResource(R.string.level_master),
+                    titulo = "${stringResource(R.string.level_label)} ${stringResource(R.string.level_master)}",
                     descripcion = stringResource(R.string.level_master_desc),
                     colorFondo = Color(0xFFFFB74D),
                     colorTexto = Color(0xFF5D4037),
@@ -183,7 +183,7 @@ fun PantallaMenu(
 
                 BotonNivel(
                     nivel = NivelDificultad.IMPOSIBLE,
-                    titulo = stringResource(R.string.level_impossible),
+                    titulo = "${stringResource(R.string.level_label)} ${stringResource(R.string.level_impossible)}",
                     descripcion = stringResource(R.string.level_impossible_desc),
                     colorFondo = Color(0xFFEF5350),
                     colorTexto = Color.White,

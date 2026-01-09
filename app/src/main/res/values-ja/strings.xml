@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames プレゼンツ</string>
     <string name="score_label">スコア</string>
     <string name="high_score_label">ベスト</string>
     <string name="game_over_title">ゲームオーバー！</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">このゲームを削除してもよろしいですか？</string>
     
     <!-- Levels -->
-    <string name="level_normal">普通</string>
+    <string name="level_label">レベル</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">クラシック</string>
-    <string name="level_hard">難しい</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% 低いタイル</string>
-    <string name="level_expert">エキスパート</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% 低いタイル</string>
-    <string name="level_master">マスター</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% 低いタイル</string>
-    <string name="level_impossible">不可能</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% 低いタイル</string>
     
     <string name="menu_hint">スワイプで移動 • タイルを合わせる</string>

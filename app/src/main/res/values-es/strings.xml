@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames presenta</string>
     <string name="score_label">Puntuación</string>
     <string name="high_score_label">Récord</string>
     <string name="game_over_title">¡Fin del juego!</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">¿Estás seguro de que quieres eliminar esta partida?</string>
     
     <!-- Levels -->
-    <string name="level_normal">Normal</string>
+    <string name="level_label">Nivel</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">El clásico</string>
-    <string name="level_hard">Difícil</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% fichas más bajas</string>
-    <string name="level_expert">Experto</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% fichas más bajas</string>
-    <string name="level_master">Maestro</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% fichas más bajas</string>
-    <string name="level_impossible">Imposible</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% fichas más bajas</string>
     
     <string name="menu_hint">Desliza para mover • Une fichas iguales</string>

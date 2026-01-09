@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames presenta</string>
     <string name="score_label">Punteggio</string>
     <string name="high_score_label">Record</string>
     <string name="game_over_title">Game Over!</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">Sei sicuro di voler eliminare questa partita?</string>
     
     <!-- Levels -->
-    <string name="level_normal">Normale</string>
+    <string name="level_label">Livello</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">Il classico</string>
-    <string name="level_hard">Difficile</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% tessere più basse</string>
-    <string name="level_expert">Esperto</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% tessere più basse</string>
-    <string name="level_master">Maestro</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% tessere più basse</string>
-    <string name="level_impossible">Impossibile</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% tessere più basse</string>
     
     <string name="menu_hint">Scorri per muovere • Unisci le tessere</string>

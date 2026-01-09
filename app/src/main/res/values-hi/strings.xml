@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames प्रस्तुत करता है</string>
     <string name="score_label">स्कोर</string>
     <string name="high_score_label">श्रेष्ठ</string>
     <string name="game_over_title">खेल खत्म!</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">क्या आप वाकई इस खेल को हटाना चाहते हैं?</string>
     
     <!-- Levels -->
-    <string name="level_normal">सामान्य</string>
+    <string name="level_label">स्तर</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">क्लासिक</string>
-    <string name="level_hard">कठिन</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% कम टाइल्स</string>
-    <string name="level_expert">विशेषज्ञ</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% कम टाइल्स</string>
-    <string name="level_master">मास्टर</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% कम टाइल्स</string>
-    <string name="level_impossible">असंभव</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% कम टाइल्स</string>
     
     <string name="menu_hint">स्थानांतरित करने के लिए स्वाइप करें • समान टाइल्स मिलाएं</string>

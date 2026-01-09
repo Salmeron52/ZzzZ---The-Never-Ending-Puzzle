@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames apresenta</string>
     <string name="score_label">Pontuação</string>
     <string name="high_score_label">Recorde</string>
     <string name="game_over_title">Fim de jogo!</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">Tem certeza que deseja excluir este jogo?</string>
     
     <!-- Levels -->
-    <string name="level_normal">Normal</string>
+    <string name="level_label">Nível</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">O clássico</string>
-    <string name="level_hard">Difícil</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% peças mais baixas</string>
-    <string name="level_expert">Especialista</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% peças mais baixas</string>
-    <string name="level_master">Mestre</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% peças mais baixas</string>
-    <string name="level_impossible">Impossível</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% peças mais baixas</string>
     
     <string name="menu_hint">Deslize para mover • Junte peças iguais</string>

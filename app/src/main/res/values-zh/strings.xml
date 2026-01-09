@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames 呈现</string>
     <string name="score_label">分数</string>
     <string name="high_score_label">最高纪录</string>
     <string name="game_over_title">游戏结束！</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">您确定要删除此存档吗？</string>
     
     <!-- Levels -->
-    <string name="level_normal">普通</string>
+    <string name="level_label">等级</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">经典模式</string>
-    <string name="level_hard">困难</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% 低级方块</string>
-    <string name="level_expert">专家</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% 低级方块</string>
-    <string name="level_master">大师</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% 低级方块</string>
-    <string name="level_impossible">不可能</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% 低级方块</string>
     
     <string name="menu_hint">滑动移动 • 合并方块</string>

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames presents</string>
     <string name="score_label">Score</string>
     <string name="high_score_label">Best</string>
     <string name="game_over_title">Game Over!</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">Are you sure you want to delete this game?</string>
     
     <!-- Levels -->
-    <string name="level_normal">Normal</string>
+    <string name="level_label">Level</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">The classic</string>
-    <string name="level_hard">Hard</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% lower tiles</string>
-    <string name="level_expert">Expert</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% lower tiles</string>
-    <string name="level_master">Master</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% lower tiles</string>
-    <string name="level_impossible">Impossible</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% lower tiles</string>
     
     <string name="menu_hint">Swipe to move • Merge same tiles</string>

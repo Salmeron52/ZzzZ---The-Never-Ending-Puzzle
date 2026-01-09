@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">ZzzZ</string>
+    <string name="splash_presents">buenhijoGames 제공</string>
     <string name="score_label">점수</string>
     <string name="high_score_label">최고 기록</string>
     <string name="game_over_title">게임 오버!</string>
@@ -21,15 +22,16 @@
     <string name="delete_game_confirmation">이 게임을 삭제하시겠습니까?</string>
     
     <!-- Levels -->
-    <string name="level_normal">보통</string>
+    <string name="level_label">레벨</string>
+    <string name="level_normal">1</string>
     <string name="level_normal_desc">클래식</string>
-    <string name="level_hard">어려움</string>
+    <string name="level_hard">2</string>
     <string name="level_hard_desc">5% 낮은 타일</string>
-    <string name="level_expert">전문가</string>
+    <string name="level_expert">3</string>
     <string name="level_expert_desc">10% 낮은 타일</string>
-    <string name="level_master">마스터</string>
+    <string name="level_master">4</string>
     <string name="level_master_desc">15% 낮은 타일</string>
-    <string name="level_impossible">불가능</string>
+    <string name="level_impossible">5</string>
     <string name="level_impossible_desc">20% 낮은 타일</string>
     
     <string name="menu_hint">스와이프하여 이동 • 타일 합치기</string>

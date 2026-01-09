@@ -251,7 +251,7 @@ private fun EncabezadoJuego(estado: EstadoJuego) {
         }
         
         Text(
-            text = stringResource(nivelStringId).uppercase(),
+            text = "${stringResource(R.string.level_label)} ${stringResource(nivelStringId)}".uppercase(),
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.secondary,
