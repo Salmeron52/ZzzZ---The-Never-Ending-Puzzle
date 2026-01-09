@@ -96,9 +96,10 @@ class ReglasJuego @Inject constructor() {
         return tablero.mapIndexed { f, filaLista ->
             filaLista.mapIndexed { c, ficha ->
                 if (f == fila && c == columna) {
-                    Ficha(id = generarId(), valor = valorNuevo)
+                    Ficha(id = generarId(), valor = valorNuevo, esNueva = true)
                 } else {
-                    ficha
+                    // Limpiar flags de animación de fichas existentes
+                    ficha?.copy(esNueva = false, fusionada = false)
                 }
             }
         }
@@ -244,11 +245,12 @@ class ReglasJuego @Inject constructor() {
             if (i + 1 < fichas.size && fichas[i].valor == fichas[i + 1].valor) {
                 // Fusionar las dos fichas
                 val nuevoValor = fichas[i].valor + 1
-                resultado.add(Ficha(id = generarId(), valor = nuevoValor))
+                resultado.add(Ficha(id = generarId(), valor = nuevoValor, fusionada = true))
                 puntuacion += nuevoValor.toLong()
                 i += 2
             } else {
-                resultado.add(fichas[i])
+                // Mover ficha sin fusionar (limpiar flags de animación)
+                resultado.add(fichas[i].copy(esNueva = false, fusionada = false))
                 i++
             }
         }

@@ -1,7 +1,9 @@
 package com.buenhijogames.zzzz.presentacion.pantalla.componentes
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -12,7 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,6 +35,7 @@ import com.buenhijogames.zzzz.ui.theme.obtenerColorTextoFicha
 
 /**
  * Composable que representa una celda del tablero (vacía o con ficha).
+ * Incluye animaciones de aparición para fichas nuevas y efecto pop para fusiones.
  */
 @Composable
 fun FichaComposable(
@@ -38,19 +45,42 @@ fun FichaComposable(
 ) {
     val esOscuro = isSystemInDarkTheme()
     
+    // Animación de color suave (más lenta)
     val colorFondo by animateColorAsState(
         targetValue = if (ficha != null) {
             obtenerColorFicha(ficha.valor, esOscuro)
         } else {
             if (esOscuro) CeldaVaciaOscura else CeldaVacia
         },
-        animationSpec = tween(durationMillis = 150),
+        animationSpec = tween(durationMillis = 200),
         label = "colorFondo"
     )
     
+    // Estado de escala animada
+    var targetScale by remember { mutableFloatStateOf(if (ficha == null) 0.95f else 1f) }
+    
+    // Animación de aparición para fichas nuevas (más lenta)
+    LaunchedEffect(ficha?.id) {
+        if (ficha != null && ficha.esNueva) {
+            targetScale = 0.5f // Empieza desde la mitad del tamaño, no desde 0
+            kotlinx.coroutines.delay(100)
+            targetScale = 1f
+        } else if (ficha != null && ficha.fusionada) {
+            // Efecto pop para fusiones (más pronunciado)
+            targetScale = 1.25f
+            kotlinx.coroutines.delay(180)  // Más tiempo en estado expandido
+            targetScale = 1f
+        } else {
+            targetScale = if (ficha != null) 1f else 0.95f
+        }
+    }
+    
     val escala by animateFloatAsState(
-        targetValue = if (ficha != null) 1f else 0.95f,
-        animationSpec = tween(durationMillis = 100),
+        targetValue = targetScale,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,  // Sin rebote
+            stiffness = Spring.StiffnessMedium  // Velocidad normal
+        ),
         label = "escala"
     )
 
@@ -84,3 +114,4 @@ fun FichaComposable(
         }
     }
 }
+
