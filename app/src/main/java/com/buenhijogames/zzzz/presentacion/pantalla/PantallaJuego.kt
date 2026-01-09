@@ -9,18 +9,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.buenhijogames.zzzz.dominio.caso_uso.ConversorLetras
+import com.buenhijogames.zzzz.presentacion.pantalla.componentes.DialogoConfirmacion
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.TableroComposable
 import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
 
@@ -37,10 +48,13 @@ import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
  */
 @Composable
 fun PantallaJuego(
+    onIrAPartidasGuardadas: () -> Unit = {},
     viewModel: JuegoViewModel = hiltViewModel()
 ) {
     val estado by viewModel.estado.collectAsState()
     val conversorLetras = remember { ConversorLetras() }
+    
+    var mostrarDialogoNuevoJuego by remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -97,11 +111,65 @@ fun PantallaJuego(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Botón nuevo juego
-                Button(
-                    onClick = { viewModel.iniciarNuevoJuego() }
+                // Botones de acción
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Nuevo Juego")
+                    // Botón deshacer
+                    FilledIconButton(
+                        onClick = { viewModel.deshacer() },
+                        enabled = estado.puedeDeshacer,
+                        modifier = Modifier.size(56.dp),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = "Deshacer",
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+
+                    // Botón nuevo juego (icono)
+                    FilledIconButton(
+                        onClick = { mostrarDialogoNuevoJuego = true },
+                        modifier = Modifier.size(56.dp),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = "Nuevo juego",
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+
+                    // Botón partidas guardadas
+                    FilledIconButton(
+                        onClick = { 
+                            viewModel.guardarPartidaComoGuardada()
+                            onIrAPartidasGuardadas() 
+                        },
+                        modifier = Modifier.size(56.dp),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.List,
+                            contentDescription = "Partidas guardadas",
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
                 }
 
                 // Mensaje de fin de juego
@@ -133,6 +201,21 @@ fun PantallaJuego(
                 )
             }
         }
+    }
+
+    // Diálogo de confirmación para nuevo juego
+    if (mostrarDialogoNuevoJuego) {
+        DialogoConfirmacion(
+            titulo = "Nuevo juego",
+            mensaje = "¿Estás seguro de que quieres empezar un nuevo juego? Se perderá el progreso actual.",
+            textoConfirmar = "Sí",
+            textoCancelar = "No",
+            onConfirmar = {
+                viewModel.iniciarNuevoJuego()
+                mostrarDialogoNuevoJuego = false
+            },
+            onCancelar = { mostrarDialogoNuevoJuego = false }
+        )
     }
 }
 
@@ -169,3 +252,4 @@ private fun TarjetaPuntuacion(
         }
     }
 }
+

@@ -9,8 +9,8 @@ import androidx.room.RoomDatabase
  * Base de datos Room para el juego ZzzZ.
  */
 @Database(
-    entities = [PartidaEntidad::class],
-    version = 1,
+    entities = [PartidaEntidad::class, PartidaGuardadaEntidad::class],
+    version = 2,
     exportSchema = false
 )
 abstract class BaseDatosJuego : RoomDatabase() {
@@ -29,10 +29,13 @@ abstract class BaseDatosJuego : RoomDatabase() {
                     contexto.applicationContext,
                     BaseDatosJuego::class.java,
                     NOMBRE_BD
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCIA = instancia
                 instancia
             }
         }
     }
 }
+

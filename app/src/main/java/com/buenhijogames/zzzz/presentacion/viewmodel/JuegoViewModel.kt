@@ -30,7 +30,7 @@ class JuegoViewModel @Inject constructor(
     }
 
     /**
-     * Carga la partida guardada o inicia una nueva.
+     * Carga la partida actual o inicia una nueva.
      */
     private fun cargarPartida() {
         viewModelScope.launch {
@@ -38,7 +38,6 @@ class JuegoViewModel @Inject constructor(
                 val partidaGuardada = repositorio.cargarPartida()
                 if (partidaGuardada != null) {
                     val (tablero, puntuacion, record) = partidaGuardada
-                    // Restaurar el contador de IDs
                     val maxId = tablero.flatten().filterNotNull().maxOfOrNull { it.id } ?: 0L
                     reglasJuego.establecerContadorId(maxId)
                     
@@ -48,32 +47,44 @@ class JuegoViewModel @Inject constructor(
                             puntuacion = puntuacion,
                             record = record,
                             finDelJuego = reglasJuego.esFinDeJuego(tablero),
-                            cargando = false
+                            cargando = false,
+                            puedeDeshacer = false,
+                            estadoAnterior = null
                         )
                     }
                 } else {
-                    iniciarNuevoJuego()
+                    iniciarNuevoJuegoInterno()
                 }
             }.onFailure {
-                iniciarNuevoJuego()
+                iniciarNuevoJuegoInterno()
             }
         }
     }
 
     /**
-     * Inicia un nuevo juego.
+     * Inicia un nuevo juego (uso interno).
      */
-    fun iniciarNuevoJuego() {
+    private fun iniciarNuevoJuegoInterno() {
         val tableroNuevo = reglasJuego.inicializarJuego()
         _estado.update {
             it.copy(
                 tablero = tableroNuevo,
                 puntuacion = 0L,
                 finDelJuego = false,
-                cargando = false
+                cargando = false,
+                puedeDeshacer = false,
+                estadoAnterior = null,
+                partidaId = null
             )
         }
-        guardarPartida()
+        guardarPartidaActual()
+    }
+
+    /**
+     * Inicia un nuevo juego (llamado desde UI).
+     */
+    fun iniciarNuevoJuego() {
+        iniciarNuevoJuegoInterno()
     }
 
     /**
@@ -86,6 +97,12 @@ class JuegoViewModel @Inject constructor(
         val resultado = reglasJuego.mover(estadoActual.tablero, direccion)
         
         if (resultado.huboMovimiento) {
+            // Guardar estado anterior para poder deshacer
+            val snapshotAnterior = SnapshotEstado(
+                tablero = estadoActual.tablero,
+                puntuacion = estadoActual.puntuacion
+            )
+            
             val tableroConNuevaFicha = reglasJuego.agregarFichaAleatoria(resultado.tablero)
             val nuevaPuntuacion = estadoActual.puntuacion + resultado.puntuacionGanada
             val nuevoRecord = maxOf(estadoActual.record, nuevaPuntuacion)
@@ -96,17 +113,90 @@ class JuegoViewModel @Inject constructor(
                     tablero = tableroConNuevaFicha,
                     puntuacion = nuevaPuntuacion,
                     record = nuevoRecord,
-                    finDelJuego = finDelJuego
+                    finDelJuego = finDelJuego,
+                    puedeDeshacer = true,
+                    estadoAnterior = snapshotAnterior
                 )
             }
-            guardarPartida()
+            guardarPartidaActual()
+        }
+    }
+
+    /**
+     * Deshace el último movimiento (solo una vez).
+     */
+    fun deshacer() {
+        val estadoActual = _estado.value
+        val anterior = estadoActual.estadoAnterior ?: return
+        
+        if (!estadoActual.puedeDeshacer) return
+        
+        // Restaurar el contador de IDs al estado anterior
+        val maxId = anterior.tablero.flatten().filterNotNull().maxOfOrNull { it.id } ?: 0L
+        reglasJuego.establecerContadorId(maxId)
+        
+        _estado.update {
+            it.copy(
+                tablero = anterior.tablero,
+                puntuacion = anterior.puntuacion,
+                finDelJuego = false,
+                puedeDeshacer = false,
+                estadoAnterior = null
+            )
+        }
+        guardarPartidaActual()
+    }
+
+    /**
+     * Guarda la partida actual como una partida guardada.
+     */
+    fun guardarPartidaComoGuardada() {
+        viewModelScope.launch {
+            runCatching {
+                val estadoActual = _estado.value
+                val nuevoId = repositorio.guardarPartidaComoGuardada(
+                    tablero = estadoActual.tablero,
+                    puntuacion = estadoActual.puntuacion,
+                    record = estadoActual.record,
+                    partidaId = estadoActual.partidaId
+                )
+                _estado.update { it.copy(partidaId = nuevoId) }
+            }
+        }
+    }
+
+    /**
+     * Carga una partida guardada por ID.
+     */
+    fun cargarPartidaGuardada(id: Long) {
+        viewModelScope.launch {
+            runCatching {
+                val partida = repositorio.cargarPartidaGuardada(id) ?: return@launch
+                
+                val maxId = partida.tablero.flatten().filterNotNull().maxOfOrNull { it.id } ?: 0L
+                reglasJuego.establecerContadorId(maxId)
+                
+                _estado.update {
+                    it.copy(
+                        tablero = partida.tablero,
+                        puntuacion = partida.puntuacion,
+                        record = partida.record,
+                        finDelJuego = reglasJuego.esFinDeJuego(partida.tablero),
+                        cargando = false,
+                        puedeDeshacer = false,
+                        estadoAnterior = null,
+                        partidaId = id
+                    )
+                }
+                guardarPartidaActual()
+            }
         }
     }
 
     /**
      * Guarda la partida actual en la base de datos.
      */
-    private fun guardarPartida() {
+    private fun guardarPartidaActual() {
         viewModelScope.launch {
             runCatching {
                 val estadoActual = _estado.value
@@ -119,3 +209,4 @@ class JuegoViewModel @Inject constructor(
         }
     }
 }
+

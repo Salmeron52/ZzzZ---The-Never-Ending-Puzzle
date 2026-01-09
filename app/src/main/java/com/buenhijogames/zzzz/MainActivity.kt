@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.buenhijogames.zzzz.presentacion.pantalla.PantallaJuego
+import com.buenhijogames.zzzz.presentacion.navegacion.NavegacionApp
 import com.buenhijogames.zzzz.ui.theme.ZzzzTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,8 +18,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ZzzzTheme {
-                PantallaJuego()
+                NavegacionApp()
             }
         }
     }
 }
+
