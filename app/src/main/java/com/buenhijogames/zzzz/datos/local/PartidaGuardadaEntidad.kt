@@ -15,6 +15,7 @@ import androidx.room.PrimaryKey
  * @property fechaCreacion Timestamp de creación
  * @property fechaModificacion Timestamp de última modificación
  * @property contadorFichas Contador de IDs de fichas para restaurar estado
+ * @property nivelId ID del nivel de dificultad (1-5)
  */
 @Entity(tableName = "partidas_guardadas")
 data class PartidaGuardadaEntidad(
@@ -27,5 +28,7 @@ data class PartidaGuardadaEntidad(
     val fichaMaxima: Int,
     val fechaCreacion: Long,
     val fechaModificacion: Long,
-    val contadorFichas: Long = 0L
+    val contadorFichas: Long = 0L,
+    val nivelId: Int = 1
 )
+

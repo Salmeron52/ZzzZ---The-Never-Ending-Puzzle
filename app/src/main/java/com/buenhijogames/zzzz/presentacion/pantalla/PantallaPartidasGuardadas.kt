@@ -2,6 +2,7 @@ package com.buenhijogames.zzzz.presentacion.pantalla
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.buenhijogames.zzzz.dominio.caso_uso.ConversorLetras
+import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 import com.buenhijogames.zzzz.dominio.repositorio.PartidaGuardada
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.DialogoConfirmacion
 import com.buenhijogames.zzzz.presentacion.viewmodel.PartidasGuardadasViewModel
@@ -140,7 +141,7 @@ fun PantallaPartidasGuardadas(
                         TarjetaPartida(
                             partida = partida,
                             conversorLetras = conversorLetras,
-                            onContinuar = { onContinuarPartida(partida.id) },
+                            onClick = { onContinuarPartida(partida.id) },
                             onEliminar = { partidaAEliminar = partida },
                             modifier = Modifier.animateContentSize()
                         )
@@ -167,13 +168,28 @@ fun PantallaPartidasGuardadas(
 }
 
 /**
+ * Obtiene el nombre del nivel.
+ */
+private fun obtenerNombreNivel(nivelId: Int): String {
+    return when (nivelId) {
+        1 -> "Normal"
+        2 -> "Difícil"
+        3 -> "Experto"
+        4 -> "Maestro"
+        5 -> "Imposible"
+        else -> "Normal"
+    }
+}
+
+/**
  * Tarjeta premium para mostrar una partida guardada.
+ * Clickable para continuar la partida.
  */
 @Composable
 private fun TarjetaPartida(
     partida: PartidaGuardada,
     conversorLetras: ConversorLetras,
-    onContinuar: () -> Unit,
+    onClick: () -> Unit,
     onEliminar: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -181,9 +197,12 @@ private fun TarjetaPartida(
     val fechaFormateada = formato.format(Date(partida.fechaModificacion))
     val letraMaxima = conversorLetras.obtenerEtiqueta(partida.fichaMaxima)
     val colorFicha = obtenerColorFicha(partida.fichaMaxima, false)
+    val nombreNivel = obtenerNombreNivel(partida.nivelId)
 
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
@@ -255,41 +274,37 @@ private fun TarjetaPartida(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    // Badge de nivel debajo de los datos
+                    Text(
+                        text = nombreNivel,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier
+                            .background(
+                                MaterialTheme.colorScheme.secondaryContainer,
+                                RoundedCornerShape(4.dp)
+                            )
+                            .padding(horizontal = 6.dp, vertical = 2.dp)
+                    )
                 }
 
-                // Botones de acción
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                // Solo botón eliminar
+                IconButton(
+                    onClick = onEliminar,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.errorContainer)
                 ) {
-                    IconButton(
-                        onClick = onContinuar,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.PlayArrow,
-                            contentDescription = "Continuar",
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                    IconButton(
-                        onClick = onEliminar,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.errorContainer)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Eliminar",
-                            tint = MaterialTheme.colorScheme.onErrorContainer
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Eliminar",
+                        tint = MaterialTheme.colorScheme.onErrorContainer
+                    )
                 }
             }
         }
     }
 }
+

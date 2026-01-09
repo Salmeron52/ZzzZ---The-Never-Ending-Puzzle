@@ -1,6 +1,7 @@
 package com.buenhijogames.zzzz.presentacion.viewmodel
 
 import com.buenhijogames.zzzz.dominio.modelo.Ficha
+import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 
 /**
  * Snapshot del estado para poder deshacer.
@@ -21,6 +22,7 @@ data class SnapshotEstado(
  * @property puedeDeshacer Indica si se puede deshacer el último movimiento
  * @property estadoAnterior Snapshot del estado antes del último movimiento
  * @property partidaId ID de la partida guardada actual (null si es nueva)
+ * @property nivelActual Nivel de dificultad actual
  */
 data class EstadoJuego(
     val tablero: List<List<Ficha?>> = emptyList(),
@@ -30,6 +32,8 @@ data class EstadoJuego(
     val cargando: Boolean = true,
     val puedeDeshacer: Boolean = false,
     val estadoAnterior: SnapshotEstado? = null,
-    val partidaId: Long? = null
+    val partidaId: Long? = null,
+    val nivelActual: NivelDificultad = NivelDificultad.NORMAL
 )
+
 

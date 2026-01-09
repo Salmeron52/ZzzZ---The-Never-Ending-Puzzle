@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buenhijogames.zzzz.dominio.caso_uso.Direccion
 import com.buenhijogames.zzzz.dominio.caso_uso.ReglasJuego
+import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 import com.buenhijogames.zzzz.dominio.repositorio.RepositorioJuego
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,7 +65,7 @@ class JuegoViewModel @Inject constructor(
     /**
      * Inicia un nuevo juego (uso interno).
      */
-    private fun iniciarNuevoJuegoInterno() {
+    private fun iniciarNuevoJuegoInterno(nivel: NivelDificultad = NivelDificultad.NORMAL) {
         val tableroNuevo = reglasJuego.inicializarJuego()
         _estado.update {
             it.copy(
@@ -74,17 +75,18 @@ class JuegoViewModel @Inject constructor(
                 cargando = false,
                 puedeDeshacer = false,
                 estadoAnterior = null,
-                partidaId = null
+                partidaId = null,
+                nivelActual = nivel
             )
         }
         guardarPartidaActual()
     }
 
     /**
-     * Inicia un nuevo juego (llamado desde UI).
+     * Inicia un nuevo juego con el nivel especificado.
      */
-    fun iniciarNuevoJuego() {
-        iniciarNuevoJuegoInterno()
+    fun iniciarNuevoJuego(nivel: NivelDificultad = NivelDificultad.NORMAL) {
+        iniciarNuevoJuegoInterno(nivel)
     }
 
     /**
@@ -103,7 +105,7 @@ class JuegoViewModel @Inject constructor(
                 puntuacion = estadoActual.puntuacion
             )
             
-            val tableroConNuevaFicha = reglasJuego.agregarFichaAleatoria(resultado.tablero)
+            val tableroConNuevaFicha = reglasJuego.agregarFichaAleatoria(resultado.tablero, estadoActual.nivelActual.id)
             val nuevaPuntuacion = estadoActual.puntuacion + resultado.puntuacionGanada
             val nuevoRecord = maxOf(estadoActual.record, nuevaPuntuacion)
             val finDelJuego = reglasJuego.esFinDeJuego(tableroConNuevaFicha)
@@ -158,6 +160,7 @@ class JuegoViewModel @Inject constructor(
                     tablero = estadoActual.tablero,
                     puntuacion = estadoActual.puntuacion,
                     record = estadoActual.record,
+                    nivelId = estadoActual.nivelActual.id,
                     partidaId = estadoActual.partidaId
                 )
                 _estado.update { it.copy(partidaId = nuevoId) }
@@ -176,6 +179,10 @@ class JuegoViewModel @Inject constructor(
                 val maxId = partida.tablero.flatten().filterNotNull().maxOfOrNull { it.id } ?: 0L
                 reglasJuego.establecerContadorId(maxId)
                 
+                // Convertir nivelId a NivelDificultad
+                val nivel = NivelDificultad.entries.find { it.id == partida.nivelId } 
+                    ?: NivelDificultad.NORMAL
+                
                 _estado.update {
                     it.copy(
                         tablero = partida.tablero,
@@ -185,7 +192,8 @@ class JuegoViewModel @Inject constructor(
                         cargando = false,
                         puedeDeshacer = false,
                         estadoAnterior = null,
-                        partidaId = id
+                        partidaId = id,
+                        nivelActual = nivel
                     )
                 }
                 guardarPartidaActual()

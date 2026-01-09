@@ -1,5 +1,6 @@
 package com.buenhijogames.zzzz.presentacion.pantalla
 
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
@@ -28,20 +30,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.buenhijogames.zzzz.dominio.caso_uso.ConversorLetras
+import com.buenhijogames.zzzz.dominio.caso_uso.Direccion
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.DialogoConfirmacion
+import com.buenhijogames.zzzz.presentacion.pantalla.componentes.IconoDeshacer
+import com.buenhijogames.zzzz.presentacion.pantalla.componentes.IconoNuevaPartida
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.TableroComposable
 import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
+import kotlin.math.abs
 
 /**
  * Pantalla principal del juego.
@@ -49,12 +57,18 @@ import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
 @Composable
 fun PantallaJuego(
     onIrAPartidasGuardadas: () -> Unit = {},
+    onVolverAlMenu: () -> Unit = {},
     viewModel: JuegoViewModel = hiltViewModel()
 ) {
     val estado by viewModel.estado.collectAsState()
     val conversorLetras = remember { ConversorLetras() }
     
     var mostrarDialogoNuevoJuego by remember { mutableStateOf(false) }
+    
+    // Variables para detección de gestos a nivel de pantalla
+    var acumuladoX by remember { mutableFloatStateOf(0f) }
+    var acumuladoY by remember { mutableFloatStateOf(0f) }
+    val umbralGesto = 50f
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -68,46 +82,78 @@ fun PantallaJuego(
                 CircularProgressIndicator()
             }
         } else {
-            Column(
+            // Box con detección de gestos para toda la pantalla
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .pointerInput(estado.finDelJuego) {
+                        if (!estado.finDelJuego) {
+                            detectDragGestures(
+                                onDragStart = {
+                                    acumuladoX = 0f
+                                    acumuladoY = 0f
+                                },
+                                onDrag = { change, dragAmount ->
+                                    change.consume()
+                                    acumuladoX += dragAmount.x
+                                    acumuladoY += dragAmount.y
+                                },
+                                onDragEnd = {
+                                    val absX = abs(acumuladoX)
+                                    val absY = abs(acumuladoY)
+                                    
+                                    if (absX > umbralGesto || absY > umbralGesto) {
+                                        val direccion = if (absX > absY) {
+                                            if (acumuladoX > 0) Direccion.DERECHA else Direccion.IZQUIERDA
+                                        } else {
+                                            if (acumuladoY > 0) Direccion.ABAJO else Direccion.ARRIBA
+                                        }
+                                        viewModel.mover(direccion)
+                                    }
+                                }
+                            )
+                        }
+                    }
             ) {
-                // Título
-                Text(
-                    text = "ZzzZ",
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Puntuación y Récord
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TarjetaPuntuacion(
-                        titulo = "Puntuación",
-                        valor = estado.puntuacion
+                    // Título
+                    Text(
+                        text = "ZzzZ",
+                        fontSize = 48.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
                     )
-                    TarjetaPuntuacion(
-                        titulo = "Récord",
-                        valor = estado.record
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Puntuación y Récord
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        TarjetaPuntuacion(
+                            titulo = "Puntuación",
+                            valor = estado.puntuacion
+                        )
+                        TarjetaPuntuacion(
+                            titulo = "Récord",
+                            valor = estado.record
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    // Tablero (sin gestos, los gestos se manejan a nivel de pantalla)
+                    TableroComposable(
+                        tablero = estado.tablero,
+                        conversorLetras = conversorLetras,
+                        modifier = Modifier.fillMaxWidth()
                     )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // Tablero
-                TableroComposable(
-                    tablero = estado.tablero,
-                    conversorLetras = conversorLetras,
-                    onMover = { direccion -> viewModel.mover(direccion) },
-                    modifier = Modifier.fillMaxWidth()
-                )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -129,10 +175,12 @@ fun PantallaJuego(
                             disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
                         )
                     ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = "Deshacer",
-                            modifier = Modifier.size(28.dp)
+                        IconoDeshacer(
+                            color = if (estado.puedeDeshacer) 
+                                MaterialTheme.colorScheme.onSecondaryContainer 
+                            else 
+                                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
+                            size = 28.dp
                         )
                     }
 
@@ -145,10 +193,9 @@ fun PantallaJuego(
                             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = "Nuevo juego",
-                            modifier = Modifier.size(28.dp)
+                        IconoNuevaPartida(
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            size = 28.dp
                         )
                     }
 
@@ -167,6 +214,25 @@ fun PantallaJuego(
                         Icon(
                             imageVector = Icons.Default.List,
                             contentDescription = "Partidas guardadas",
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+
+                    // Botón ir al menú de niveles
+                    FilledIconButton(
+                        onClick = { 
+                            viewModel.guardarPartidaComoGuardada()
+                            onVolverAlMenu() 
+                        },
+                        modifier = Modifier.size(56.dp),
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "Menú",
                             modifier = Modifier.size(28.dp)
                         )
                     }
@@ -200,6 +266,7 @@ fun PantallaJuego(
                     fontSize = 14.sp
                 )
             }
+        }
         }
     }
 

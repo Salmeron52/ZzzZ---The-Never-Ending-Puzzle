@@ -14,7 +14,8 @@ data class PartidaGuardada(
     val record: Long,
     val fichaMaxima: Int,
     val fechaCreacion: Long,
-    val fechaModificacion: Long
+    val fechaModificacion: Long,
+    val nivelId: Int = 1
 )
 
 /**
@@ -52,6 +53,7 @@ interface RepositorioJuego {
         tablero: List<List<Ficha?>>,
         puntuacion: Long,
         record: Long,
+        nivelId: Int = 1,
         partidaId: Long? = null
     ): Long
 

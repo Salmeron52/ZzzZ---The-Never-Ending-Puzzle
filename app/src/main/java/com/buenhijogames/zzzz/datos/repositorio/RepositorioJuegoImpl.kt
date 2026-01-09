@@ -64,6 +64,7 @@ class RepositorioJuegoImpl @Inject constructor(
         tablero: List<List<Ficha?>>,
         puntuacion: Long,
         record: Long,
+        nivelId: Int,
         partidaId: Long?
     ): Long {
         return runCatching {
@@ -81,7 +82,8 @@ class RepositorioJuegoImpl @Inject constructor(
                     record = record,
                     fichaMaxima = fichaMaxima,
                     fechaModificacion = ahora,
-                    contadorFichas = contadorFichas
+                    contadorFichas = contadorFichas,
+                    nivelId = nivelId
                 )
                 partidaId
             } else {
@@ -95,7 +97,8 @@ class RepositorioJuegoImpl @Inject constructor(
                     fichaMaxima = fichaMaxima,
                     fechaCreacion = ahora,
                     fechaModificacion = ahora,
-                    contadorFichas = contadorFichas
+                    contadorFichas = contadorFichas,
+                    nivelId = nivelId
                 )
                 partidaDao.insertarPartidaGuardada(entidad)
             }
@@ -132,7 +135,8 @@ class RepositorioJuegoImpl @Inject constructor(
             record = entidad.record,
             fichaMaxima = entidad.fichaMaxima,
             fechaCreacion = entidad.fechaCreacion,
-            fechaModificacion = entidad.fechaModificacion
+            fechaModificacion = entidad.fechaModificacion,
+            nivelId = entidad.nivelId
         )
     }
 
@@ -141,4 +145,5 @@ class RepositorioJuegoImpl @Inject constructor(
         return "Partida ${formato.format(Date())}"
     }
 }
+
 

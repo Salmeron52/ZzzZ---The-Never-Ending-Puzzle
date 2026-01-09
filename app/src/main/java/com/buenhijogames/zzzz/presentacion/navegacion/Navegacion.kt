@@ -6,7 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 import com.buenhijogames.zzzz.presentacion.pantalla.PantallaJuego
+import com.buenhijogames.zzzz.presentacion.pantalla.PantallaMenu
 import com.buenhijogames.zzzz.presentacion.pantalla.PantallaPartidasGuardadas
 import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
 
@@ -14,6 +16,7 @@ import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
  * Rutas de navegación de la aplicación.
  */
 object Rutas {
+    const val MENU = "menu"
     const val JUEGO = "juego"
     const val PARTIDAS_GUARDADAS = "partidas_guardadas"
 }
@@ -30,12 +33,29 @@ fun NavegacionApp(
 
     NavHost(
         navController = navController,
-        startDestination = Rutas.JUEGO
+        startDestination = Rutas.MENU
     ) {
+        composable(Rutas.MENU) {
+            PantallaMenu(
+                onSeleccionarNivel = { nivel ->
+                    juegoViewModel.iniciarNuevoJuego(nivel)
+                    navController.navigate(Rutas.JUEGO) {
+                        popUpTo(Rutas.MENU) { inclusive = false }
+                    }
+                },
+                onIrAPartidasGuardadas = {
+                    navController.navigate(Rutas.PARTIDAS_GUARDADAS)
+                }
+            )
+        }
+
         composable(Rutas.JUEGO) {
             PantallaJuego(
                 onIrAPartidasGuardadas = {
                     navController.navigate(Rutas.PARTIDAS_GUARDADAS)
+                },
+                onVolverAlMenu = {
+                    navController.popBackStack(Rutas.MENU, inclusive = false)
                 },
                 viewModel = juegoViewModel
             )
@@ -48,9 +68,12 @@ fun NavegacionApp(
                 },
                 onContinuarPartida = { id ->
                     juegoViewModel.cargarPartidaGuardada(id)
-                    navController.popBackStack()
+                    navController.navigate(Rutas.JUEGO) {
+                        popUpTo(Rutas.MENU) { inclusive = false }
+                    }
                 }
             )
         }
     }
 }
+

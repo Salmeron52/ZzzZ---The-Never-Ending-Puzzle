@@ -72,10 +72,12 @@ class ReglasJuego @Inject constructor() {
 
     /**
      * Agrega una ficha aleatoria en una posición vacía.
-     * - 90% probabilidad: valor mínimo del tablero
-     * - 10% probabilidad: valor mínimo + 1
+     * Las probabilidades dependen del nivel de dificultad.
      */
-    fun agregarFichaAleatoria(tablero: List<List<Ficha?>>): List<List<Ficha?>> {
+    fun agregarFichaAleatoria(
+        tablero: List<List<Ficha?>>,
+        nivelId: Int = 1
+    ): List<List<Ficha?>> {
         val posicionesVacias = mutableListOf<Pair<Int, Int>>()
         for (fila in 0 until TAMANO_TABLERO) {
             for (columna in 0 until TAMANO_TABLERO) {
@@ -89,11 +91,7 @@ class ReglasJuego @Inject constructor() {
 
         val (fila, columna) = posicionesVacias.random()
         val valorMinimo = obtenerValorMinimo(tablero)
-        val valorNuevo = if (Random.nextDouble() < PROBABILIDAD_FICHA_MAYOR) {
-            valorMinimo + 1
-        } else {
-            valorMinimo
-        }
+        val valorNuevo = calcularValorNuevoFicha(valorMinimo, nivelId)
 
         return tablero.mapIndexed { f, filaLista ->
             filaLista.mapIndexed { c, ficha ->
@@ -103,6 +101,63 @@ class ReglasJuego @Inject constructor() {
                     ficha
                 }
             }
+        }
+    }
+
+    /**
+     * Calcula el valor de la nueva ficha según el nivel de dificultad.
+     *
+     * Nivel 1 (Normal): 90% minVal, 10% minVal+1
+     * Nivel 2 (Difícil): 85% minVal, 5% minVal-1, 10% minVal+1
+     * Nivel 3 (Experto): 80% minVal, 10% minVal-1, 10% minVal+1
+     * Nivel 4 (Maestro): 75% minVal, 15% minVal-1, 10% minVal+1
+     * Nivel 5 (Imposible): 70% minVal, 20% minVal-1, 10% minVal+1
+     */
+    private fun calcularValorNuevoFicha(valorMinimo: Int, nivelId: Int): Int {
+        val probabilidad = Random.nextDouble()
+
+        return when (nivelId) {
+            1 -> {
+                // Nivel Normal: 90% minVal, 10% minVal+1
+                if (probabilidad < 0.90) valorMinimo else valorMinimo + 1
+            }
+            2 -> {
+                // Nivel Difícil: 85% minVal, 5% minVal-1, 10% minVal+1
+                when {
+                    probabilidad < 0.85 -> valorMinimo
+                    probabilidad < 0.90 && valorMinimo > 1 -> valorMinimo - 1
+                    probabilidad < 0.90 -> valorMinimo
+                    else -> valorMinimo + 1
+                }
+            }
+            3 -> {
+                // Nivel Experto: 80% minVal, 10% minVal-1, 10% minVal+1
+                when {
+                    probabilidad < 0.80 -> valorMinimo
+                    probabilidad < 0.90 && valorMinimo > 1 -> valorMinimo - 1
+                    probabilidad < 0.90 -> valorMinimo
+                    else -> valorMinimo + 1
+                }
+            }
+            4 -> {
+                // Nivel Maestro: 75% minVal, 15% minVal-1, 10% minVal+1
+                when {
+                    probabilidad < 0.75 -> valorMinimo
+                    probabilidad < 0.90 && valorMinimo > 1 -> valorMinimo - 1
+                    probabilidad < 0.90 -> valorMinimo
+                    else -> valorMinimo + 1
+                }
+            }
+            5 -> {
+                // Nivel Imposible: 70% minVal, 20% minVal-1, 10% minVal+1
+                when {
+                    probabilidad < 0.70 -> valorMinimo
+                    probabilidad < 0.90 && valorMinimo > 1 -> valorMinimo - 1
+                    probabilidad < 0.90 -> valorMinimo
+                    else -> valorMinimo + 1
+                }
+            }
+            else -> valorMinimo
         }
     }
 

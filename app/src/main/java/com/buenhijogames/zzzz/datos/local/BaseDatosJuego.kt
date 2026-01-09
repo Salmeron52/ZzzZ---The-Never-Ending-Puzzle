@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
  */
 @Database(
     entities = [PartidaEntidad::class, PartidaGuardadaEntidad::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class BaseDatosJuego : RoomDatabase() {

@@ -62,7 +62,8 @@ interface PartidaDao {
             record = :record, 
             fichaMaxima = :fichaMaxima,
             fechaModificacion = :fechaModificacion,
-            contadorFichas = :contadorFichas
+            contadorFichas = :contadorFichas,
+            nivelId = :nivelId
         WHERE id = :id
     """)
     suspend fun actualizarPartidaGuardada(
@@ -72,7 +73,8 @@ interface PartidaDao {
         record: Long,
         fichaMaxima: Int,
         fechaModificacion: Long,
-        contadorFichas: Long
+        contadorFichas: Long,
+        nivelId: Int
     )
 
     /**
