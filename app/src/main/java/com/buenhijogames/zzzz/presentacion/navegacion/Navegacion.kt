@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
+import com.buenhijogames.zzzz.presentacion.pantalla.PantallaAyuda
 import com.buenhijogames.zzzz.presentacion.pantalla.PantallaJuego
 import com.buenhijogames.zzzz.presentacion.pantalla.PantallaMenu
 import com.buenhijogames.zzzz.presentacion.pantalla.PantallaPartidasGuardadas
@@ -19,6 +20,7 @@ object Rutas {
     const val MENU = "menu"
     const val JUEGO = "juego"
     const val PARTIDAS_GUARDADAS = "partidas_guardadas"
+    const val INFO = "info"
 }
 
 /**
@@ -45,6 +47,9 @@ fun NavegacionApp(
                 },
                 onIrAPartidasGuardadas = {
                     navController.navigate(Rutas.PARTIDAS_GUARDADAS)
+                },
+                onIrAyuda = {
+                    navController.navigate(Rutas.INFO)
                 }
             )
         }
@@ -71,6 +76,15 @@ fun NavegacionApp(
                     navController.navigate(Rutas.JUEGO) {
                         popUpTo(Rutas.MENU) { inclusive = false }
                     }
+                }
+            )
+
+        }
+
+        composable(Rutas.INFO) {
+            PantallaAyuda(
+                onVolver = {
+                    navController.popBackStack()
                 }
             )
         }

@@ -178,8 +178,7 @@ fun PantallaJuego(
                         // Diseño Vertical (Portrait)
                         Column(
                             modifier = Modifier
-                                .fillMaxSize()
-                                .verticalScroll(rememberScrollState()),
+                                .fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             EncabezadoJuego(estado)

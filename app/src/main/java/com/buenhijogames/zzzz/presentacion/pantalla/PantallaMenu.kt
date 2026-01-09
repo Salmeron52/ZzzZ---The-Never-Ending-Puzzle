@@ -11,9 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -39,9 +43,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buenhijogames.zzzz.R
 import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import kotlinx.coroutines.delay
 
 /**
@@ -50,15 +51,16 @@ import kotlinx.coroutines.delay
 @Composable
 fun PantallaMenu(
     onSeleccionarNivel: (NivelDificultad) -> Unit,
-    onIrAPartidasGuardadas: () -> Unit
+    onIrAPartidasGuardadas: () -> Unit,
+    onIrAyuda: () -> Unit
 ) {
     var animacionIniciada by remember { mutableStateOf(false) }
-    
+
     LaunchedEffect(Unit) {
         delay(100)
         animacionIniciada = true
     }
-    
+
     val escala by animateFloatAsState(
         targetValue = if (animacionIniciada) 1f else 0.5f,
         animationSpec = tween(durationMillis = 500),
@@ -84,6 +86,8 @@ fun PantallaMenu(
 
 
         ) {
+
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -101,7 +105,7 @@ fun PantallaMenu(
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.scale(escala)
                 )
-                
+
                 // Subtítulo eliminado según requerimiento
                 // Spacer era height 32.dp, lo mantengo para separar título de botones
                 Spacer(modifier = Modifier.height(32.dp))
@@ -192,9 +196,25 @@ fun PantallaMenu(
                     textAlign = TextAlign.Center
                 )
             }
+            // Icono de Información / Ayuda (Overlay - Z-Index superior)
+            androidx.compose.material3.IconButton(
+                onClick = onIrAyuda,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .safeDrawingPadding()
+                    .padding(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = stringResource(R.string.info_title),
+                    modifier = Modifier.size(32.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
 }
+
 
 /**
  * Botón de selección de nivel con diseño premium.

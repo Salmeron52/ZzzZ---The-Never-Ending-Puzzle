@@ -39,4 +39,14 @@
     <string name="save_game_hint">Guarda una partida desde el juego\npara verla aquí</string>
     <string name="delete">Eliminar</string>
     <string name="cancel">Cancelar</string>
+    
+    <!-- Info Screen -->
+    <string name="info_title">Información</string>
+    <string name="how_to_play_title">Cómo jugar</string>
+    <string name="how_to_play_content">Desliza para mover las fichas. Cuando dos fichas con la misma letra se tocan, ¡se fusionan en la siguiente letra! (A+A -> B, B+B -> C...)</string>
+    <string name="goal_title">Objetivo</string>
+    <string name="goal_desc">¡Fusiona fichas hasta conseguir la ZzzZ!</string>
+    <string name="developed_by">Desarrollado por</string>
+    <string name="developer_site">Sitio del desarrollador</string>
+    <string name="version">Versión</string>
 </resources>
