@@ -3,26 +3,28 @@ package com.buenhijogames.zzzz.presentacion.pantalla
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -50,11 +52,13 @@ import com.buenhijogames.zzzz.presentacion.pantalla.componentes.DialogoConfirmac
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.IconoDeshacer
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.IconoNuevaPartida
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.TableroComposable
+import com.buenhijogames.zzzz.presentacion.viewmodel.EstadoJuego
 import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
+import androidx.compose.ui.unit.min
 import kotlin.math.abs
 
 /**
- * Pantalla principal del juego.
+ * Pantalla principal del juego con diseño adaptativo.
  */
 @Composable
 fun PantallaJuego(
@@ -117,159 +121,96 @@ fun PantallaJuego(
                         }
                     }
             ) {
-                Column(
+                BoxWithConstraints(
                     modifier = Modifier
                         .fillMaxSize()
-                        .safeDrawingPadding() // Respetar insets
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .safeDrawingPadding()
+                        .padding(16.dp)
                 ) {
-                    // Título
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        fontSize = 48.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    val isLandscape = maxWidth > maxHeight
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    if (isLandscape) {
+                        // Diseño Horizontal (Landscape)
+                        Row(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            // Panel Izquierdo (Info + Controles)
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                                    .verticalScroll(rememberScrollState()), // Scroll por si acaso en landscape pequeños
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                EncabezadoJuego(estado)
+                                Spacer(modifier = Modifier.height(24.dp))
+                                PieJuego(
+                                    estado = estado,
+                                    viewModel = viewModel,
+                                    onMostrarDialogoNuevo = { mostrarDialogoNuevoJuego = true },
+                                    onIrAPartidasGuardadas = onIrAPartidasGuardadas,
+                                    onVolverAlMenu = onVolverAlMenu
+                                )
+                            }
+                            
+                            Spacer(modifier = Modifier.width(24.dp))
+                            
+                            // Panel Derecho (Tablero)
+                            BoxWithConstraints(
+                                modifier = Modifier
+                                    .weight(1.4f)
+                                    .fillMaxHeight(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                val tamanoTablero = min(maxWidth, maxHeight)
+                                
+                                TableroComposable(
+                                    tablero = estado.tablero,
+                                    conversorLetras = conversorLetras,
+                                    modifier = Modifier.size(tamanoTablero)
+                                )
+                            }
+                        }
+                    } else {
+                        // Diseño Vertical (Portrait)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState()),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            EncabezadoJuego(estado)
 
-                    // Puntuación y Récord
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        TarjetaPuntuacion(
-                            titulo = stringResource(R.string.score_label),
-                            valor = estado.puntuacion
-                        )
-                        TarjetaPuntuacion(
-                            titulo = stringResource(R.string.high_score_label),
-                            valor = estado.record
-                        )
-                    }
+                            Spacer(modifier = Modifier.height(24.dp))
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                            // Tablero
+                            Box(
+                                modifier = Modifier.weight(1f, fill = false),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                TableroComposable(
+                                    tablero = estado.tablero,
+                                    conversorLetras = conversorLetras,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
 
-                    // Tablero (sin gestos, los gestos se manejan a nivel de pantalla)
-                    TableroComposable(
-                        tablero = estado.tablero,
-                        conversorLetras = conversorLetras,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                            Spacer(modifier = Modifier.height(24.dp))
 
-                Spacer(modifier = Modifier.height(24.dp))
-
-                // Botones de acción
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // Botón deshacer
-                    FilledIconButton(
-                        onClick = { viewModel.deshacer() },
-                        enabled = estado.puedeDeshacer,
-                        modifier = Modifier.size(56.dp),
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
-                        )
-                    ) {
-                        IconoDeshacer(
-                            color = if (estado.puedeDeshacer) 
-                                MaterialTheme.colorScheme.onSecondaryContainer 
-                            else 
-                                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
-                            size = 28.dp
-                        )
-                    }
-
-                    // Botón nuevo juego (icono)
-                    FilledIconButton(
-                        onClick = { mostrarDialogoNuevoJuego = true },
-                        modifier = Modifier.size(56.dp),
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    ) {
-                        IconoNuevaPartida(
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            size = 28.dp
-                        )
-                    }
-
-                    // Botón partidas guardadas
-                    FilledIconButton(
-                        onClick = { 
-                            viewModel.guardarPartidaComoGuardada()
-                            onIrAPartidasGuardadas() 
-                        },
-                        modifier = Modifier.size(56.dp),
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.List,
-                            contentDescription = stringResource(R.string.saved_games_desc),
-                            modifier = Modifier.size(28.dp)
-                        )
-                    }
-
-                    // Botón ir al menú de niveles
-                    FilledIconButton(
-                        onClick = { 
-                            viewModel.guardarPartidaComoGuardada()
-                            onVolverAlMenu() 
-                        },
-                        modifier = Modifier.size(56.dp),
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = stringResource(R.string.menu_desc),
-                            modifier = Modifier.size(28.dp)
-                        )
+                            PieJuego(
+                                estado = estado,
+                                viewModel = viewModel,
+                                onMostrarDialogoNuevo = { mostrarDialogoNuevoJuego = true },
+                                onIrAPartidasGuardadas = onIrAPartidasGuardadas,
+                                onVolverAlMenu = onVolverAlMenu
+                            )
+                        }
                     }
                 }
-
-                // Mensaje de fin de juego
-                if (estado.finDelJuego) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Card(
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer
-                        )
-                    ) {
-                        Text(
-                            text = stringResource(R.string.game_over_title),
-                            modifier = Modifier.padding(16.dp),
-                            color = MaterialTheme.colorScheme.onErrorContainer,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                // Instrucciones
-                Text(
-                    text = stringResource(R.string.instructions_text),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 14.sp
-                )
             }
-        }
         }
     }
 
@@ -289,6 +230,156 @@ fun PantallaJuego(
     }
 }
 
+@Composable
+private fun EncabezadoJuego(estado: EstadoJuego) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        // Título
+        Text(
+            text = stringResource(R.string.app_name),
+            fontSize = 48.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Puntuación y Récord
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            TarjetaPuntuacion(
+                titulo = stringResource(R.string.score_label),
+                valor = estado.puntuacion
+            )
+            TarjetaPuntuacion(
+                titulo = stringResource(R.string.high_score_label),
+                valor = estado.record
+            )
+        }
+    }
+}
+
+@Composable
+private fun PieJuego(
+    estado: EstadoJuego,
+    viewModel: JuegoViewModel,
+    onMostrarDialogoNuevo: () -> Unit,
+    onIrAPartidasGuardadas: () -> Unit,
+    onVolverAlMenu: () -> Unit
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        // Botones de acción
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Botón deshacer
+            FilledIconButton(
+                onClick = { viewModel.deshacer() },
+                enabled = estado.puedeDeshacer,
+                modifier = Modifier.size(56.dp),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                )
+            ) {
+                IconoDeshacer(
+                    color = if (estado.puedeDeshacer) 
+                        MaterialTheme.colorScheme.onSecondaryContainer 
+                    else 
+                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
+                    size = 28.dp
+                )
+            }
+
+            // Botón nuevo juego (icono)
+            FilledIconButton(
+                onClick = onMostrarDialogoNuevo,
+                modifier = Modifier.size(56.dp),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            ) {
+                IconoNuevaPartida(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    size = 28.dp
+                )
+            }
+
+            // Botón partidas guardadas
+            FilledIconButton(
+                onClick = { 
+                    viewModel.guardarPartidaComoGuardada()
+                    onIrAPartidasGuardadas() 
+                },
+                modifier = Modifier.size(56.dp),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.List,
+                    contentDescription = stringResource(R.string.saved_games_desc),
+                    modifier = Modifier.size(28.dp)
+                )
+            }
+
+            // Botón ir al menú
+            FilledIconButton(
+                onClick = { 
+                    viewModel.guardarPartidaComoGuardada()
+                    onVolverAlMenu() 
+                },
+                modifier = Modifier.size(56.dp),
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = stringResource(R.string.menu_desc),
+                    modifier = Modifier.size(28.dp)
+                )
+            }
+        }
+
+        // Mensaje de fin de juego
+        if (estado.finDelJuego) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer
+                )
+            ) {
+                Text(
+                    text = stringResource(R.string.game_over_title),
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.onErrorContainer,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Instrucciones
+        Text(
+            text = stringResource(R.string.instructions_text),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 14.sp
+        )
+    }
+}
+
 /**
  * Tarjeta para mostrar puntuación o récord.
  */
@@ -304,22 +395,23 @@ private fun TarjetaPuntuacion(
     ) {
         Column(
             modifier = Modifier
-                .width(120.dp)
-                .padding(12.dp),
+                .width(100.dp) // Reducido un poco para que quepa mejor en pantallas pequeñas
+                .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = titulo,
                 fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                textAlign = TextAlign.Center,
+                lineHeight = 14.sp
             )
             Text(
                 text = valor.toString(),
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }
 }
-

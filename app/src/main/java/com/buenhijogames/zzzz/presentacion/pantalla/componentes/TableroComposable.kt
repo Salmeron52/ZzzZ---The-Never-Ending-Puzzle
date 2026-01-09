@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,9 +32,11 @@ fun TableroComposable(
     val esOscuro = isSystemInDarkTheme()
     val colorFondo = if (esOscuro) FondoTableroOscuro else FondoTablero
 
+
+
     Box(
         modifier = modifier
-            .fillMaxWidth()
+            .aspectRatio(1f)
             .clip(RoundedCornerShape(12.dp))
             .background(colorFondo)
             .padding(8.dp)
