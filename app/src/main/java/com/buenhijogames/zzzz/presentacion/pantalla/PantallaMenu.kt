@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buenhijogames.zzzz.R
 import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
+import androidx.compose.foundation.layout.safeDrawingPadding
 import kotlinx.coroutines.delay
 
 /**
@@ -78,10 +79,13 @@ fun PantallaMenu(
                         )
                     )
                 )
+
+
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .safeDrawingPadding() // Respetar insets
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
