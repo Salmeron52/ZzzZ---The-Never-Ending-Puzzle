@@ -144,6 +144,12 @@ class RepositorioJuegoImpl @Inject constructor(
         val formato = SimpleDateFormat("dd MMM - HH:mm", Locale.getDefault())
         return "Partida ${formato.format(Date())}"
     }
+    
+    override suspend fun actualizarFechaUltimoAcceso(id: Long) {
+        runCatching {
+            partidaDao.actualizarFechaModificacion(id, System.currentTimeMillis())
+        }
+    }
 }
 
 

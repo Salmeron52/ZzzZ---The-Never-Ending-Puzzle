@@ -71,5 +71,10 @@ interface RepositorioJuego {
      * Elimina una partida guardada.
      */
     suspend fun eliminarPartidaGuardada(id: Long)
+
+    /**
+     * Actualiza la fecha de modificación de una partida guardada (para ponerla al principio).
+     */
+    suspend fun actualizarFechaUltimoAcceso(id: Long)
 }
 

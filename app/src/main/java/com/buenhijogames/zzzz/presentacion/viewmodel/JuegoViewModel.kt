@@ -174,6 +174,9 @@ class JuegoViewModel @Inject constructor(
     fun cargarPartidaGuardada(id: Long) {
         viewModelScope.launch {
             runCatching {
+                // Actualizar fecha para que aparezca primero antes de cargar
+                repositorio.actualizarFechaUltimoAcceso(id)
+                
                 val partida = repositorio.cargarPartidaGuardada(id) ?: return@launch
                 
                 val maxId = partida.tablero.flatten().filterNotNull().maxOfOrNull { it.id } ?: 0L

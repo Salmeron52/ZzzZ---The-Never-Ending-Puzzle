@@ -76,6 +76,12 @@ interface PartidaDao {
         contadorFichas: Long,
         nivelId: Int
     )
+    
+    /**
+     * Actualiza solo la fecha de modificación de una partida guardada.
+     */
+    @Query("UPDATE partidas_guardadas SET fechaModificacion = :fecha WHERE id = :id")
+    suspend fun actualizarFechaModificacion(id: Long, fecha: Long)
 
     /**
      * Elimina una partida guardada por ID.
