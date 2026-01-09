@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">स्कोर</string>
+    <string name="high_score_label">श्रेष्ठ</string>
+    <string name="game_over_title">खेल खत्म!</string>
+    <string name="instructions_text">टाइल्स को स्थानांतरित करने के लिए स्वाइप करें।\nस्तर बढ़ाने के लिए समान टाइल्स मिलाएं।</string>
+    <string name="new_game_title">नया खेल</string>
+    <string name="new_game_confirmation">क्या आप वाकई नया खेल शुरू करना चाहते हैं? वर्तमान प्रगति खो जाएगी।</string>
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+    <string name="undo_desc">पूर्ववत करें</string>
+    <string name="new_game_desc">नया खेल</string>
+    <string name="saved_games_desc">सहेजे गए खेल</string>
+    <string name="menu_desc">मेन्यू</string>
+    <string name="play_button">खेलें</string>
+    <string name="continue_game">जारी रखें</string>
+    <string name="saved_games_title">सहेजे गए खेल</string>
+    <string name="points_label">अंक: </string>
+    <string name="delete_game_desc">खेल हटाएं</string>
+    <string name="delete_game_title">खेल हटाएं</string>
+    <string name="delete_game_confirmation">क्या आप वाकई इस खेल को हटाना चाहते हैं?</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">सामान्य</string>
+    <string name="level_normal_desc">क्लासिक</string>
+    <string name="level_hard">कठिन</string>
+    <string name="level_hard_desc">5% कम टाइल्स</string>
+    <string name="level_expert">विशेषज्ञ</string>
+    <string name="level_expert_desc">10% कम टाइल्स</string>
+    <string name="level_master">मास्टर</string>
+    <string name="level_master_desc">15% कम टाइल्स</string>
+    <string name="level_impossible">असंभव</string>
+    <string name="level_impossible_desc">20% कम टाइल्स</string>
+    
+    <string name="menu_hint">स्थानांतरित करने के लिए स्वाइप करें • समान टाइल्स मिलाएं</string>
+</resources>

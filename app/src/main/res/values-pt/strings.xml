@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">Pontuação</string>
+    <string name="high_score_label">Recorde</string>
+    <string name="game_over_title">Fim de jogo!</string>
+    <string name="instructions_text">Deslize para mover as peças.\nJunte peças iguais para subir de letra.</string>
+    <string name="new_game_title">Novo Jogo</string>
+    <string name="new_game_confirmation">Tem certeza que deseja iniciar um novo jogo? O progresso atual será perdido.</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="undo_desc">Desfazer</string>
+    <string name="new_game_desc">Novo Jogo</string>
+    <string name="saved_games_desc">Jogos Salvos</string>
+    <string name="menu_desc">Menu</string>
+    <string name="play_button">Jogar</string>
+    <string name="continue_game">Continuar</string>
+    <string name="saved_games_title">Jogos Salvos</string>
+    <string name="points_label">Pontos: </string>
+    <string name="delete_game_desc">Excluir jogo</string>
+    <string name="delete_game_title">Excluir Jogo</string>
+    <string name="delete_game_confirmation">Tem certeza que deseja excluir este jogo?</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">Normal</string>
+    <string name="level_normal_desc">O clássico</string>
+    <string name="level_hard">Difícil</string>
+    <string name="level_hard_desc">5% peças mais baixas</string>
+    <string name="level_expert">Especialista</string>
+    <string name="level_expert_desc">10% peças mais baixas</string>
+    <string name="level_master">Mestre</string>
+    <string name="level_master_desc">15% peças mais baixas</string>
+    <string name="level_impossible">Impossível</string>
+    <string name="level_impossible_desc">20% peças mais baixas</string>
+    
+    <string name="menu_hint">Deslize para mover • Junte peças iguais</string>
+</resources>

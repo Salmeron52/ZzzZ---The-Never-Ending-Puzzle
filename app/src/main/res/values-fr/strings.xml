@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">Score</string>
+    <string name="high_score_label">Record</string>
+    <string name="game_over_title">Jeu Terminé !</string>
+    <string name="instructions_text">Glissez pour déplacer les tuiles.\nFusionnez des tuiles identiques pour monter de niveau.</string>
+    <string name="new_game_title">Nouveau Jeu</string>
+    <string name="new_game_confirmation">Êtes-vous sûr de vouloir commencer une nouvelle partie ? La progression actuelle sera perdue.</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="undo_desc">Annuler</string>
+    <string name="new_game_desc">Nouveau Jeu</string>
+    <string name="saved_games_desc">Parties Sauvegardées</string>
+    <string name="menu_desc">Menu</string>
+    <string name="play_button">Jouer</string>
+    <string name="continue_game">Continuer</string>
+    <string name="saved_games_title">Parties Sauvegardées</string>
+    <string name="points_label">Points : </string>
+    <string name="delete_game_desc">Supprimer la partie</string>
+    <string name="delete_game_title">Supprimer la Partie</string>
+    <string name="delete_game_confirmation">Êtes-vous sûr de vouloir supprimer cette partie ?</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">Normal</string>
+    <string name="level_normal_desc">Le classique</string>
+    <string name="level_hard">Difficile</string>
+    <string name="level_hard_desc">5% tuiles plus basses</string>
+    <string name="level_expert">Expert</string>
+    <string name="level_expert_desc">10% tuiles plus basses</string>
+    <string name="level_master">Maître</string>
+    <string name="level_master_desc">15% tuiles plus basses</string>
+    <string name="level_impossible">Impossible</string>
+    <string name="level_impossible_desc">20% tuiles plus basses</string>
+    
+    <string name="menu_hint">Glissez pour déplacer • Fusionnez pour gagner</string>
+</resources>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">スコア</string>
+    <string name="high_score_label">ベスト</string>
+    <string name="game_over_title">ゲームオーバー！</string>
+    <string name="instructions_text">スワイプしてタイルを移動。\n同じタイルを合わせてレベルアップ。</string>
+    <string name="new_game_title">新しいゲーム</string>
+    <string name="new_game_confirmation">新しいゲームを始めますか？現在の進行状況は失われます。</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="undo_desc">元に戻す</string>
+    <string name="new_game_desc">新しいゲーム</string>
+    <string name="saved_games_desc">保存されたゲーム</string>
+    <string name="menu_desc">メニュー</string>
+    <string name="play_button">プレイ</string>
+    <string name="continue_game">再開</string>
+    <string name="saved_games_title">保存されたゲーム</string>
+    <string name="points_label">ポイント： </string>
+    <string name="delete_game_desc">ゲームを削除</string>
+    <string name="delete_game_title">ゲームを削除</string>
+    <string name="delete_game_confirmation">このゲームを削除してもよろしいですか？</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">普通</string>
+    <string name="level_normal_desc">クラシック</string>
+    <string name="level_hard">難しい</string>
+    <string name="level_hard_desc">5% 低いタイル</string>
+    <string name="level_expert">エキスパート</string>
+    <string name="level_expert_desc">10% 低いタイル</string>
+    <string name="level_master">マスター</string>
+    <string name="level_master_desc">15% 低いタイル</string>
+    <string name="level_impossible">不可能</string>
+    <string name="level_impossible_desc">20% 低いタイル</string>
+    
+    <string name="menu_hint">スワイプで移動 • タイルを合わせる</string>
+</resources>

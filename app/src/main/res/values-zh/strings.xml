@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">分数</string>
+    <string name="high_score_label">最高纪录</string>
+    <string name="game_over_title">游戏结束！</string>
+    <string name="instructions_text">滑动以移动方块。\n合并相同的方块以升级。</string>
+    <string name="new_game_title">新游戏</string>
+    <string name="new_game_confirmation">您确定要开始新游戏吗？当前进度将丢失。</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="undo_desc">撤销</string>
+    <string name="new_game_desc">新游戏</string>
+    <string name="saved_games_desc">存档</string>
+    <string name="menu_desc">菜单</string>
+    <string name="play_button">开始游戏</string>
+    <string name="continue_game">继续</string>
+    <string name="saved_games_title">存档</string>
+    <string name="points_label">分数： </string>
+    <string name="delete_game_desc">删除游戏</string>
+    <string name="delete_game_title">删除游戏</string>
+    <string name="delete_game_confirmation">您确定要删除此存档吗？</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">普通</string>
+    <string name="level_normal_desc">经典模式</string>
+    <string name="level_hard">困难</string>
+    <string name="level_hard_desc">5% 低级方块</string>
+    <string name="level_expert">专家</string>
+    <string name="level_expert_desc">10% 低级方块</string>
+    <string name="level_master">大师</string>
+    <string name="level_master_desc">15% 低级方块</string>
+    <string name="level_impossible">不可能</string>
+    <string name="level_impossible_desc">20% 低级方块</string>
+    
+    <string name="menu_hint">滑动移动 • 合并方块</string>
+</resources>

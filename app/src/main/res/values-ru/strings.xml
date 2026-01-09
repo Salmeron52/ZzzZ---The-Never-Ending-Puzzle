@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">Счет</string>
+    <string name="high_score_label">Рекорд</string>
+    <string name="game_over_title">Игра окончена!</string>
+    <string name="instructions_text">Свайпайте, чтобы двигать плитки.\nСоединяйте одинаковые плитки для повышения уровня.</string>
+    <string name="new_game_title">Новая Игра</string>
+    <string name="new_game_confirmation">Вы уверены, что хотите начать новую игру? Текущий прогресс будет потерян.</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="undo_desc">Отменить</string>
+    <string name="new_game_desc">Новая Игра</string>
+    <string name="saved_games_desc">Сохраненные Игры</string>
+    <string name="menu_desc">Меню</string>
+    <string name="play_button">Играть</string>
+    <string name="continue_game">Продолжить</string>
+    <string name="saved_games_title">Сохраненные Игры</string>
+    <string name="points_label">Очки: </string>
+    <string name="delete_game_desc">Удалить игру</string>
+    <string name="delete_game_title">Удалить Игру</string>
+    <string name="delete_game_confirmation">Вы уверены, что хотите удалить эту игру?</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">Нормальный</string>
+    <string name="level_normal_desc">Классика</string>
+    <string name="level_hard">Трудный</string>
+    <string name="level_hard_desc">5% нижних плиток</string>
+    <string name="level_expert">Эксперт</string>
+    <string name="level_expert_desc">10% нижних плиток</string>
+    <string name="level_master">Мастер</string>
+    <string name="level_master_desc">15% нижних плиток</string>
+    <string name="level_impossible">Невозможный</string>
+    <string name="level_impossible_desc">20% нижних плиток</string>
+    
+    <string name="menu_hint">Свайпайте для движения • Соединяйте плитки</string>
+</resources>

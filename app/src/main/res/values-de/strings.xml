@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">Punktzahl</string>
+    <string name="high_score_label">Rekord</string>
+    <string name="game_over_title">Spiel Vorbei!</string>
+    <string name="instructions_text">Wische, um Kacheln zu bewegen.\nKombiniere gleiche Kacheln, um aufzusteigen.</string>
+    <string name="new_game_title">Neues Spiel</string>
+    <string name="new_game_confirmation">Möchtest du wirklich ein neues Spiel starten? Der aktuelle Fortschritt geht verloren.</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="undo_desc">Rückgängig</string>
+    <string name="new_game_desc">Neues Spiel</string>
+    <string name="saved_games_desc">Gespeicherte Spiele</string>
+    <string name="menu_desc">Menü</string>
+    <string name="play_button">Spielen</string>
+    <string name="continue_game">Weiter</string>
+    <string name="saved_games_title">Gespeicherte Spiele</string>
+    <string name="points_label">Punkte: </string>
+    <string name="delete_game_desc">Spiel löschen</string>
+    <string name="delete_game_title">Spiel Löschen</string>
+    <string name="delete_game_confirmation">Möchtest du dieses Spiel wirklich löschen?</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">Normal</string>
+    <string name="level_normal_desc">Der Klassiker</string>
+    <string name="level_hard">Schwer</string>
+    <string name="level_hard_desc">5% niedrigere Kacheln</string>
+    <string name="level_expert">Experte</string>
+    <string name="level_expert_desc">10% niedrigere Kacheln</string>
+    <string name="level_master">Meister</string>
+    <string name="level_master_desc">15% niedrigere Kacheln</string>
+    <string name="level_impossible">Unmöglich</string>
+    <string name="level_impossible_desc">20% niedrigere Kacheln</string>
+    
+    <string name="menu_hint">Wischen zum Bewegen • Kacheln verbinden</string>
+</resources>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">Punteggio</string>
+    <string name="high_score_label">Record</string>
+    <string name="game_over_title">Game Over!</string>
+    <string name="instructions_text">Scorri per muovere le tessere.\nUnisci tessere uguali per salire di livello.</string>
+    <string name="new_game_title">Nuova Partita</string>
+    <string name="new_game_confirmation">Sei sicuro di voler iniziare una nuova partita? I progressi attuali andranno persi.</string>
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
+    <string name="undo_desc">Annulla</string>
+    <string name="new_game_desc">Nuova Partita</string>
+    <string name="saved_games_desc">Partite Salvate</string>
+    <string name="menu_desc">Menu</string>
+    <string name="play_button">Gioca</string>
+    <string name="continue_game">Continua</string>
+    <string name="saved_games_title">Partite Salvate</string>
+    <string name="points_label">Punti: </string>
+    <string name="delete_game_desc">Elimina partita</string>
+    <string name="delete_game_title">Elimina Partita</string>
+    <string name="delete_game_confirmation">Sei sicuro di voler eliminare questa partita?</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">Normale</string>
+    <string name="level_normal_desc">Il classico</string>
+    <string name="level_hard">Difficile</string>
+    <string name="level_hard_desc">5% tessere più basse</string>
+    <string name="level_expert">Esperto</string>
+    <string name="level_expert_desc">10% tessere più basse</string>
+    <string name="level_master">Maestro</string>
+    <string name="level_master_desc">15% tessere più basse</string>
+    <string name="level_impossible">Impossibile</string>
+    <string name="level_impossible_desc">20% tessere più basse</string>
+    
+    <string name="menu_hint">Scorri per muovere • Unisci le tessere</string>
+</resources>

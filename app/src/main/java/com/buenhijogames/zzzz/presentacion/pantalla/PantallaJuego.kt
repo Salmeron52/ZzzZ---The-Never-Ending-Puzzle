@@ -36,11 +36,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.buenhijogames.zzzz.R
 import com.buenhijogames.zzzz.dominio.caso_uso.ConversorLetras
 import com.buenhijogames.zzzz.dominio.caso_uso.Direccion
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.DialogoConfirmacion
@@ -122,7 +124,7 @@ fun PantallaJuego(
                 ) {
                     // Título
                     Text(
-                        text = "ZzzZ",
+                        text = stringResource(R.string.app_name),
                         fontSize = 48.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
@@ -136,11 +138,11 @@ fun PantallaJuego(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         TarjetaPuntuacion(
-                            titulo = "Puntuación",
+                            titulo = stringResource(R.string.score_label),
                             valor = estado.puntuacion
                         )
                         TarjetaPuntuacion(
-                            titulo = "Récord",
+                            titulo = stringResource(R.string.high_score_label),
                             valor = estado.record
                         )
                     }
@@ -212,7 +214,7 @@ fun PantallaJuego(
                     ) {
                         Icon(
                             imageVector = Icons.Default.List,
-                            contentDescription = "Partidas guardadas",
+                            contentDescription = stringResource(R.string.saved_games_desc),
                             modifier = Modifier.size(28.dp)
                         )
                     }
@@ -231,7 +233,7 @@ fun PantallaJuego(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Home,
-                            contentDescription = "Menú",
+                            contentDescription = stringResource(R.string.menu_desc),
                             modifier = Modifier.size(28.dp)
                         )
                     }
@@ -246,7 +248,7 @@ fun PantallaJuego(
                         )
                     ) {
                         Text(
-                            text = "¡Fin del juego!",
+                            text = stringResource(R.string.game_over_title),
                             modifier = Modifier.padding(16.dp),
                             color = MaterialTheme.colorScheme.onErrorContainer,
                             fontSize = 20.sp,
@@ -259,7 +261,7 @@ fun PantallaJuego(
 
                 // Instrucciones
                 Text(
-                    text = "Desliza para mover las fichas.\nUne fichas iguales para subir de letra.",
+                    text = stringResource(R.string.instructions_text),
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 14.sp
@@ -272,10 +274,10 @@ fun PantallaJuego(
     // Diálogo de confirmación para nuevo juego
     if (mostrarDialogoNuevoJuego) {
         DialogoConfirmacion(
-            titulo = "Nuevo juego",
-            mensaje = "¿Estás seguro de que quieres empezar un nuevo juego? Se perderá el progreso actual.",
-            textoConfirmar = "Sí",
-            textoCancelar = "No",
+            titulo = stringResource(R.string.new_game_title),
+            mensaje = stringResource(R.string.new_game_confirmation),
+            textoConfirmar = stringResource(R.string.yes),
+            textoCancelar = stringResource(R.string.no),
             onConfirmar = {
                 viewModel.iniciarNuevoJuego()
                 mostrarDialogoNuevoJuego = false

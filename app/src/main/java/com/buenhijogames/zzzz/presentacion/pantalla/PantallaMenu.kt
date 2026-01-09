@@ -18,7 +18,6 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,10 +32,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.buenhijogames.zzzz.R
 import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 import kotlinx.coroutines.delay
 
@@ -87,27 +88,22 @@ fun PantallaMenu(
             ) {
                 // Logo animado
                 Text(
-                    text = "ZzzZ",
+                    text = stringResource(R.string.app_name),
                     fontSize = 72.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.scale(escala)
                 )
                 
-                Text(
-                    text = "Más Allá de la Z",
-                    fontSize = 16.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.scale(escala)
-                )
-
+                // Subtítulo eliminado según requerimiento
+                // Spacer era height 32.dp, lo mantengo para separar título de botones
                 Spacer(modifier = Modifier.height(32.dp))
 
                 // Botones de nivel
                 BotonNivel(
                     nivel = NivelDificultad.NORMAL,
-                    titulo = "Normal",
-                    descripcion = "El clásico",
+                    titulo = stringResource(R.string.level_normal),
+                    descripcion = stringResource(R.string.level_normal_desc),
                     colorFondo = MaterialTheme.colorScheme.primaryContainer,
                     colorTexto = MaterialTheme.colorScheme.onPrimaryContainer,
                     onClick = { onSeleccionarNivel(NivelDificultad.NORMAL) }
@@ -117,8 +113,8 @@ fun PantallaMenu(
 
                 BotonNivel(
                     nivel = NivelDificultad.DIFICIL,
-                    titulo = "Difícil",
-                    descripcion = "5% fichas más bajas",
+                    titulo = stringResource(R.string.level_hard),
+                    descripcion = stringResource(R.string.level_hard_desc),
                     colorFondo = MaterialTheme.colorScheme.secondaryContainer,
                     colorTexto = MaterialTheme.colorScheme.onSecondaryContainer,
                     onClick = { onSeleccionarNivel(NivelDificultad.DIFICIL) }
@@ -128,8 +124,8 @@ fun PantallaMenu(
 
                 BotonNivel(
                     nivel = NivelDificultad.EXPERTO,
-                    titulo = "Experto",
-                    descripcion = "10% fichas más bajas",
+                    titulo = stringResource(R.string.level_expert),
+                    descripcion = stringResource(R.string.level_expert_desc),
                     colorFondo = MaterialTheme.colorScheme.tertiaryContainer,
                     colorTexto = MaterialTheme.colorScheme.onTertiaryContainer,
                     onClick = { onSeleccionarNivel(NivelDificultad.EXPERTO) }
@@ -139,8 +135,8 @@ fun PantallaMenu(
 
                 BotonNivel(
                     nivel = NivelDificultad.MAESTRO,
-                    titulo = "Maestro",
-                    descripcion = "15% fichas más bajas",
+                    titulo = stringResource(R.string.level_master),
+                    descripcion = stringResource(R.string.level_master_desc),
                     colorFondo = Color(0xFFFFB74D),
                     colorTexto = Color(0xFF5D4037),
                     onClick = { onSeleccionarNivel(NivelDificultad.MAESTRO) }
@@ -150,8 +146,8 @@ fun PantallaMenu(
 
                 BotonNivel(
                     nivel = NivelDificultad.IMPOSIBLE,
-                    titulo = "Imposible",
-                    descripcion = "20% fichas más bajas",
+                    titulo = stringResource(R.string.level_impossible),
+                    descripcion = stringResource(R.string.level_impossible_desc),
                     colorFondo = Color(0xFFEF5350),
                     colorTexto = Color.White,
                     onClick = { onSeleccionarNivel(NivelDificultad.IMPOSIBLE) }
@@ -174,7 +170,7 @@ fun PantallaMenu(
                         modifier = Modifier.size(20.dp)
                     )
                     Text(
-                        text = "  Partidas Guardadas",
+                        text = "  ${stringResource(R.string.saved_games_title)}",
                         fontSize = 14.sp
                     )
                 }
@@ -183,7 +179,7 @@ fun PantallaMenu(
 
                 // Instrucciones
                 Text(
-                    text = "Desliza para mover • Une fichas iguales",
+                    text = stringResource(R.string.menu_hint),
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                     textAlign = TextAlign.Center

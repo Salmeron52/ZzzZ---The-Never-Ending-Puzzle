@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">النتيجة</string>
+    <string name="high_score_label">أفضل نتيجة</string>
+    <string name="game_over_title">انتهت اللعبة!</string>
+    <string name="instructions_text">اسحب لتحريك البلاط.\nدمج البلاط المتشابه لرفع المستوى.</string>
+    <string name="new_game_title">لعبة جديدة</string>
+    <string name="new_game_confirmation">هل أنت متأكد أنك تريد بدء لعبة جديدة؟ سيتم فقد التقدم الحالي.</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="undo_desc">تراجع</string>
+    <string name="new_game_desc">لعبة جديدة</string>
+    <string name="saved_games_desc">الألعاب المحفوظة</string>
+    <string name="menu_desc">القائمة</string>
+    <string name="play_button">لعب</string>
+    <string name="continue_game">استمرار</string>
+    <string name="saved_games_title">الألعاب المحفوظة</string>
+    <string name="points_label">نقاط: </string>
+    <string name="delete_game_desc">حذف اللعبة</string>
+    <string name="delete_game_title">حذف اللعبة</string>
+    <string name="delete_game_confirmation">هل أنت متأكد أنك تريد حذف هذه اللعبة؟</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">عادي</string>
+    <string name="level_normal_desc">الكلاسيكي</string>
+    <string name="level_hard">صعب</string>
+    <string name="level_hard_desc">5% بلاط أقل</string>
+    <string name="level_expert">خبير</string>
+    <string name="level_expert_desc">10% بلاط أقل</string>
+    <string name="level_master">ماستر</string>
+    <string name="level_master_desc">15% بلاط أقل</string>
+    <string name="level_impossible">مستحيل</string>
+    <string name="level_impossible_desc">20% بلاط أقل</string>
+    
+    <string name="menu_hint">اسحب للتحرك • دمج البلاط</string>
+</resources>

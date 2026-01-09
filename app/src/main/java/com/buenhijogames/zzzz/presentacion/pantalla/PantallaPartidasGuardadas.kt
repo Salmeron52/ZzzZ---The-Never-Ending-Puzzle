@@ -44,11 +44,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.buenhijogames.zzzz.R
 import com.buenhijogames.zzzz.dominio.caso_uso.ConversorLetras
 import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 import com.buenhijogames.zzzz.dominio.repositorio.PartidaGuardada
@@ -79,7 +81,7 @@ fun PantallaPartidasGuardadas(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Partidas Guardadas",
+                        text = stringResource(R.string.saved_games_title),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -87,7 +89,7 @@ fun PantallaPartidasGuardadas(
                     IconButton(onClick = onVolver) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Volver"
+                            contentDescription = stringResource(R.string.back_desc)
                         )
                     }
                 },
@@ -119,13 +121,13 @@ fun PantallaPartidasGuardadas(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = "No hay partidas guardadas",
+                            text = stringResource(R.string.no_saved_games),
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Guarda una partida desde el juego\npara verla aquí",
+                            text = stringResource(R.string.save_game_hint),
                             textAlign = TextAlign.Center,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                         )
@@ -154,10 +156,10 @@ fun PantallaPartidasGuardadas(
     // Diálogo de confirmación para eliminar
     partidaAEliminar?.let { partida ->
         DialogoConfirmacion(
-            titulo = "Eliminar partida",
-            mensaje = "¿Estás seguro de que quieres eliminar \"${partida.nombre}\"?",
-            textoConfirmar = "Eliminar",
-            textoCancelar = "Cancelar",
+            titulo = stringResource(R.string.delete_game_title),
+            mensaje = stringResource(R.string.delete_game_confirmation),
+            textoConfirmar = stringResource(R.string.delete),
+            textoCancelar = stringResource(R.string.cancel),
             onConfirmar = {
                 viewModel.eliminarPartida(partida.id)
                 partidaAEliminar = null
@@ -168,17 +170,19 @@ fun PantallaPartidasGuardadas(
 }
 
 /**
- * Obtiene el nombre del nivel.
+ * Obtiene el nombre del nivel traducido.
  */
+@Composable
 private fun obtenerNombreNivel(nivelId: Int): String {
-    return when (nivelId) {
-        1 -> "Normal"
-        2 -> "Difícil"
-        3 -> "Experto"
-        4 -> "Maestro"
-        5 -> "Imposible"
-        else -> "Normal"
+    val resId = when (nivelId) {
+        1 -> R.string.level_normal
+        2 -> R.string.level_hard
+        3 -> R.string.level_expert
+        4 -> R.string.level_master
+        5 -> R.string.level_impossible
+        else -> R.string.level_normal
     }
+    return stringResource(resId)
 }
 
 /**
@@ -258,7 +262,7 @@ private fun TarjetaPartida(
                     Spacer(modifier = Modifier.height(4.dp))
                     Row {
                         Text(
-                            text = "Puntos: ",
+                            text = stringResource(R.string.points_label),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -299,7 +303,7 @@ private fun TarjetaPartida(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Delete,
-                        contentDescription = "Eliminar",
+                        contentDescription = stringResource(R.string.delete_game_desc),
                         tint = MaterialTheme.colorScheme.onErrorContainer
                     )
                 }

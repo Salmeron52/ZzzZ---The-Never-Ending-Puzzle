@@ -1,3 +1,42 @@
 <resources>
-    <string name="app_name">zzzz</string>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">Score</string>
+    <string name="high_score_label">Best</string>
+    <string name="game_over_title">Game Over!</string>
+    <string name="instructions_text">Swipe to move tiles.\nMerge same tiles to level up.</string>
+    <string name="new_game_title">New Game</string>
+    <string name="new_game_confirmation">Are you sure you want to start a new game? Current progress will be lost.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="undo_desc">Undo</string>
+    <string name="new_game_desc">New Game</string>
+    <string name="saved_games_desc">Saved Games</string>
+    <string name="menu_desc">Menu</string>
+    <string name="play_button">Play</string>
+    <string name="continue_game">Continue</string>
+    <string name="saved_games_title">Saved Games</string>
+    <string name="points_label">Points: </string>
+    <string name="delete_game_desc">Delete game</string>
+    <string name="delete_game_title">Delete Game</string>
+    <string name="delete_game_confirmation">Are you sure you want to delete this game?</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">Normal</string>
+    <string name="level_normal_desc">The classic</string>
+    <string name="level_hard">Hard</string>
+    <string name="level_hard_desc">5% lower tiles</string>
+    <string name="level_expert">Expert</string>
+    <string name="level_expert_desc">10% lower tiles</string>
+    <string name="level_master">Master</string>
+    <string name="level_master_desc">15% lower tiles</string>
+    <string name="level_impossible">Impossible</string>
+    <string name="level_impossible_desc">20% lower tiles</string>
+    
+    <string name="menu_hint">Swipe to move • Merge same tiles</string>
+    
+    <string name="back_desc">Back</string>
+    <string name="no_saved_games">No saved games</string>
+    <string name="save_game_hint">Save a game while playing\nto see it here</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

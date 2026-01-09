@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">ZzzZ</string>
+    <string name="score_label">Puntuación</string>
+    <string name="high_score_label">Récord</string>
+    <string name="game_over_title">¡Fin del juego!</string>
+    <string name="instructions_text">Desliza para mover las fichas.\nUne fichas iguales para subir de letra.</string>
+    <string name="new_game_title">Nuevo juego</string>
+    <string name="new_game_confirmation">¿Estás seguro de que quieres empezar un nuevo juego? Se perderá el progreso actual.</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="undo_desc">Deshacer</string>
+    <string name="new_game_desc">Nuevo juego</string>
+    <string name="saved_games_desc">Partidas guardadas</string>
+    <string name="menu_desc">Menú</string>
+    <string name="play_button">Jugar</string>
+    <string name="continue_game">Continuar</string>
+    <string name="saved_games_title">Partidas Guardadas</string>
+    <string name="points_label">Puntos: </string>
+    <string name="delete_game_desc">Eliminar partida</string>
+    <string name="delete_game_title">Eliminar partida</string>
+    <string name="delete_game_confirmation">¿Estás seguro de que quieres eliminar esta partida?</string>
+    
+    <!-- Levels -->
+    <string name="level_normal">Normal</string>
+    <string name="level_normal_desc">El clásico</string>
+    <string name="level_hard">Difícil</string>
+    <string name="level_hard_desc">5% fichas más bajas</string>
+    <string name="level_expert">Experto</string>
+    <string name="level_expert_desc">10% fichas más bajas</string>
+    <string name="level_master">Maestro</string>
+    <string name="level_master_desc">15% fichas más bajas</string>
+    <string name="level_impossible">Imposible</string>
+    <string name="level_impossible_desc">20% fichas más bajas</string>
+    
+    <string name="menu_hint">Desliza para mover • Une fichas iguales</string>
+    
+    <string name="back_desc">Volver</string>
+    <string name="no_saved_games">No hay partidas guardadas</string>
+    <string name="save_game_hint">Guarda una partida desde el juego\npara verla aquí</string>
+    <string name="delete">Eliminar</string>
+    <string name="cancel">Cancelar</string>
+</resources>
