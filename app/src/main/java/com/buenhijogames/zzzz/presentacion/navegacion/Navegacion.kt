@@ -72,7 +72,9 @@ fun NavegacionApp(
                     navController.navigate(Rutas.PARTIDAS_GUARDADAS)
                 },
                 onVolverAlMenu = {
-                    navController.popBackStack(Rutas.MENU, inclusive = false)
+                    navController.navigate(Rutas.MENU) {
+                        popUpTo(0)
+                    }
                 },
                 viewModel = juegoViewModel
             )

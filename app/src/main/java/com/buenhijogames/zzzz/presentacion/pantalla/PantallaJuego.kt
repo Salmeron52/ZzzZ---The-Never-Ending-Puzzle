@@ -233,11 +233,29 @@ fun PantallaJuego(
 private fun EncabezadoJuego(estado: EstadoJuego) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // Título
+        // Título "ZzzZ"
         Text(
             text = stringResource(R.string.app_name),
             fontSize = 48.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
+        )
+
+        // Nivel Actual
+        val nivelStringId = when (estado.nivelActual) {
+            com.buenhijogames.zzzz.dominio.modelo.NivelDificultad.NORMAL -> R.string.level_normal
+            com.buenhijogames.zzzz.dominio.modelo.NivelDificultad.DIFICIL -> R.string.level_hard
+            com.buenhijogames.zzzz.dominio.modelo.NivelDificultad.EXPERTO -> R.string.level_expert
+            com.buenhijogames.zzzz.dominio.modelo.NivelDificultad.MAESTRO -> R.string.level_master
+            com.buenhijogames.zzzz.dominio.modelo.NivelDificultad.IMPOSIBLE -> R.string.level_impossible
+        }
+        
+        Text(
+            text = stringResource(nivelStringId).uppercase(),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.secondary,
+            letterSpacing = 2.sp
         )
 
         Spacer(modifier = Modifier.height(16.dp))

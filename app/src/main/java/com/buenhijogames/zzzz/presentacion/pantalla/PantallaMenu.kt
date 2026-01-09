@@ -110,6 +110,32 @@ fun PantallaMenu(
                 // Spacer era height 32.dp, lo mantengo para separar título de botones
                 Spacer(modifier = Modifier.height(32.dp))
 
+                // Botón partidas guardadas (Movido arriba por petición)
+                Button(
+                    onClick = onIrAPartidasGuardadas,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.List,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(
+                        text = "  ${stringResource(R.string.saved_games_title)}",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
                 // Botones de nivel
                 BotonNivel(
                     nivel = NivelDificultad.NORMAL,
@@ -164,27 +190,7 @@ fun PantallaMenu(
                     onClick = { onSeleccionarNivel(NivelDificultad.IMPOSIBLE) }
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
 
-                // Botón partidas guardadas
-                Button(
-                    onClick = onIrAPartidasGuardadas,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                    ),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.List,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        text = "  ${stringResource(R.string.saved_games_title)}",
-                        fontSize = 14.sp
-                    )
-                }
 
                 Spacer(modifier = Modifier.weight(1f))
 
