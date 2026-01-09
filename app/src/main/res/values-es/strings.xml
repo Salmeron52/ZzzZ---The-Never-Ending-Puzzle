@@ -45,7 +45,7 @@
     <!-- Info Screen -->
     <string name="info_title">Información</string>
     <string name="how_to_play_title">Cómo jugar</string>
-    <string name="how_to_play_content">Desliza para mover. Fichas iguales se fusionan en la siguiente letra (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">Desliza ARRIBA, ABAJO, IZQUIERDA o DERECHA para mover todas las fichas.\nLas fichas se deslizan hasta chocar con el borde u otra ficha.\n¡Cuando dos fichas idénticas se tocan al moverse, se fusionan en una nueva letra (A+A -> B)!\nCada movimiento hace aparecer una nueva ficha.\n¡Planea con antelación para evitar que el tablero se llene!\n\nCombos Especiales:\n• Junta 2 Z para formar AA\n• Junta 3 Z para formar AAA\n• Junta 3 Y para formar ZzzZ (¡El Objetivo!)</string>
     <string name="goal_title">Objetivo</string>
     <string name="goal_desc">¡Fusiona fichas hasta conseguir la ZzzZ!</string>
     <string name="developed_by">Desarrollado por</string>

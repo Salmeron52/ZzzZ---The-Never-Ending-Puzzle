@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">जानकारी</string>
     <string name="how_to_play_title">कैसे खेलें</string>
-    <string name="how_to_play_content">स्थानांतरित करने के लिए स्वाइप करें। समान टाइल्स अगली वर्ण में विलीन हो जाती हैं! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">सभी टाइल्स को उस दिशा में खिसकाने के लिए ऊपर, नीचे, बाएं या दाएं स्वाइप करें।\nटाइल्स दीवार या दूसरी टाइल से टकराने तक स्लाइड करती हैं।\nजब दो समान टाइल्स चाल के दौरान स्पर्श करती हैं, तो वे एक नए अक्षर (A+A -> B) में विलीन हो जाती हैं!\nहर चाल एक नई टाइल उत्पन्न करती है।\nबोर्ड को भरने से रोकने के लिए आगे की योजना बनाएं!\n\nविशेष संयोजन:\n• 2 Z मिलाने से AA बनता है\n• 3 Z से AAA\n• 3 Y से ZzzZ (लक्ष्य!)</string>
     <string name="goal_title">लक्ष्य</string>
     <string name="goal_desc">ZzzZ तक पहुँचने के लिए टाइल्स को मिलाएं!</string>
     <string name="developed_by">द्वारा विकसित</string>

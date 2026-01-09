@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">Informationen</string>
     <string name="how_to_play_title">Spielanleitung</string>
-    <string name="how_to_play_content">Wischen zum Bewegen. Gleiche Kacheln verschmelzen zum nächsten Buchstaben! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">Wische nach OBEN, UNTEN, LINKS oder RECHTS, um alle Kacheln zu bewegen.\nKacheln gleiten, bis sie auf eine Wand oder Kachel treffen.\nZwei identische Kacheln verschmelzen zu einem neuen Buchstaben (A+A -> B)!\nJeder Zug erzeugt eine neue Kachel.\nPlane voraus, damit das Brett nicht voll wird!\n\nSpezial-Kombos:\n• 2 Z ergeben AA\n• 3 Z ergeben AAA\n• 3 Y ergeben ZzzZ (Das Ziel!)</string>
     <string name="goal_title">Ziel</string>
     <string name="goal_desc">Verschmelzen bis zum ZzzZ!</string>
     <string name="developed_by">Entwickelt von</string>

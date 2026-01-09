@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">Информация</string>
     <string name="how_to_play_title">Как играть</string>
-    <string name="how_to_play_content">Свайп для перемещения. Плитки сливаются в следующую букву! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">Свайп ВВЕРХ, ВНИЗ, ВЛЕВО или ВПРАВО двигает все плитки.\nПлитки скользят до упора или до другой плитки.\nДве одинаковые плитки сливаются в новую букву (A+A -> B)!\nКаждый ход добавляет новую плитку.\nПланируйте ходы, чтобы доска не заполнилась!\n\nСпециальные комбинации:\n• Соедините 2 Z для AA\n• Соедините 3 Z для AAA\n• Соедините 3 Y для ZzzZ (Цель!)</string>
     <string name="goal_title">Цель</string>
     <string name="goal_desc">Объединяйте до ZzzZ!</string>
     <string name="developed_by">Разработчик</string>

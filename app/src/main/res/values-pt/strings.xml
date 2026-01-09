@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">Informações</string>
     <string name="how_to_play_title">Como jogar</string>
-    <string name="how_to_play_content">Deslize para mover. Peças iguais se fundem na próxima letra! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">Deslize para CIMA, BAIXO, ESQUERDA ou DIREITA para mover todas as peças.\nAs peças deslizam até atingir a parede ou outra peça.\nDuas peças idênticas se fundem em uma nova letra (A+A -> B)!\nCada movimento cria uma nova peça.\nPlaneje para não encher o tabuleiro!\n\nCombos Especiais:\n• Junte 2 Z para formar AA\n• Junte 3 Z para formar AAA\n• Junte 3 Y para formar ZzzZ (O Objetivo!)</string>
     <string name="goal_title">Objetivo</string>
     <string name="goal_desc">Fundir peças até alcançar ZzzZ!</string>
     <string name="developed_by">Desenvolvido por</string>

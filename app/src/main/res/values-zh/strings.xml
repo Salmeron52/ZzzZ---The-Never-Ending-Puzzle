@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">信息</string>
     <string name="how_to_play_title">玩法</string>
-    <string name="how_to_play_content">滑动移动。相同的方块合并！(A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">向上、下、左、右滑动以移动所有方块。\n方块会滑向该方向，直到碰到墙壁或另一个方块。\n移动时两个相同的方块相遇会合并成新字母 (A+A -> B)！\n每次移动都会产生一个新方块。\n提前规划，防止棋盘填满！\n\n特殊组合：\n• 两个Z合并成AA\n• 三个Z合并成AAA\n• 三个Y合并成ZzzZ（目标！）</string>
     <string name="goal_title">目标</string>
     <string name="goal_desc">合并直到到达 ZzzZ！</string>
     <string name="developed_by">开发人员</string>

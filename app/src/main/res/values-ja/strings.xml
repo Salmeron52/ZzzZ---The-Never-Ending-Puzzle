@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">情報</string>
     <string name="how_to_play_title">遊び方</string>
-    <string name="how_to_play_content">スワイプして移動。同じタイルが合体します！ (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">上、下、左、または右にスワイプして、すべてのタイルをスライドさせます。\nタイルは壁または別のタイルに当たるまでスライドします。\n移動中に同じタイルが2つ接触すると、新しい文字（A + A-> B）に結合します！\n移動するたびに新しいタイルが生成されます。\nボードがいっぱいにならないように事前に計画してください！\n\n特別なコンボ：\n• Zを2つでAA\n• Zを3つでAAA\n• Yを3つでZzzZ（目標！）</string>
     <string name="goal_title">目標</string>
     <string name="goal_desc">ZzzZを目指してマージ！</string>
     <string name="developed_by">開発者</string>

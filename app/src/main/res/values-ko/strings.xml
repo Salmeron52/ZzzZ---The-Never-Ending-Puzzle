@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">정보</string>
     <string name="how_to_play_title">게임 방법</string>
-    <string name="how_to_play_content">스와이프하여 이동. 같은 타일이 합쳐집니다! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">위, 아래, 왼쪽 또는 오른쪽으로 스와이프하여 모든 타일을 이동하세요.\n타일은 벽이나 다른 타일에 닿을 때까지 미끄러집니다.\n이동 중 동일한 타일 두 개가 닿으면 새 문자(A+A -> B)로 합쳐집니다!\n모든 이동마다 새 타일이 생성됩니다.\n보드가 꽉 차지 않도록 미리 계획하세요!\n\n특수 콤보:\n• Z 2개를 합치면 AA\n• Z 3개는 AAA\n• Y 3개는 ZzzZ(목표!)</string>
     <string name="goal_title">목표</string>
     <string name="goal_desc">ZzzZ에 도달하세요!</string>
     <string name="developed_by">개발자</string>

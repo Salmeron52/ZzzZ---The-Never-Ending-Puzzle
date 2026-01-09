@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">معلومات</string>
     <string name="how_to_play_title">طريقة اللعب</string>
-    <string name="how_to_play_content">مرر للتحريك. تندمج البلاطات! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">اسحب للأعلى أو الأسفل أو اليسار أو اليمين لتحريك جميع المربعات.\nتنزلق المربعات حتى تصطدم بالجدار أو بمربع آخر.\nعندما يتلامس مربعان متماثلان أثناء الحركة، يندمجان في حرف جديد (A+A -> B)!\nكل حركة تولد مربعًا جديدًا.\nخطط مسبقًا لمنع اللوحة من الامتلاء!\n\nمجموعات خاصة:\n• دمج اثنين Z يشكل AA\n• دمج ثلاثة Z يشكل AAA\n• دمج ثلاثة Y يشكل ZzzZ (الهدف!)</string>
     <string name="goal_title">الهدف</string>
     <string name="goal_desc">الوصول إلى ZzzZ!</string>
     <string name="developed_by">طورت بواسطة</string>

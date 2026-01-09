@@ -93,6 +93,13 @@ fun PantallaAyuda(
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // Info del Desarrollador (Moved to top)
+                InfoFooter(
+                    onOpenUrl = { url -> uriHandler.openUri(url) }
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
                 // Sección Cómo Jugar
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -157,12 +164,7 @@ fun PantallaAyuda(
 
                 Spacer(modifier = Modifier.height(48.dp))
                 
-                // Footer
-                InfoFooter(
-                    onOpenUrl = { url -> uriHandler.openUri(url) }
-                )
-                
-                Spacer(modifier = Modifier.height(24.dp))
+                // Footer moved to top
             }
         }
     }

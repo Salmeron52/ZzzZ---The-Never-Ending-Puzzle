@@ -45,7 +45,7 @@
     <!-- Info Screen -->
     <string name="info_title">Information</string>
     <string name="how_to_play_title">How to Play</string>
-    <string name="how_to_play_content">Swipe to move tiles. When two tiles with the same letter touch, they merge into the next letter! (A+A -> B ... Z+Z -> AA)</string>
+    <string name="how_to_play_content">Swipe UP, DOWN, LEFT, or RIGHT to slide all tiles in that direction.\nTiles slide until they hit the wall or another tile.\nWhen two identical tiles touch during a move, they merge into a new letter (A+A -> B)!\nEvery move spawns a new tile.\nPlan ahead to keep the board from filling up!\n\nSpecial Combos:\n• Merge 2 Zs to form AA\n• Merge 3 Zs to form AAA\n• Merge 3 Ys to form ZzzZ (The Goal!)</string>
     <string name="goal_title">Goal</string>
     <string name="goal_desc">Merge tiles to reach the ultimate ZzzZ!</string>
     <string name="developed_by">Developed by</string>

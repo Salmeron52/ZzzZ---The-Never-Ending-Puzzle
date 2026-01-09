@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">Informations</string>
     <string name="how_to_play_title">Comment jouer</string>
-    <string name="how_to_play_content">Glissez pour déplacer. Les tuiles identiques fusionnent en la lettre suivante ! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">Glissez vers le HAUT, BAS, GAUCHE ou DROITE pour déplacer toutes les tuiles.\nLes tuiles glissent jusqu\'au bord ou une autre tuile.\nDeux tuiles identiques fusionnent en une nouvelle lettre (A+A -> B) !\nUne nouvelle tuile apparaît après chaque mouvement.\nPlanifiez pour ne pas remplir le plateau !\n\nCombos Spéciaux :\n• Fusionnez 2 Z pour former AA\n• Fusionnez 3 Z pour former AAA\n• Fusionnez 3 Y pour former ZzzZ (L\'Objectif !)</string>
     <string name="goal_title">Objectif</string>
     <string name="goal_desc">Fusionnez jusqu\'à atteindre ZzzZ !</string>
     <string name="developed_by">Développé par</string>

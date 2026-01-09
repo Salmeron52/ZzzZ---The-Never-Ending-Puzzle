@@ -41,7 +41,7 @@
     <!-- Info Screen -->
     <string name="info_title">Informazioni</string>
     <string name="how_to_play_title">Come giocare</string>
-    <string name="how_to_play_content">Scorri per muovere. Tessere uguali si fondono nella lettera successiva! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="how_to_play_content">Scorri SU, GIÙ, SINISTRA o DESTRA per muovere tutte le tessere.\nLe tessere scivolano fino a toccare il bordo o un\'altra tessera.\nDue tessere identiche si fondono in una nuova lettera (A+A -> B)!\nOgni mossa genera una nuova tessera.\nPianifica per non riempire il tabellone!\n\nCombo Speciali:\n• Unisci 2 Z per formare AA\n• Unisci 3 Z per formare AAA\n• Unisci 3 Y per formare ZzzZ (L\'Obiettivo!)</string>
     <string name="goal_title">Obiettivo</string>
     <string name="goal_desc">Fondi fino a raggiungere ZzzZ!</string>
     <string name="developed_by">Sviluppato da</string>
