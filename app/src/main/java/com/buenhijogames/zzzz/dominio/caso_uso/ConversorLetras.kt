@@ -12,9 +12,15 @@ import javax.inject.Singleton
  * - 27 → "AA"
  * - 52 → "AZ"
  * - 53 → "BA"
+ * - 475254 → "ZzzZ" (caso especial, nombre del juego)
  */
 @Singleton
 class ConversorLetras @Inject constructor() {
+
+    companion object {
+        // Valor que corresponde a ZZZZ en base 26 biyectiva
+        private const val VALOR_ZZZZ = 475254
+    }
 
     /**
      * Convierte un valor entero a su representación en letras.
@@ -24,6 +30,9 @@ class ConversorLetras @Inject constructor() {
      */
     fun obtenerEtiqueta(valor: Int): String {
         if (valor <= 0) return ""
+        
+        // Caso especial: ZZZZ se muestra como ZzzZ (nombre del juego)
+        if (valor == VALOR_ZZZZ) return "ZzzZ"
         
         val sb = StringBuilder()
         var n = valor
@@ -35,3 +44,4 @@ class ConversorLetras @Inject constructor() {
         return sb.toString()
     }
 }
+
