@@ -1,16 +1,25 @@
 package com.buenhijogames.zzzz.presentacion.pantalla.componentes
 
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -32,31 +41,75 @@ fun TableroComposable(
     val esOscuro = isSystemInDarkTheme()
     val colorFondo = if (esOscuro) FondoTableroOscuro else FondoTablero
 
-
-
-    Box(
+    BoxWithConstraints(
         modifier = modifier
             .aspectRatio(1f)
             .clip(RoundedCornerShape(12.dp))
             .background(colorFondo)
             .padding(8.dp)
     ) {
+        val anchoTablero = maxWidth
+        val altoTablero = maxHeight
+        val espacio = 0.dp // Sin espacio entre celdas para estilo 2048 clásico compacto
+        val tamanoCelda = (anchoTablero - (espacio * 3)) / 4 
+
+        // 1. Dibujar el grid de fondo (celdas vacías fijas)
         Column(
-            verticalArrangement = Arrangement.spacedBy(0.dp)
+            verticalArrangement = Arrangement.spacedBy(espacio)
         ) {
-            tablero.forEach { fila ->
+            repeat(4) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(0.dp)
+                    horizontalArrangement = Arrangement.spacedBy(espacio)
                 ) {
-                    fila.forEach { ficha ->
-                        FichaComposable(
-                            ficha = ficha,
-                            conversorLetras = conversorLetras,
-                            modifier = Modifier.weight(1f)
+                    repeat(4) {
+                        Box(
+                            modifier = Modifier
+                                .size(tamanoCelda)
+                                .padding(4.dp) // Padding interno para simular separación si espacio es 0
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(
+                                    if (esOscuro) com.buenhijogames.zzzz.ui.theme.CeldaVaciaOscura 
+                                    else com.buenhijogames.zzzz.ui.theme.CeldaVacia
+                                )
                         )
                     }
                 }
+            }
+        }
+
+        // 2. Dibujar las fichas activas con animación de movimiento
+        val fichasActivas = remember(tablero) {
+            tablero.flatMapIndexed { rowIndex, row ->
+                row.mapIndexedNotNull { colIndex, ficha ->
+                    if (ficha != null) Triple(ficha, rowIndex, colIndex) else null
+                }
+            }
+        }
+
+        fichasActivas.forEach { (ficha, fila, col) ->
+            key(ficha.id) {
+                val targetX = (tamanoCelda + espacio) * col
+                val targetY = (tamanoCelda + espacio) * fila
+
+                val animatedOffsetX by animateDpAsState(
+                    targetValue = targetX,
+                    animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
+                    label = "offsetX"
+                )
+                
+                val animatedOffsetY by animateDpAsState(
+                    targetValue = targetY,
+                    animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
+                    label = "offsetY"
+                )
+
+                FichaComposable(
+                    ficha = ficha,
+                    conversorLetras = conversorLetras,
+                    modifier = Modifier
+                        .size(tamanoCelda)
+                        .offset(x = animatedOffsetX, y = animatedOffsetY)
+                )
             }
         }
     }
