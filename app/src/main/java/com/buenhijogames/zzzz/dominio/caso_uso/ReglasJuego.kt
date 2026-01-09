@@ -98,8 +98,8 @@ class ReglasJuego @Inject constructor() {
                 if (f == fila && c == columna) {
                     Ficha(id = generarId(), valor = valorNuevo, esNueva = true)
                 } else {
-                    // Limpiar flags de animación de fichas existentes
-                    ficha?.copy(esNueva = false, fusionada = false)
+                    // Limpiar flags de animación de fichas existentes. Importante: limpiar idsFusionados para que no se renderizen fantasmas
+                    ficha?.copy(esNueva = false, fusionada = false, idsFusionados = emptyList())
                 }
             }
         }
@@ -265,12 +265,17 @@ class ReglasJuego @Inject constructor() {
             if (i + 1 < fichas.size && fichas[i].valor == fichas[i + 1].valor) {
                 // Fusionar las dos fichas
                 val nuevoValor = fichas[i].valor + 1
-                resultado.add(Ficha(id = generarId(), valor = nuevoValor, fusionada = true))
+                resultado.add(Ficha(
+                    id = generarId(), 
+                    valor = nuevoValor, 
+                    fusionada = true,
+                    idsFusionados = listOf(fichas[i].id, fichas[i+1].id)
+                ))
                 puntuacion += nuevoValor.toLong()
                 i += 2
             } else {
-                // Mover ficha sin fusionar (limpiar flags de animación)
-                resultado.add(fichas[i].copy(esNueva = false, fusionada = false))
+                // Mover ficha sin fusionar (limpiar flags de animación y fantasmas)
+                resultado.add(fichas[i].copy(esNueva = false, fusionada = false, idsFusionados = emptyList()))
                 i++
             }
         }

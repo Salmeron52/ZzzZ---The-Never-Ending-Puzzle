@@ -12,6 +12,7 @@ data class Ficha(
     val id: Long,
     val valor: Int,
     val esNueva: Boolean = false,
-    val fusionada: Boolean = false
+    val fusionada: Boolean = false,
+    val idsFusionados: List<Long> = emptyList() // IDs de las fichas que se fusionaron para crear esta
 )
 

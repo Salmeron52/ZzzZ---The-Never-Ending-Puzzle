@@ -17,9 +17,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -87,29 +90,83 @@ fun TableroComposable(
         }
 
         fichasActivas.forEach { (ficha, fila, col) ->
-            key(ficha.id) {
-                val targetX = (tamanoCelda + espacio) * col
-                val targetY = (tamanoCelda + espacio) * fila
+            // Determinar si es una fusión para controlar la visibilidad secuencial
+            val esFusion = ficha.idsFusionados.isNotEmpty()
+            
+            // Estado para visibilidad: 
+            // - Ghosts: visibles solo durante la animación (0-600ms)
+            // - Real: visible solo después de la animación (600ms+)
+            var mostrarGhosts by remember(ficha.id) { mutableStateOf(esFusion) }
+            var mostrarReal by remember(ficha.id) { mutableStateOf(!esFusion) }
 
-                val animatedOffsetX by animateDpAsState(
-                    targetValue = targetX,
-                    animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
-                    label = "offsetX"
-                )
-                
-                val animatedOffsetY by animateDpAsState(
-                    targetValue = targetY,
-                    animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
-                    label = "offsetY"
-                )
+            if (esFusion) {
+                LaunchedEffect(ficha.id) {
+                    // Esperar lo que dura el movimiento
+                    kotlinx.coroutines.delay(600)
+                    mostrarGhosts = false
+                    mostrarReal = true
+                }
+            }
 
-                FichaComposable(
-                    ficha = ficha,
-                    conversorLetras = conversorLetras,
-                    modifier = Modifier
-                        .size(tamanoCelda)
-                        .offset(x = animatedOffsetX, y = animatedOffsetY)
-                )
+            // 1. Renderizar Fichas "Fantasma"
+            if (esFusion && mostrarGhosts) {
+                ficha.idsFusionados.forEach { idFantasma ->
+                    key(idFantasma) { 
+                        val targetX = (tamanoCelda + espacio) * col
+                        val targetY = (tamanoCelda + espacio) * fila
+
+                        val animatedOffsetX by animateDpAsState(
+                            targetValue = targetX,
+                            animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
+                            label = "ghostOffsetX"
+                        )
+                        
+                        val animatedOffsetY by animateDpAsState(
+                            targetValue = targetY,
+                            animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
+                            label = "ghostOffsetY"
+                        )
+
+                        val valorFantasma = if (ficha.valor > 1) ficha.valor - 1 else 1
+                        val fichaFantasma = Ficha(id = idFantasma, valor = valorFantasma)
+
+                        Box(modifier = Modifier.offset(x = animatedOffsetX, y = animatedOffsetY)) {
+                             FichaComposable(
+                                ficha = fichaFantasma,
+                                conversorLetras = conversorLetras,
+                                modifier = Modifier.size(tamanoCelda)
+                            )
+                        }
+                    }
+                }
+            }
+
+            // 2. Renderizar la Ficha Real (Resultado)
+            if (mostrarReal) {
+                key(ficha.id) {
+                    val targetX = (tamanoCelda + espacio) * col
+                    val targetY = (tamanoCelda + espacio) * fila
+
+                    val animatedOffsetX by animateDpAsState(
+                        targetValue = targetX,
+                        animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
+                        label = "offsetX"
+                    )
+                    
+                    val animatedOffsetY by animateDpAsState(
+                        targetValue = targetY,
+                        animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
+                        label = "offsetY"
+                    )
+
+                    FichaComposable(
+                        ficha = ficha,
+                        conversorLetras = conversorLetras,
+                        modifier = Modifier
+                            .size(tamanoCelda)
+                            .offset(x = animatedOffsetX, y = animatedOffsetY)
+                    )
+                }
             }
         }
     }
