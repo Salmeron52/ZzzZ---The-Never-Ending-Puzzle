@@ -370,13 +370,6 @@ private fun PieJuego(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Instrucciones
-        Text(
-            text = stringResource(R.string.instructions_text),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 14.sp
-        )
     }
 }
 

@@ -40,6 +40,8 @@ import androidx.compose.ui.unit.sp
 import com.buenhijogames.zzzz.R
 import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import kotlinx.coroutines.delay
 
 /**
@@ -86,7 +88,8 @@ fun PantallaMenu(
                 modifier = Modifier
                     .fillMaxSize()
                     .safeDrawingPadding() // Respetar insets
-                    .padding(24.dp),
+                    .padding(24.dp)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
