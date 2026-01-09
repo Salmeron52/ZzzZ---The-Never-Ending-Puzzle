@@ -33,4 +33,13 @@
     <string name="level_impossible_desc">20% कम टाइल्स</string>
     
     <string name="menu_hint">स्थानांतरित करने के लिए स्वाइप करें • समान टाइल्स मिलाएं</string>
+    <!-- Info Screen -->
+    <string name="info_title">जानकारी</string>
+    <string name="how_to_play_title">कैसे खेलें</string>
+    <string name="how_to_play_content">Swipe to move. Tiles merge into next letter! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="goal_title">लक्ष्य</string>
+    <string name="goal_desc">Merge tiles to reach ZzzZ!</string>
+    <string name="developed_by">द्वारा विकसित</string>
+    <string name="developer_site">Developer Site</string>
+    <string name="version">संस्करण</string>
 </resources>

@@ -33,4 +33,13 @@
     <string name="level_impossible_desc">20% 낮은 타일</string>
     
     <string name="menu_hint">스와이프하여 이동 • 타일 합치기</string>
+    <!-- Info Screen -->
+    <string name="info_title">정보</string>
+    <string name="how_to_play_title">게임 방법</string>
+    <string name="how_to_play_content">스와이프하여 이동. 같은 타일이 합쳐집니다! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="goal_title">목표</string>
+    <string name="goal_desc">ZzzZ에 도달하세요!</string>
+    <string name="developed_by">개발자</string>
+    <string name="developer_site">개발자 사이트</string>
+    <string name="version">버전</string>
 </resources>

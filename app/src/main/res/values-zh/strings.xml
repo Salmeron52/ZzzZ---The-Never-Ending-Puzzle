@@ -33,4 +33,13 @@
     <string name="level_impossible_desc">20% 低级方块</string>
     
     <string name="menu_hint">滑动移动 • 合并方块</string>
+    <!-- Info Screen -->
+    <string name="info_title">信息</string>
+    <string name="how_to_play_title">玩法</string>
+    <string name="how_to_play_content">滑动移动。相同的方块合并！(A+A -> B ... Z+Z -> AA).</string>
+    <string name="goal_title">目标</string>
+    <string name="goal_desc">合并直到到达 ZzzZ！</string>
+    <string name="developed_by">开发人员</string>
+    <string name="developer_site">开发者网站</string>
+    <string name="version">版本</string>
 </resources>

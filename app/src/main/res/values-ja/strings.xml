@@ -33,4 +33,13 @@
     <string name="level_impossible_desc">20% 低いタイル</string>
     
     <string name="menu_hint">スワイプで移動 • タイルを合わせる</string>
+    <!-- Info Screen -->
+    <string name="info_title">情報</string>
+    <string name="how_to_play_title">遊び方</string>
+    <string name="how_to_play_content">スワイプして移動。同じタイルが合体します！ (A+A -> B ... Z+Z -> AA).</string>
+    <string name="goal_title">目標</string>
+    <string name="goal_desc">ZzzZを目指してマージ！</string>
+    <string name="developed_by">開発者</string>
+    <string name="developer_site">開発者サイト</string>
+    <string name="version">バージョン</string>
 </resources>

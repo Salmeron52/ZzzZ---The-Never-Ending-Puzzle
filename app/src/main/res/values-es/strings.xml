@@ -43,7 +43,7 @@
     <!-- Info Screen -->
     <string name="info_title">Información</string>
     <string name="how_to_play_title">Cómo jugar</string>
-    <string name="how_to_play_content">Desliza para mover las fichas. Cuando dos fichas con la misma letra se tocan, ¡se fusionan en la siguiente letra! (A+A -> B, B+B -> C...)</string>
+    <string name="how_to_play_content">Desliza para mover. Fichas iguales se fusionan en la siguiente letra (A+A -> B ... Z+Z -> AA).</string>
     <string name="goal_title">Objetivo</string>
     <string name="goal_desc">¡Fusiona fichas hasta conseguir la ZzzZ!</string>
     <string name="developed_by">Desarrollado por</string>

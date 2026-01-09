@@ -33,4 +33,13 @@
     <string name="level_impossible_desc">20% tessere più basse</string>
     
     <string name="menu_hint">Scorri per muovere • Unisci le tessere</string>
+    <!-- Info Screen -->
+    <string name="info_title">Informazioni</string>
+    <string name="how_to_play_title">Come giocare</string>
+    <string name="how_to_play_content">Scorri per muovere. Tessere uguali si fondono nella lettera successiva! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="goal_title">Obiettivo</string>
+    <string name="goal_desc">Fondi fino a raggiungere ZzzZ!</string>
+    <string name="developed_by">Sviluppato da</string>
+    <string name="developer_site">Sito sviluppatore</string>
+    <string name="version">Versione</string>
 </resources>

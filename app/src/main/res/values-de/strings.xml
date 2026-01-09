@@ -33,4 +33,13 @@
     <string name="level_impossible_desc">20% niedrigere Kacheln</string>
     
     <string name="menu_hint">Wischen zum Bewegen • Kacheln verbinden</string>
+    <!-- Info Screen -->
+    <string name="info_title">Informationen</string>
+    <string name="how_to_play_title">Spielanleitung</string>
+    <string name="how_to_play_content">Wischen zum Bewegen. Gleiche Kacheln verschmelzen zum nächsten Buchstaben! (A+A -> B ... Z+Z -> AA).</string>
+    <string name="goal_title">Ziel</string>
+    <string name="goal_desc">Verschmelzen bis zum ZzzZ!</string>
+    <string name="developed_by">Entwickelt von</string>
+    <string name="developer_site">Entwickler-Website</string>
+    <string name="version">Version</string>
 </resources>
