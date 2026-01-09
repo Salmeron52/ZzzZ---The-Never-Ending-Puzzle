@@ -11,6 +11,7 @@ import com.buenhijogames.zzzz.presentacion.pantalla.PantallaAyuda
 import com.buenhijogames.zzzz.presentacion.pantalla.PantallaJuego
 import com.buenhijogames.zzzz.presentacion.pantalla.PantallaMenu
 import com.buenhijogames.zzzz.presentacion.pantalla.PantallaPartidasGuardadas
+import com.buenhijogames.zzzz.presentacion.pantalla.PantallaSplash
 import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
 
 /**
@@ -21,6 +22,7 @@ object Rutas {
     const val JUEGO = "juego"
     const val PARTIDAS_GUARDADAS = "partidas_guardadas"
     const val INFO = "info"
+    const val SPLASH = "splash"
 }
 
 /**
@@ -35,8 +37,18 @@ fun NavegacionApp(
 
     NavHost(
         navController = navController,
-        startDestination = Rutas.MENU
+        startDestination = Rutas.SPLASH
     ) {
+        composable(Rutas.SPLASH) {
+            PantallaSplash(
+                onNavegar = { destino ->
+                    navController.navigate(destino) {
+                        popUpTo(Rutas.SPLASH) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(Rutas.MENU) {
             PantallaMenu(
                 onSeleccionarNivel = { nivel ->
