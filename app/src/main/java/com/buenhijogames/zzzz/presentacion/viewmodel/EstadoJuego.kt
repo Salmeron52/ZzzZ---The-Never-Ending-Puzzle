@@ -1,5 +1,6 @@
 package com.buenhijogames.zzzz.presentacion.viewmodel
 
+import com.buenhijogames.zzzz.dominio.caso_uso.Direccion
 import com.buenhijogames.zzzz.dominio.modelo.Ficha
 import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 
@@ -33,7 +34,8 @@ data class EstadoJuego(
     val puedeDeshacer: Boolean = false,
     val estadoAnterior: SnapshotEstado? = null,
     val partidaId: Long? = null,
-    val nivelActual: NivelDificultad = NivelDificultad.NORMAL
+    val nivelActual: NivelDificultad = NivelDificultad.NORMAL,
+    val ultimaDireccion: Direccion? = null  // Dirección del último movimiento para sincronizar animaciones
 )
 
 

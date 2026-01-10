@@ -176,6 +176,7 @@ fun PantallaJuego(
                                 TableroComposable(
                                     tablero = estado.tablero,
                                     conversorLetras = conversorLetras,
+                                    direccion = estado.ultimaDireccion,
                                     modifier = Modifier.size(tamanoTablero)
                                 )
                             }
@@ -203,6 +204,7 @@ fun PantallaJuego(
                                 TableroComposable(
                                     tablero = estado.tablero,
                                     conversorLetras = conversorLetras,
+                                    direccion = estado.ultimaDireccion,
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }

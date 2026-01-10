@@ -125,7 +125,8 @@ class JuegoViewModel @Inject constructor(
                     record = nuevoRecord,
                     finDelJuego = finDelJuego,
                     puedeDeshacer = true,
-                    estadoAnterior = snapshotAnterior
+                    estadoAnterior = snapshotAnterior,
+                    ultimaDireccion = direccion  // Guardar dirección para sincronizar animaciones
                 )
             }
             guardarPartidaActual()

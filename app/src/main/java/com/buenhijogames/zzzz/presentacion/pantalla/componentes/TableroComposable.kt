@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.buenhijogames.zzzz.dominio.caso_uso.ConversorLetras
+import com.buenhijogames.zzzz.dominio.caso_uso.Direccion
 import com.buenhijogames.zzzz.dominio.modelo.Ficha
 import com.buenhijogames.zzzz.ui.theme.FondoTablero
 import com.buenhijogames.zzzz.ui.theme.FondoTableroOscuro
@@ -41,6 +42,7 @@ import com.buenhijogames.zzzz.ui.theme.FondoTableroOscuro
 fun TableroComposable(
     tablero: List<List<Ficha?>>,
     conversorLetras: ConversorLetras,
+    direccion: Direccion? = null,  // Dirección del movimiento para sincronizar por fila/columna
     modifier: Modifier = Modifier
 ) {
     val esOscuro = com.buenhijogames.zzzz.ui.theme.LocalEsModoOscuro.current
@@ -91,16 +93,34 @@ fun TableroComposable(
             }
         }
 
-        // Calcular la duración máxima para sincronizar la aparición de nuevas fichas
-        val maxDuration = remember(fichasActivas) {
-            fichasActivas.maxOfOrNull { (ficha, fila, col) ->
+        // Calcular duración máxima POR FILA (horizontal) o POR COLUMNA (vertical)
+        // Cada fila/columna es un "tren" independiente que se sincroniza internamente
+        val esMovimientoHorizontal = direccion == Direccion.IZQUIERDA || direccion == Direccion.DERECHA
+        
+        // Mapa de duración máxima: clave = índice de fila (horizontal) o columna (vertical)
+        val maxDurationPorLinea = remember(fichasActivas, direccion) {
+            val duraciones = mutableMapOf<Int, Int>()
+            
+            fichasActivas.forEach { (ficha, fila, col) ->
                 if (ficha.origenesFusion.isNotEmpty()) {
-                    ficha.origenesFusion.maxOf { origen ->
+                    // Calcular la distancia máxima de esta ficha
+                    val duracionFicha = ficha.origenesFusion.maxOf { origen ->
                         val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
-                        if (dist == 0) 0 else dist * 300 // 300ms por celda para velocidad constante
+                        dist * 300  // No filtrar dist == 0, la duración mínima se aplica después
                     }
-                } else 0
-            } ?: 0
+                    // Clave: fila si es horizontal, columna si es vertical
+                    val clave = if (esMovimientoHorizontal) fila else col
+                    duraciones[clave] = maxOf(duraciones[clave] ?: 0, duracionFicha)
+                }
+            }
+            // Aplicar duración mínima de 300ms a cada línea para evitar animaciones instantáneas
+            duraciones.mapValues { maxOf(it.value, 300) }
+        }
+        
+        // Función auxiliar para obtener la duración de una ficha según su posición
+        fun obtenerDuracionParaFicha(fila: Int, col: Int): Int {
+            val clave = if (esMovimientoHorizontal) fila else col
+            return maxDurationPorLinea[clave] ?: 300
         }
 
         fichasActivas.forEach { (ficha, fila, col) ->
@@ -112,13 +132,8 @@ fun TableroComposable(
             when (ficha.origenesFusion.size) {
                 // CASO 1: FUSIÓN (2 orígenes) -> Mostrar Ghosts y luego la Real
                 2 -> {
-                    // Duración específica para esta fusión (basada en el trayecto más largo de los componentes)
-                    val duracionFusion = remember(ficha) {
-                        ficha.origenesFusion.maxOf { origen ->
-                             val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
-                             if (dist == 0) 0 else dist * 300
-                        } 
-                    }
+                    // Duración sincronizada para esta fila/columna (comportamiento de tren)
+                    val duracionFusion = obtenerDuracionParaFicha(fila, col)
                     
                     // Estado para visibilidad secuencial
                     var mostrarGhosts by remember(ficha.id) { mutableStateOf(true) }
@@ -137,13 +152,11 @@ fun TableroComposable(
                                 val initialY = (tamanoCelda + espacio) * origen.fila
                                 val progress = remember(origen) { androidx.compose.animation.core.Animatable(0f) }
                                 
-                                val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
-                                val duration = if (dist == 0) 0 else dist * 300
-
+                                // Usar duracionFusion para que todos los ghosts de esta línea se muevan sincronizados
                                 LaunchedEffect(origen.id) {
                                     progress.animateTo(
                                         targetValue = 1f,
-                                        animationSpec = tween(durationMillis = duration, easing = androidx.compose.animation.core.LinearEasing)
+                                        animationSpec = tween(durationMillis = duracionFusion, easing = androidx.compose.animation.core.LinearEasing)
                                     )
                                 }
 
@@ -178,14 +191,14 @@ fun TableroComposable(
                         val initialY = (tamanoCelda + espacio) * origen.fila
                         val progress = remember(origen) { androidx.compose.animation.core.Animatable(0f) }
                         
-                        val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
-                        val duration = if (dist == 0) 0 else dist * 300
-
+                        // Duración sincronizada para esta fila/columna (comportamiento de tren)
+                        val duracionLinea = obtenerDuracionParaFicha(fila, col)
+                        
                         LaunchedEffect(origen) { 
                              progress.snapTo(0f) 
                              progress.animateTo(
                                 targetValue = 1f,
-                                animationSpec = tween(durationMillis = duration, easing = androidx.compose.animation.core.LinearEasing)
+                                animationSpec = tween(durationMillis = duracionLinea, easing = androidx.compose.animation.core.LinearEasing)
                             )
                         }
 
@@ -206,9 +219,9 @@ fun TableroComposable(
                         if (ficha.esNueva) {
                             var visible by remember { mutableStateOf(false) }
                             LaunchedEffect(Unit) {
-                                // Esperar al movimiento más largo antes de aparecer
-                                val delayTime = if (maxDuration > 0) maxDuration.toLong() else 200L
-                                kotlinx.coroutines.delay(delayTime)
+                                // Esperar al movimiento más largo de esta línea antes de aparecer
+                                val delayTime = obtenerDuracionParaFicha(fila, col).toLong()
+                                kotlinx.coroutines.delay(if (delayTime > 0) delayTime else 200L)
                                 visible = true
                             }
                             
