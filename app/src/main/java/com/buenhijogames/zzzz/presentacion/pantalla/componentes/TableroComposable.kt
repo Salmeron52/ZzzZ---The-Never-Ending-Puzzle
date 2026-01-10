@@ -43,7 +43,7 @@ fun TableroComposable(
     conversorLetras: ConversorLetras,
     modifier: Modifier = Modifier
 ) {
-    val esOscuro = isSystemInDarkTheme()
+    val esOscuro = com.buenhijogames.zzzz.ui.theme.LocalEsModoOscuro.current
     val colorFondo = if (esOscuro) FondoTableroOscuro else FondoTablero
 
     BoxWithConstraints(

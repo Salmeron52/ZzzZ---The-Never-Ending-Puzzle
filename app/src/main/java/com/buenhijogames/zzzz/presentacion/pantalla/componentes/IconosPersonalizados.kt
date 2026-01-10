@@ -28,7 +28,7 @@ fun IconoDeshacer(
         val anchura = this.size.width
         val altura = this.size.height
         val grosor = anchura * 0.12f
-        
+
         // Arco circular que va desde la derecha, hacia arriba, hacia la izquierda
         val path = Path().apply {
             // Punto inicial a la derecha abajo
@@ -40,13 +40,13 @@ fun IconoDeshacer(
                 anchura * 0.25f, altura * 0.35f
             )
         }
-        
+
         drawPath(
             path = path,
             color = color,
             style = Stroke(width = grosor, cap = StrokeCap.Round)
         )
-        
+
         // Punta de flecha apuntando hacia la derecha (en el extremo izquierdo del arco)
         val flechaPath = Path().apply {
             moveTo(anchura * 0.35f, altura * 0.2f)
@@ -54,7 +54,7 @@ fun IconoDeshacer(
             lineTo(anchura * 0.4f, altura * 0.45f)
             close()
         }
-        
+
         drawPath(
             path = flechaPath,
             color = color
@@ -78,7 +78,7 @@ fun IconoNuevaPartida(
         val radio = anchura * 0.06f
         val margen = anchura * 0.08f
         val celda = (anchura - margen * 2 - grosor) / 2
-        
+
         // Dibujar 4 celdas como un mini tablero
         val colores = listOf(
             Offset(margen, margen),
@@ -86,7 +86,7 @@ fun IconoNuevaPartida(
             Offset(margen, margen + celda + grosor),
             Offset(margen + celda + grosor, margen + celda + grosor)
         )
-        
+
         colores.forEach { offset ->
             drawRoundRect(
                 color = color.copy(alpha = 0.4f),
@@ -95,12 +95,12 @@ fun IconoNuevaPartida(
                 cornerRadius = CornerRadius(radio, radio)
             )
         }
-        
+
         // Símbolo "+" en el centro
         val centroX = anchura / 2
         val centroY = altura / 2
         val tamanoPlus = anchura * 0.25f
-        
+
         // Línea vertical del "+"
         drawLine(
             color = color,
@@ -109,7 +109,7 @@ fun IconoNuevaPartida(
             strokeWidth = grosor * 1.5f,
             cap = StrokeCap.Round
         )
-        
+
         // Línea horizontal del "+"
         drawLine(
             color = color,
@@ -135,7 +135,7 @@ fun IconoGuardar(
         val altura = this.size.height
         val margen = anchura * 0.15f
         val radio = anchura * 0.08f
-        
+
         // Cuerpo del diskette
         drawRoundRect(
             color = color,
@@ -143,7 +143,7 @@ fun IconoGuardar(
             size = Size(anchura - margen * 2, altura - margen * 2),
             cornerRadius = CornerRadius(radio, radio)
         )
-        
+
         // Ranura superior (etiqueta)
         drawRoundRect(
             color = Color.White.copy(alpha = 0.9f),
@@ -151,7 +151,7 @@ fun IconoGuardar(
             size = Size(anchura * 0.4f, altura * 0.25f),
             cornerRadius = CornerRadius(radio / 2, radio / 2)
         )
-        
+
         // Área de datos inferior
         drawRoundRect(
             color = Color.White.copy(alpha = 0.7f),
@@ -175,7 +175,7 @@ fun IconoMenu(
         val anchura = this.size.width
         val altura = this.size.height
         val grosor = anchura * 0.1f
-        
+
         // Techo triangular
         val techoPath = Path().apply {
             moveTo(anchura * 0.5f, altura * 0.15f)
@@ -183,12 +183,12 @@ fun IconoMenu(
             lineTo(anchura * 0.9f, altura * 0.45f)
             close()
         }
-        
+
         drawPath(
             path = techoPath,
             color = color
         )
-        
+
         // Cuerpo de la casa
         drawRoundRect(
             color = color,
@@ -196,7 +196,7 @@ fun IconoMenu(
             size = Size(anchura * 0.6f, altura * 0.4f),
             cornerRadius = CornerRadius(anchura * 0.05f, anchura * 0.05f)
         )
-        
+
         // Puerta
         drawRoundRect(
             color = Color.White.copy(alpha = 0.8f),
@@ -204,5 +204,70 @@ fun IconoMenu(
             size = Size(anchura * 0.24f, altura * 0.3f),
             cornerRadius = CornerRadius(anchura * 0.03f, anchura * 0.03f)
         )
+    }
+}
+
+@Composable
+fun SolIcono(
+    color: Color,
+    size: Dp = 28.dp,
+    modifier: Modifier = Modifier
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val center = Offset(this.size.width / 2, this.size.height / 2)
+        val radio = this.size.width * 0.25f
+        val rayLength = this.size.width * 0.45f
+
+        // Sol central
+        drawCircle(color = color, radius = radio, center = center)
+
+        // Rayos
+        for (i in 0 until 8) {
+            val angle = i * 45.0 * (Math.PI / 180)
+            val start = Offset(
+                x = center.x + (radio * 1.4f) * kotlin.math.cos(angle).toFloat(),
+                y = center.y + (radio * 1.4f) * kotlin.math.sin(angle).toFloat()
+            )
+            val end = Offset(
+                x = center.x + rayLength * kotlin.math.cos(angle).toFloat(),
+                y = center.y + rayLength * kotlin.math.sin(angle).toFloat()
+            )
+            drawLine(
+                color = color,
+                start = start,
+                end = end,
+                strokeWidth = this.size.width * 0.08f,
+                cap = StrokeCap.Round
+            )
+        }
+    }
+}
+
+@Composable
+fun LunaIcono(
+    color: Color,
+    size: Dp = 28.dp,
+    modifier: Modifier = Modifier
+) {
+    Canvas(modifier = modifier.size(size)) {
+        val width = this.size.width
+        val height = this.size.height
+
+        val path = Path().apply {
+            moveTo(width * 0.5f, height * 0.1f)
+            cubicTo(
+                width * 1.2f, height * 0.1f, // Control point 1 external
+                width * 1.2f, height * 0.9f, // Control point 2 external
+                width * 0.5f, height * 0.9f  // End point
+            )
+            cubicTo(
+                width * 0.8f, height * 0.7f, // Control point 2 internal (concave)
+                width * 0.8f, height * 0.3f, // Control point 1 internal (concave)
+                width * 0.5f, height * 0.1f  // Back to start
+            )
+            close()
+        }
+
+        drawPath(path = path, color = color)
     }
 }

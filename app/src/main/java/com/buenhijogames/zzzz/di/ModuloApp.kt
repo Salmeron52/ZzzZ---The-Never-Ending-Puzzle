@@ -5,6 +5,7 @@ import com.buenhijogames.zzzz.datos.local.BaseDatosJuego
 import com.buenhijogames.zzzz.datos.local.PartidaDao
 import com.buenhijogames.zzzz.datos.repositorio.RepositorioJuegoImpl
 import com.buenhijogames.zzzz.dominio.repositorio.RepositorioJuego
+import com.buenhijogames.zzzz.dominio.repositorio.TemaRepositorio
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,5 +45,11 @@ object ModuloApp {
     @Singleton
     fun proveerRepositorioJuego(partidaDao: PartidaDao): RepositorioJuego {
         return RepositorioJuegoImpl(partidaDao)
+    }
+
+    @Provides
+    @Singleton
+    fun proveerTemaRepositorio(@ApplicationContext context: Context): TemaRepositorio {
+        return com.buenhijogames.zzzz.datos.repositorio.TemaRepositorioImpl(context)
     }
 }

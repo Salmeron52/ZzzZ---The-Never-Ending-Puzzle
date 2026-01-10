@@ -10,6 +10,8 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -33,6 +35,8 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+val LocalEsModoOscuro = staticCompositionLocalOf { false }
+
 @Composable
 fun ZzzzTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -50,9 +54,11 @@ fun ZzzzTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalEsModoOscuro provides darkTheme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

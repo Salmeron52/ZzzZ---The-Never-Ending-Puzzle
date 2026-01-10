@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -27,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.buenhijogames.zzzz.R
 import com.buenhijogames.zzzz.dominio.modelo.NivelDificultad
 import kotlinx.coroutines.delay
@@ -52,8 +56,10 @@ import kotlinx.coroutines.delay
 fun PantallaMenu(
     onSeleccionarNivel: (NivelDificultad) -> Unit,
     onIrAPartidasGuardadas: () -> Unit,
-    onIrAyuda: () -> Unit
+    onIrAyuda: () -> Unit,
+    temaViewModel: com.buenhijogames.zzzz.presentacion.viewmodel.TemaViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
+    val esOscuro by temaViewModel.esTemaOscuro.collectAsState()
     var animacionIniciada by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -202,20 +208,47 @@ fun PantallaMenu(
                     textAlign = TextAlign.Center
                 )
             }
-            // Icono de Información / Ayuda (Overlay - Z-Index superior)
-            androidx.compose.material3.IconButton(
-                onClick = onIrAyuda,
+            // Iconos Superiores (Ayuda y Tema)
+            Row(
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .safeDrawingPadding()
-                    .padding(16.dp)
+                    .align(Alignment.TopCenter)
+                    .zIndex(10f) // Asegurar que esté por encima de todo
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Icon(
-                    imageVector = Icons.Default.Info,
-                    contentDescription = stringResource(R.string.info_title),
-                    modifier = Modifier.size(32.dp),
-                    tint = MaterialTheme.colorScheme.primary
-                )
+                // Botón Tema (Izquierda)
+                androidx.compose.material3.IconButton(
+                    onClick = { temaViewModel.cambiarTema() }
+                ) {
+                   // Icono cambia según el tema (Sol/Luna)
+                   // Si es oscuro -> mostrar Sol (para cambiar a claro)
+                   // Si es claro -> mostrar Luna (para cambiar a oscuro)
+                   if (esOscuro) {
+                       com.buenhijogames.zzzz.presentacion.pantalla.componentes.SolIcono(
+                           color = MaterialTheme.colorScheme.primary,
+                           size = 32.dp
+                       )
+                   } else {
+                       com.buenhijogames.zzzz.presentacion.pantalla.componentes.LunaIcono(
+                            color = MaterialTheme.colorScheme.primary,
+                            size = 32.dp
+                       )
+                   }
+                }
+
+                // Botón Ayuda (Derecha)
+                androidx.compose.material3.IconButton(
+                    onClick = onIrAyuda
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = stringResource(R.string.info_title),
+                        modifier = Modifier.size(32.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }
