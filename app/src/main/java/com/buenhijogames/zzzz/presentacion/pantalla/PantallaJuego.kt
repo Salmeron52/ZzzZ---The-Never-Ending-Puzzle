@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.buenhijogames.zzzz.R
@@ -54,7 +55,6 @@ import com.buenhijogames.zzzz.presentacion.pantalla.componentes.IconoNuevaPartid
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.TableroComposable
 import com.buenhijogames.zzzz.presentacion.viewmodel.EstadoJuego
 import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
-import androidx.compose.ui.unit.min
 import kotlin.math.abs
 
 /**
@@ -64,13 +64,15 @@ import kotlin.math.abs
 fun PantallaJuego(
     onIrAPartidasGuardadas: () -> Unit = {},
     onVolverAlMenu: () -> Unit = {},
-    viewModel: JuegoViewModel = hiltViewModel()
+    viewModel: JuegoViewModel = hiltViewModel(),
+    temaViewModel: com.buenhijogames.zzzz.presentacion.viewmodel.TemaViewModel = hiltViewModel()
 ) {
     val estado by viewModel.estado.collectAsState()
+    val esOscuro by temaViewModel.esTemaOscuro.collectAsState()
     val conversorLetras = remember { ConversorLetras() }
-    
+
     var mostrarDialogoNuevoJuego by remember { mutableStateOf(false) }
-    
+
     // Variables para detección de gestos a nivel de pantalla
     var acumuladoX by remember { mutableFloatStateOf(0f) }
     var acumuladoY by remember { mutableFloatStateOf(0f) }
@@ -104,19 +106,19 @@ fun PantallaJuego(
                                     acumuladoX += dragAmount.x
                                     acumuladoY += dragAmount.y
                                 },
-                                    onDragEnd = {
-                                        val absX = abs(acumuladoX)
-                                        val absY = abs(acumuladoY)
-                                        
-                                        if (absX > umbralGesto || absY > umbralGesto) {
-                                            val direccion = if (absX > absY) {
-                                                if (acumuladoX > 0) Direccion.DERECHA else Direccion.IZQUIERDA
-                                            } else {
-                                                if (acumuladoY > 0) Direccion.ABAJO else Direccion.ARRIBA
-                                            }
-                                            viewModel.mover(direccion)
+                                onDragEnd = {
+                                    val absX = abs(acumuladoX)
+                                    val absY = abs(acumuladoY)
+
+                                    if (absX > umbralGesto || absY > umbralGesto) {
+                                        val direccion = if (absX > absY) {
+                                            if (acumuladoX > 0) Direccion.DERECHA else Direccion.IZQUIERDA
+                                        } else {
+                                            if (acumuladoY > 0) Direccion.ABAJO else Direccion.ARRIBA
                                         }
+                                        viewModel.mover(direccion)
                                     }
+                                }
                             )
                         }
                     }
@@ -145,7 +147,11 @@ fun PantallaJuego(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                EncabezadoJuego(estado)
+                                EncabezadoJuego(
+                                    estado = estado,
+                                    esOscuro = esOscuro,
+                                    onCambiarTema = { temaViewModel.cambiarTema() }
+                                )
                                 Spacer(modifier = Modifier.height(24.dp))
                                 PieJuego(
                                     estado = estado,
@@ -155,9 +161,9 @@ fun PantallaJuego(
                                     onVolverAlMenu = onVolverAlMenu
                                 )
                             }
-                            
+
                             Spacer(modifier = Modifier.width(24.dp))
-                            
+
                             // Panel Derecho (Tablero)
                             BoxWithConstraints(
                                 modifier = Modifier
@@ -166,7 +172,7 @@ fun PantallaJuego(
                                 contentAlignment = Alignment.Center
                             ) {
                                 val tamanoTablero = min(maxWidth, maxHeight)
-                                
+
                                 TableroComposable(
                                     tablero = estado.tablero,
                                     conversorLetras = conversorLetras,
@@ -181,7 +187,11 @@ fun PantallaJuego(
                                 .fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            EncabezadoJuego(estado)
+                            EncabezadoJuego(
+                                estado = estado,
+                                esOscuro = esOscuro,
+                                onCambiarTema = { temaViewModel.cambiarTema() }
+                            )
 
                             Spacer(modifier = Modifier.height(24.dp))
 
@@ -230,16 +240,47 @@ fun PantallaJuego(
 }
 
 @Composable
-private fun EncabezadoJuego(estado: EstadoJuego) {
+private fun EncabezadoJuego(
+    estado: EstadoJuego,
+    esOscuro: Boolean,
+    onCambiarTema: () -> Unit
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        // Título
-        // Título "ZzzZ"
-        Text(
-            text = stringResource(R.string.app_name),
-            fontSize = 48.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
+        // Título y Botón Tema
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            // Título "ZzzZ" Centrado
+             Text(
+                text = stringResource(R.string.app_name),
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.align(Alignment.Center)
+            )
+            
+            // Botón Tema a la derecha
+            androidx.compose.material3.IconButton(
+                onClick = onCambiarTema,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .size(48.dp)
+            ) {
+               if (esOscuro) {
+                   com.buenhijogames.zzzz.presentacion.pantalla.componentes.SolIcono(
+                       color = MaterialTheme.colorScheme.primary,
+                       size = 32.dp
+                   )
+               } else {
+                   com.buenhijogames.zzzz.presentacion.pantalla.componentes.LunaIcono(
+                        color = MaterialTheme.colorScheme.primary,
+                        size = 32.dp
+                   )
+               }
+            }
+        }
 
         // Nivel Actual
         val nivelStringId = when (estado.nivelActual) {
@@ -249,7 +290,7 @@ private fun EncabezadoJuego(estado: EstadoJuego) {
             com.buenhijogames.zzzz.dominio.modelo.NivelDificultad.MAESTRO -> R.string.level_master
             com.buenhijogames.zzzz.dominio.modelo.NivelDificultad.IMPOSIBLE -> R.string.level_impossible
         }
-        
+
         Text(
             text = "${stringResource(R.string.level_label)} ${stringResource(nivelStringId)}".uppercase(),
             fontSize = 16.sp,
@@ -305,9 +346,9 @@ private fun PieJuego(
                 )
             ) {
                 IconoDeshacer(
-                    color = if (estado.puedeDeshacer) 
-                        MaterialTheme.colorScheme.onSecondaryContainer 
-                    else 
+                    color = if (estado.puedeDeshacer)
+                        MaterialTheme.colorScheme.onSecondaryContainer
+                    else
                         MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
                     size = 28.dp
                 )
@@ -330,9 +371,9 @@ private fun PieJuego(
 
             // Botón partidas guardadas
             FilledIconButton(
-                onClick = { 
+                onClick = {
                     viewModel.guardarPartidaComoGuardada()
-                    onIrAPartidasGuardadas() 
+                    onIrAPartidasGuardadas()
                 },
                 modifier = Modifier.size(56.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
@@ -349,9 +390,9 @@ private fun PieJuego(
 
             // Botón ir al menú
             FilledIconButton(
-                onClick = { 
+                onClick = {
                     viewModel.guardarPartidaComoGuardada()
-                    onVolverAlMenu() 
+                    onVolverAlMenu()
                 },
                 modifier = Modifier.size(56.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
