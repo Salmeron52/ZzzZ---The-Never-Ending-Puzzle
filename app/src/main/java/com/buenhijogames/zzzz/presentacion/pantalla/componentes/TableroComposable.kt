@@ -97,7 +97,7 @@ fun TableroComposable(
                 if (ficha.origenesFusion.isNotEmpty()) {
                     ficha.origenesFusion.maxOf { origen ->
                         val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
-                        if (dist == 0) 0 else dist * 200 // 200ms por celda para velocidad constante
+                        if (dist == 0) 0 else dist * 300 // 300ms por celda para velocidad constante
                     }
                 } else 0
             } ?: 0
@@ -116,7 +116,7 @@ fun TableroComposable(
                     val duracionFusion = remember(ficha) {
                         ficha.origenesFusion.maxOf { origen ->
                              val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
-                             if (dist == 0) 0 else dist * 200
+                             if (dist == 0) 0 else dist * 300
                         } 
                     }
                     
@@ -138,7 +138,7 @@ fun TableroComposable(
                                 val progress = remember(origen) { androidx.compose.animation.core.Animatable(0f) }
                                 
                                 val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
-                                val duration = if (dist == 0) 0 else dist * 200
+                                val duration = if (dist == 0) 0 else dist * 300
 
                                 LaunchedEffect(origen.id) {
                                     progress.animateTo(
@@ -179,7 +179,7 @@ fun TableroComposable(
                         val progress = remember(origen) { androidx.compose.animation.core.Animatable(0f) }
                         
                         val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
-                        val duration = if (dist == 0) 0 else dist * 200
+                        val duration = if (dist == 0) 0 else dist * 300
 
                         LaunchedEffect(origen) { 
                              progress.snapTo(0f) 

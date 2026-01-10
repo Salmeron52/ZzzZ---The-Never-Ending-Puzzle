@@ -104,19 +104,19 @@ fun PantallaJuego(
                                     acumuladoX += dragAmount.x
                                     acumuladoY += dragAmount.y
                                 },
-                                onDragEnd = {
-                                    val absX = abs(acumuladoX)
-                                    val absY = abs(acumuladoY)
-                                    
-                                    if (absX > umbralGesto || absY > umbralGesto) {
-                                        val direccion = if (absX > absY) {
-                                            if (acumuladoX > 0) Direccion.DERECHA else Direccion.IZQUIERDA
-                                        } else {
-                                            if (acumuladoY > 0) Direccion.ABAJO else Direccion.ARRIBA
+                                    onDragEnd = {
+                                        val absX = abs(acumuladoX)
+                                        val absY = abs(acumuladoY)
+                                        
+                                        if (absX > umbralGesto || absY > umbralGesto) {
+                                            val direccion = if (absX > absY) {
+                                                if (acumuladoX > 0) Direccion.DERECHA else Direccion.IZQUIERDA
+                                            } else {
+                                                if (acumuladoY > 0) Direccion.ABAJO else Direccion.ARRIBA
+                                            }
+                                            viewModel.mover(direccion)
                                         }
-                                        viewModel.mover(direccion)
                                     }
-                                }
                             )
                         }
                     }
