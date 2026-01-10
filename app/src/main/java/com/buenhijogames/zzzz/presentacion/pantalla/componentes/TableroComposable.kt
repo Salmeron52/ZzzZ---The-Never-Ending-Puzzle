@@ -1,5 +1,6 @@
 package com.buenhijogames.zzzz.presentacion.pantalla.componentes
 
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -26,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.buenhijogames.zzzz.dominio.caso_uso.ConversorLetras
 import com.buenhijogames.zzzz.dominio.modelo.Ficha
 import com.buenhijogames.zzzz.ui.theme.FondoTablero
@@ -89,83 +91,142 @@ fun TableroComposable(
             }
         }
 
+        // Calcular la duración máxima para sincronizar la aparición de nuevas fichas
+        val maxDuration = remember(fichasActivas) {
+            fichasActivas.maxOfOrNull { (ficha, fila, col) ->
+                if (ficha.origenesFusion.isNotEmpty()) {
+                    ficha.origenesFusion.maxOf { origen ->
+                        val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
+                        if (dist == 0) 0 else dist * 200 // 200ms por celda para velocidad constante
+                    }
+                } else 0
+            } ?: 0
+        }
+
         fichasActivas.forEach { (ficha, fila, col) ->
-            // Determinar si es una fusión para controlar la visibilidad secuencial
-            val esFusion = ficha.idsFusionados.isNotEmpty()
-            
-            // Estado para visibilidad: 
-            // - Ghosts: visibles solo durante la animación (0-600ms)
-            // - Real: visible solo después de la animación (600ms+)
-            var mostrarGhosts by remember(ficha.id) { mutableStateOf(esFusion) }
-            var mostrarReal by remember(ficha.id) { mutableStateOf(!esFusion) }
+            // Usamos coordenadas exactas de destino
+            val targetX = (tamanoCelda + espacio) * col
+            val targetY = (tamanoCelda + espacio) * fila
 
-            if (esFusion) {
-                LaunchedEffect(ficha.id) {
-                    // Esperar lo que dura el movimiento
-                    kotlinx.coroutines.delay(600)
-                    mostrarGhosts = false
-                    mostrarReal = true
-                }
-            }
+            // Lógica de Animación basada en Orígenes
+            when (ficha.origenesFusion.size) {
+                // CASO 1: FUSIÓN (2 orígenes) -> Mostrar Ghosts y luego la Real
+                2 -> {
+                    // Duración específica para esta fusión (basada en el trayecto más largo de los componentes)
+                    val duracionFusion = remember(ficha) {
+                        ficha.origenesFusion.maxOf { origen ->
+                             val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
+                             if (dist == 0) 0 else dist * 200
+                        } 
+                    }
+                    
+                    // Estado para visibilidad secuencial
+                    var mostrarGhosts by remember(ficha.id) { mutableStateOf(true) }
+                    var mostrarReal by remember(ficha.id) { mutableStateOf(false) }
 
-            // 1. Renderizar Fichas "Fantasma"
-            if (esFusion && mostrarGhosts) {
-                ficha.idsFusionados.forEach { idFantasma ->
-                    key(idFantasma) { 
-                        val targetX = (tamanoCelda + espacio) * col
-                        val targetY = (tamanoCelda + espacio) * fila
+                    LaunchedEffect(ficha.id) {
+                        kotlinx.coroutines.delay(duracionFusion.toLong()) 
+                        mostrarGhosts = false
+                        mostrarReal = true
+                    }
 
-                        val animatedOffsetX by animateDpAsState(
-                            targetValue = targetX,
-                            animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
-                            label = "ghostOffsetX"
-                        )
-                        
-                        val animatedOffsetY by animateDpAsState(
-                            targetValue = targetY,
-                            animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
-                            label = "ghostOffsetY"
-                        )
+                    if (mostrarGhosts) {
+                        ficha.origenesFusion.forEachIndexed { index, origen ->
+                            key("ghost_${ficha.id}_${origen.id}_$index") {
+                                val initialX = (tamanoCelda + espacio) * origen.columna
+                                val initialY = (tamanoCelda + espacio) * origen.fila
+                                val progress = remember(origen) { androidx.compose.animation.core.Animatable(0f) }
+                                
+                                val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
+                                val duration = if (dist == 0) 0 else dist * 200
 
-                        val valorFantasma = if (ficha.valor > 1) ficha.valor - 1 else 1
-                        val fichaFantasma = Ficha(id = idFantasma, valor = valorFantasma)
+                                LaunchedEffect(origen.id) {
+                                    progress.animateTo(
+                                        targetValue = 1f,
+                                        animationSpec = tween(durationMillis = duration, easing = androidx.compose.animation.core.LinearEasing)
+                                    )
+                                }
 
-                        Box(modifier = Modifier.offset(x = animatedOffsetX, y = animatedOffsetY)) {
-                             FichaComposable(
-                                ficha = fichaFantasma,
+                                val currentX = initialX + (targetX - initialX) * progress.value
+                                val currentY = initialY + (targetY - initialY) * progress.value
+                                val valorFantasma = if (ficha.valor > 1) ficha.valor - 1 else 1
+                                val fichaFantasma = Ficha(id = origen.id, valor = valorFantasma)
+
+                                Box(modifier = Modifier.zIndex(10f).offset(x = currentX, y = currentY)) {
+                                    FichaComposable(ficha = fichaFantasma, conversorLetras = conversorLetras, modifier = Modifier.size(tamanoCelda))
+                                }
+                            }
+                        }
+                    }
+
+                    if (mostrarReal) {
+                        key(ficha.id) {
+                            FichaComposable(
+                                ficha = ficha,
                                 conversorLetras = conversorLetras,
-                                modifier = Modifier.size(tamanoCelda)
+                                modifier = Modifier.size(tamanoCelda).offset(x = targetX, y = targetY)
                             )
                         }
                     }
                 }
-            }
 
-            // 2. Renderizar la Ficha Real (Resultado)
-            if (mostrarReal) {
-                key(ficha.id) {
-                    val targetX = (tamanoCelda + espacio) * col
-                    val targetY = (tamanoCelda + espacio) * fila
+                // CASO 2: MOVIMIENTO SIMPLE (1 origen) -> Animar la ficha real desde origen
+                1 -> {
+                    key(ficha.id) {
+                        val origen = ficha.origenesFusion[0]
+                        val initialX = (tamanoCelda + espacio) * origen.columna
+                        val initialY = (tamanoCelda + espacio) * origen.fila
+                        val progress = remember(origen) { androidx.compose.animation.core.Animatable(0f) }
+                        
+                        val dist = kotlin.math.max(kotlin.math.abs(col - origen.columna), kotlin.math.abs(fila - origen.fila))
+                        val duration = if (dist == 0) 0 else dist * 200
 
-                    val animatedOffsetX by animateDpAsState(
-                        targetValue = targetX,
-                        animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
-                        label = "offsetX"
-                    )
-                    
-                    val animatedOffsetY by animateDpAsState(
-                        targetValue = targetY,
-                        animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
-                        label = "offsetY"
-                    )
+                        LaunchedEffect(origen) { 
+                             progress.snapTo(0f) 
+                             progress.animateTo(
+                                targetValue = 1f,
+                                animationSpec = tween(durationMillis = duration, easing = androidx.compose.animation.core.LinearEasing)
+                            )
+                        }
 
-                    FichaComposable(
-                        ficha = ficha,
-                        conversorLetras = conversorLetras,
-                        modifier = Modifier
-                            .size(tamanoCelda)
-                            .offset(x = animatedOffsetX, y = animatedOffsetY)
-                    )
+                        val currentX = initialX + (targetX - initialX) * progress.value
+                        val currentY = initialY + (targetY - initialY) * progress.value
+
+                        FichaComposable(
+                            ficha = ficha,
+                            conversorLetras = conversorLetras,
+                            modifier = Modifier.zIndex(5f).size(tamanoCelda).offset(x = currentX, y = currentY)
+                        )
+                    }
+                }
+
+                // CASO 3: NUEVA O ESTACIONARIA
+                else -> {
+                    key(ficha.id) {
+                        if (ficha.esNueva) {
+                            var visible by remember { mutableStateOf(false) }
+                            LaunchedEffect(Unit) {
+                                // Esperar al movimiento más largo antes de aparecer
+                                val delayTime = if (maxDuration > 0) maxDuration.toLong() else 200L
+                                kotlinx.coroutines.delay(delayTime)
+                                visible = true
+                            }
+                            
+                            if (visible) {
+                                FichaComposable(
+                                    ficha = ficha,
+                                    conversorLetras = conversorLetras,
+                                    modifier = Modifier.size(tamanoCelda).offset(x = targetX, y = targetY)
+                                )
+                            }
+                        } else {
+                            FichaComposable(
+                                ficha = ficha,
+                                conversorLetras = conversorLetras,
+                                modifier = Modifier.size(tamanoCelda).offset(x = targetX, y = targetY)
+                            )
+                        }
+                    }
                 }
             }
         }

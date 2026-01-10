@@ -13,6 +13,15 @@ data class Ficha(
     val valor: Int,
     val esNueva: Boolean = false,
     val fusionada: Boolean = false,
-    val idsFusionados: List<Long> = emptyList() // IDs de las fichas que se fusionaron para crear esta
+    val origenesFusion: List<OrigenFicha> = emptyList() // Coordenadas de las fichas que formaron esta
+)
+
+/**
+ * Representa la posición original de una ficha antes de fusionarse.
+ */
+data class OrigenFicha(
+    val id: Long,
+    val fila: Int,
+    val columna: Int
 )
 

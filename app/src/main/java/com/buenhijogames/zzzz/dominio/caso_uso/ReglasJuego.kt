@@ -36,12 +36,12 @@ class ReglasJuego @Inject constructor() {
         private const val PROBABILIDAD_FICHA_MAYOR = 0.10
     }
 
-    private var contadorId: Long = 0L
+    private var contadorId = java.util.concurrent.atomic.AtomicLong(0L)
 
     /**
      * Genera un ID único para cada ficha nueva.
      */
-    private fun generarId(): Long = ++contadorId
+    private fun generarId(): Long = contadorId.incrementAndGet()
 
     /**
      * Crea un tablero vacío de 4x4.
@@ -49,6 +49,8 @@ class ReglasJuego @Inject constructor() {
     fun crearTableroVacio(): List<List<Ficha?>> {
         return List(TAMANO_TABLERO) { List(TAMANO_TABLERO) { null } }
     }
+    
+
 
     /**
      * Inicializa un nuevo juego con dos fichas iniciales.
@@ -98,8 +100,8 @@ class ReglasJuego @Inject constructor() {
                 if (f == fila && c == columna) {
                     Ficha(id = generarId(), valor = valorNuevo, esNueva = true)
                 } else {
-                    // Limpiar flags de animación de fichas existentes. Importante: limpiar idsFusionados para que no se renderizen fantasmas
-                    ficha?.copy(esNueva = false, fusionada = false, idsFusionados = emptyList())
+                    // No limpiamos flags aquí porque acabamos de generarlos en 'mover' y la UI los necesita para animar
+                    ficha
                 }
             }
         }
@@ -188,9 +190,10 @@ class ReglasJuego @Inject constructor() {
         when (direccion) {
             Direccion.ARRIBA -> {
                 for (columna in 0 until TAMANO_TABLERO) {
-                    val resultado = procesarLinea(
-                        (0 until TAMANO_TABLERO).map { tableroMutable[it][columna] }
-                    )
+                    val lineaContexto = (0 until TAMANO_TABLERO).map { fila ->
+                        tableroMutable[fila][columna]?.let { FichaContexto(it, fila, columna) }
+                    }
+                    val resultado = procesarLinea(lineaContexto)
                     for (fila in 0 until TAMANO_TABLERO) {
                         if (fichasSonDiferentes(tableroMutable[fila][columna], resultado.linea[fila])) {
                             huboMovimiento = true
@@ -202,9 +205,10 @@ class ReglasJuego @Inject constructor() {
             }
             Direccion.ABAJO -> {
                 for (columna in 0 until TAMANO_TABLERO) {
-                    val resultado = procesarLinea(
-                        (TAMANO_TABLERO - 1 downTo 0).map { tableroMutable[it][columna] }
-                    )
+                    val lineaContexto = (TAMANO_TABLERO - 1 downTo 0).map { fila ->
+                        tableroMutable[fila][columna]?.let { FichaContexto(it, fila, columna) }
+                    }
+                    val resultado = procesarLinea(lineaContexto)
                     for ((indice, fila) in (TAMANO_TABLERO - 1 downTo 0).withIndex()) {
                         if (fichasSonDiferentes(tableroMutable[fila][columna], resultado.linea[indice])) {
                             huboMovimiento = true
@@ -216,20 +220,26 @@ class ReglasJuego @Inject constructor() {
             }
             Direccion.IZQUIERDA -> {
                 for (fila in 0 until TAMANO_TABLERO) {
-                    val resultado = procesarLinea(tableroMutable[fila].toList())
+                    val lineaContexto = (0 until TAMANO_TABLERO).map { columna ->
+                        tableroMutable[fila][columna]?.let { FichaContexto(it, fila, columna) }
+                    }
+                    val resultado = procesarLinea(lineaContexto)
                     for (columna in 0 until TAMANO_TABLERO) {
                         if (fichasSonDiferentes(tableroMutable[fila][columna], resultado.linea[columna])) {
                             huboMovimiento = true
                         }
                     }
-                    // if (tableroMutable[fila] != resultado.linea) { ... } // Reemplazado por loop para precisión
                     tableroMutable[fila] = resultado.linea.toMutableList()
                     puntuacionGanada += resultado.puntuacion
                 }
             }
             Direccion.DERECHA -> {
                 for (fila in 0 until TAMANO_TABLERO) {
-                    val resultado = procesarLinea(tableroMutable[fila].reversed())
+                    val lineaContexto = (TAMANO_TABLERO - 1 downTo 0).map { columna ->
+                        tableroMutable[fila][columna]?.let { FichaContexto(it, fila, columna) }
+                    }
+                    val resultado = procesarLinea(lineaContexto)
+                    
                     val lineaInvertida = resultado.linea.reversed()
                     for (columna in 0 until TAMANO_TABLERO) {
                          if (fichasSonDiferentes(tableroMutable[fila][columna], lineaInvertida[columna])) {
@@ -252,30 +262,50 @@ class ReglasJuego @Inject constructor() {
     /**
      * Procesa una línea (fila o columna) para mover y fusionar fichas.
      */
+    /**
+     * Procesa una línea (fila o columna) para mover y fusionar fichas.
+     */
     private data class ResultadoLinea(val linea: List<Ficha?>, val puntuacion: Long)
+    
+    // Wrapper para mantener el contexto de la posición original
+    private data class FichaContexto(val ficha: Ficha, val fila: Int, val col: Int)
 
-    private fun procesarLinea(linea: List<Ficha?>): ResultadoLinea {
+    private fun procesarLinea(lineaConContexto: List<FichaContexto?>): ResultadoLinea {
         // Filtrar las fichas no nulas
-        val fichas = linea.filterNotNull().toMutableList()
+        val fichas = lineaConContexto.filterNotNull().toMutableList()
         val resultado = mutableListOf<Ficha?>()
         var puntuacion = 0L
         var i = 0
 
         while (i < fichas.size) {
-            if (i + 1 < fichas.size && fichas[i].valor == fichas[i + 1].valor) {
+            val actual = fichas[i]
+            
+            if (i + 1 < fichas.size && actual.ficha.valor == fichas[i + 1].ficha.valor) {
+                val siguiente = fichas[i + 1]
                 // Fusionar las dos fichas
-                val nuevoValor = fichas[i].valor + 1
+                val nuevoValor = actual.ficha.valor + 1
+                
+                // Guardamos los orígenes exactos
+                val origenes = listOf(
+                    com.buenhijogames.zzzz.dominio.modelo.OrigenFicha(actual.ficha.id, actual.fila, actual.col),
+                    com.buenhijogames.zzzz.dominio.modelo.OrigenFicha(siguiente.ficha.id, siguiente.fila, siguiente.col)
+                )
+
                 resultado.add(Ficha(
                     id = generarId(), 
                     valor = nuevoValor, 
                     fusionada = true,
-                    idsFusionados = listOf(fichas[i].id, fichas[i+1].id)
+                    origenesFusion = origenes
                 ))
                 puntuacion += nuevoValor.toLong()
                 i += 2
             } else {
-                // Mover ficha sin fusionar (limpiar flags de animación y fantasmas)
-                resultado.add(fichas[i].copy(esNueva = false, fusionada = false, idsFusionados = emptyList()))
+                // Mover ficha sin fusionar.
+                // IMPORTANTE: Guardamos el origen también para animar el desplazamiento simple.
+                val origenSimple = listOf(
+                    com.buenhijogames.zzzz.dominio.modelo.OrigenFicha(actual.ficha.id, actual.fila, actual.col)
+                )
+                resultado.add(actual.ficha.copy(esNueva = false, fusionada = false, origenesFusion = origenSimple))
                 i++
             }
         }
@@ -322,6 +352,6 @@ class ReglasJuego @Inject constructor() {
      * Reinicia el contador de IDs (usar al cargar partida guardada).
      */
     fun establecerContadorId(nuevoContador: Long) {
-        contadorId = nuevoContador
+        contadorId.set(nuevoContador)
     }
 }

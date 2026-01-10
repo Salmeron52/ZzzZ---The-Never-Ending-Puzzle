@@ -62,8 +62,8 @@ fun FichaComposable(
     // Animación de aparición para fichas nuevas (más lenta)
     LaunchedEffect(ficha?.id) {
         if (ficha != null && ficha.esNueva) {
-            targetScale = 0.5f // Empieza desde la mitad del tamaño, no desde 0
-            kotlinx.coroutines.delay(100)
+            targetScale = 0f // Empieza invisible
+            // No delay, animation handles duration
             targetScale = 1f
         } else if (ficha != null && ficha.fusionada) {
             // Efecto pop para fusiones (más pronunciado)
@@ -77,10 +77,7 @@ fun FichaComposable(
     
     val escala by animateFloatAsState(
         targetValue = targetScale,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioNoBouncy,  // Sin rebote
-            stiffness = Spring.StiffnessMedium  // Velocidad normal
-        ),
+        animationSpec = tween(durationMillis = 300),
         label = "escala"
     )
 
