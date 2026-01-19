@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Card
@@ -49,9 +51,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.buenhijogames.zzzz.R
 import com.buenhijogames.zzzz.dominio.caso_uso.ConversorLetras
 import com.buenhijogames.zzzz.dominio.caso_uso.Direccion
-import com.buenhijogames.zzzz.presentacion.pantalla.componentes.DialogoConfirmacion
-import com.buenhijogames.zzzz.presentacion.pantalla.componentes.IconoDeshacer
-import com.buenhijogames.zzzz.presentacion.pantalla.componentes.IconoNuevaPartida
 import com.buenhijogames.zzzz.presentacion.pantalla.componentes.TableroComposable
 import com.buenhijogames.zzzz.presentacion.viewmodel.EstadoJuego
 import com.buenhijogames.zzzz.presentacion.viewmodel.JuegoViewModel
@@ -227,7 +226,7 @@ fun PantallaJuego(
 
     // Diálogo de confirmación para nuevo juego
     if (mostrarDialogoNuevoJuego) {
-        DialogoConfirmacion(
+        com.buenhijogames.zzzz.presentacion.pantalla.componentes.DialogoConfirmacion(
             titulo = stringResource(R.string.new_game_title),
             mensaje = stringResource(R.string.new_game_confirmation),
             textoConfirmar = stringResource(R.string.yes),
@@ -347,12 +346,10 @@ private fun PieJuego(
                     disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
                 )
             ) {
-                IconoDeshacer(
-                    color = if (estado.puedeDeshacer)
-                        MaterialTheme.colorScheme.onSecondaryContainer
-                    else
-                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
-                    size = 28.dp
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.Undo,
+                    contentDescription = stringResource(R.string.undo_desc),
+                    modifier = Modifier.size(28.dp)
                 )
             }
 
@@ -365,9 +362,10 @@ private fun PieJuego(
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             ) {
-                IconoNuevaPartida(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    size = 28.dp
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.new_game_desc),
+                    modifier = Modifier.size(28.dp)
                 )
             }
 

@@ -6,7 +6,7 @@
     <string name="game_over_title">¡Fin del juego!</string>
     <string name="instructions_text">Desliza para mover las fichas.\nUne fichas iguales para subir de letra.</string>
     <string name="new_game_title">Nuevo juego</string>
-    <string name="new_game_confirmation">¿Estás seguro de que quieres empezar un nuevo juego? Se perderá el progreso actual.</string>
+    <string name="new_game_confirmation">¿Estás seguro de que quieres empezar un nuevo juego? El progreso actual se guardará automáticamente.</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="undo_desc">Deshacer</string>

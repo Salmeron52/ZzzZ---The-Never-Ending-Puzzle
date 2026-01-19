@@ -95,7 +95,10 @@ class JuegoViewModel @Inject constructor(
      * Inicia un nuevo juego con el nivel especificado.
      */
     fun iniciarNuevoJuego(nivel: NivelDificultad = NivelDificultad.NORMAL) {
-        iniciarNuevoJuegoInterno(nivel)
+        viewModelScope.launch {
+            guardarPartidaComoGuardadaInterno()
+            iniciarNuevoJuegoInterno(nivel)
+        }
     }
 
     /**
@@ -164,8 +167,16 @@ class JuegoViewModel @Inject constructor(
      */
     fun guardarPartidaComoGuardada() {
         viewModelScope.launch {
-            runCatching {
-                val estadoActual = _estado.value
+            guardarPartidaComoGuardadaInterno()
+        }
+    }
+
+    private suspend fun guardarPartidaComoGuardadaInterno() {
+        runCatching {
+            val estadoActual = _estado.value
+            // Solo guardamos si hay puntos o si el tablero no está vacío (para no guardar partidas en blanco)
+            val tieneProgreso = estadoActual.puntuacion > 0 || estadoActual.tablero.flatten().any { it != null }
+            if (tieneProgreso) {
                 val nuevoId = repositorio.guardarPartidaComoGuardada(
                     tablero = estadoActual.tablero,
                     puntuacion = estadoActual.puntuacion,

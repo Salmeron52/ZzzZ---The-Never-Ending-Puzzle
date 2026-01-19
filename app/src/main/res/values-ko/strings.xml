@@ -6,7 +6,7 @@
     <string name="game_over_title">게임 오버!</string>
     <string name="instructions_text">타일을 이동하려면 스와이프하세요.\n같은 타일을 합쳐 레벨을 올리세요.</string>
     <string name="new_game_title">새 게임</string>
-    <string name="new_game_confirmation">새 게임을 시작하시겠습니까? 현재 진행 상황이 손실됩니다.</string>
+    <string name="new_game_confirmation">새 게임을 시작하시겠습니까? 현재 진행 상황이 자동으로 저장됩니다.</string>
     <string name="yes">예</string>
     <string name="no">아니요</string>
     <string name="undo_desc">실행 취소</string>

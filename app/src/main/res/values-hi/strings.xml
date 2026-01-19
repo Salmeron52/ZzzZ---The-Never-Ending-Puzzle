@@ -6,7 +6,7 @@
     <string name="game_over_title">खेल खत्म!</string>
     <string name="instructions_text">टाइल्स को स्थानांतरित करने के लिए स्वाइप करें।\nस्तर बढ़ाने के लिए समान टाइल्स मिलाएं।</string>
     <string name="new_game_title">नया खेल</string>
-    <string name="new_game_confirmation">क्या आप वाकई नया खेल शुरू करना चाहते हैं? वर्तमान प्रगति खो जाएगी।</string>
+    <string name="new_game_confirmation">क्या आप वाकई एक नया खेल शुरू करना चाहते हैं? वर्तमान प्रगति स्वचालित रूप से सहेजी जाएगी।</string>
     <string name="yes">हाँ</string>
     <string name="no">नहीं</string>
     <string name="undo_desc">पूर्ववत करें</string>

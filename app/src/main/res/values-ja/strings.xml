@@ -6,7 +6,7 @@
     <string name="game_over_title">ゲームオーバー！</string>
     <string name="instructions_text">スワイプしてタイルを移動。\n同じタイルを合わせてレベルアップ。</string>
     <string name="new_game_title">新しいゲーム</string>
-    <string name="new_game_confirmation">新しいゲームを始めますか？現在の進行状況は失われます。</string>
+    <string name="new_game_confirmation">新しいゲームを開始してもよろしいですか？現在の進行状況は自動的に保存されます。</string>
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
     <string name="undo_desc">元に戻す</string>

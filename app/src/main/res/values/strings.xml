@@ -6,7 +6,7 @@
     <string name="game_over_title">Game Over!</string>
     <string name="instructions_text">Swipe to move tiles.\nMerge same tiles to level up.</string>
     <string name="new_game_title">New Game</string>
-    <string name="new_game_confirmation">Are you sure you want to start a new game? Current progress will be lost.</string>
+    <string name="new_game_confirmation">Are you sure you want to start a new game? Current progress will be saved automatically.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="undo_desc">Undo</string>

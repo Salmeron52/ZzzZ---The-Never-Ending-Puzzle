@@ -6,7 +6,7 @@
     <string name="game_over_title">Jeu Terminé !</string>
     <string name="instructions_text">Glissez pour déplacer les tuiles.\nFusionnez des tuiles identiques pour monter de niveau.</string>
     <string name="new_game_title">Nouveau Jeu</string>
-    <string name="new_game_confirmation">Êtes-vous sûr de vouloir commencer une nouvelle partie ? La progression actuelle sera perdue.</string>
+    <string name="new_game_confirmation">Êtes-vous sûr de vouloir commencer une nouvelle partie ? La progression actuelle sera sauvegardée automatiquement.</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="undo_desc">Annuler</string>

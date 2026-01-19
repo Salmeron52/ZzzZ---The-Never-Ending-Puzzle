@@ -6,7 +6,7 @@
     <string name="game_over_title">游戏结束！</string>
     <string name="instructions_text">滑动以移动方块。\n合并相同的方块以升级。</string>
     <string name="new_game_title">新游戏</string>
-    <string name="new_game_confirmation">您确定要开始新游戏吗？当前进度将丢失。</string>
+    <string name="new_game_confirmation">您确定要开始新游戏吗？当前进度将自动保存。</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="undo_desc">撤销</string>
