@@ -147,13 +147,16 @@ fun TableroComposable(
 
                     if (mostrarGhosts) {
                         ficha.origenesFusion.forEachIndexed { index, origen ->
-                            key("ghost_${ficha.id}_${origen.id}_$index") {
+                            key("ghost_${ficha.id}_${origen.id}_${origen.fila}_${origen.columna}_$index") {
                                 val initialX = (tamanoCelda + espacio) * origen.columna
                                 val initialY = (tamanoCelda + espacio) * origen.fila
-                                val progress = remember(origen) { androidx.compose.animation.core.Animatable(0f) }
+                                // Usar clave única que incluya posición de origen para reiniciar animación
+                                val claveAnimacion = "${ficha.id}_${origen.id}_${origen.fila}_${origen.columna}"
+                                val progress = remember(claveAnimacion) { androidx.compose.animation.core.Animatable(0f) }
                                 
                                 // Usar duracionFusion para que todos los ghosts de esta línea se muevan sincronizados
-                                LaunchedEffect(origen.id) {
+                                LaunchedEffect(claveAnimacion) {
+                                    progress.snapTo(0f)  // Asegurar que empieza desde 0
                                     progress.animateTo(
                                         targetValue = 1f,
                                         animationSpec = tween(durationMillis = duracionFusion, easing = androidx.compose.animation.core.LinearEasing)
@@ -185,17 +188,20 @@ fun TableroComposable(
 
                 // CASO 2: MOVIMIENTO SIMPLE (1 origen) -> Animar la ficha real desde origen
                 1 -> {
-                    key(ficha.id) {
-                        val origen = ficha.origenesFusion[0]
+                    val origen = ficha.origenesFusion[0]
+                    key("move_${ficha.id}_${origen.fila}_${origen.columna}") {
                         val initialX = (tamanoCelda + espacio) * origen.columna
                         val initialY = (tamanoCelda + espacio) * origen.fila
-                        val progress = remember(origen) { androidx.compose.animation.core.Animatable(0f) }
+                        
+                        // Usar clave única que incluya posición de origen para reiniciar animación
+                        val claveAnimacion = "${ficha.id}_${origen.fila}_${origen.columna}_${fila}_${col}"
+                        val progress = remember(claveAnimacion) { androidx.compose.animation.core.Animatable(0f) }
                         
                         // Duración sincronizada para esta fila/columna (comportamiento de tren)
                         val duracionLinea = obtenerDuracionParaFicha(fila, col)
                         
-                        LaunchedEffect(origen) { 
-                             progress.snapTo(0f) 
+                        LaunchedEffect(claveAnimacion) { 
+                             progress.snapTo(0f)  // Asegurar que empieza desde 0
                              progress.animateTo(
                                 targetValue = 1f,
                                 animationSpec = tween(durationMillis = duracionLinea, easing = androidx.compose.animation.core.LinearEasing)
