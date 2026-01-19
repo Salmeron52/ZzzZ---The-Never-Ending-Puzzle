@@ -20,5 +20,6 @@ data class PartidaEntidad(
     val puntuacion: Long,
     val record: Long,
     val contadorFichas: Long = 0L,
-    val nivelId: Int = 1
+    val nivelId: Int = 1,
+    val partidaId: Long? = null
 )

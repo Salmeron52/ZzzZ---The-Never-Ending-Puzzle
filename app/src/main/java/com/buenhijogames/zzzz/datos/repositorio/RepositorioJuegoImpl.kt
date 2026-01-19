@@ -9,6 +9,8 @@ import com.buenhijogames.zzzz.dominio.repositorio.PartidaGuardada
 import com.buenhijogames.zzzz.dominio.repositorio.RepositorioJuego
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -23,26 +25,32 @@ class RepositorioJuegoImpl @Inject constructor(
     private val partidaDao: PartidaDao
 ) : RepositorioJuego {
 
+    private val mutex = Mutex()
+
     // ========== Partida Actual ==========
 
     override suspend fun guardarPartida(
         tablero: List<List<Ficha?>>,
         puntuacion: Long,
         record: Long,
-        nivelId: Int
+        nivelId: Int,
+        partidaId: Long?
     ) {
-        runCatching {
-            val tableroJson = Convertidores.tableroAJson(tablero)
-            val contadorFichas = Convertidores.obtenerMaximoId(tablero)
-            val entidad = PartidaEntidad(
-                id = 1,
-                tableroJson = tableroJson,
-                puntuacion = puntuacion,
-                record = record,
-                contadorFichas = contadorFichas,
-                nivelId = nivelId
-            )
-            partidaDao.guardarPartida(entidad)
+        mutex.withLock {
+            runCatching {
+                val tableroJson = Convertidores.tableroAJson(tablero)
+                val contadorFichas = Convertidores.obtenerMaximoId(tablero)
+                val entidad = PartidaEntidad(
+                    id = 1,
+                    tableroJson = tableroJson,
+                    puntuacion = puntuacion,
+                    record = record,
+                    contadorFichas = contadorFichas,
+                    nivelId = nivelId,
+                    partidaId = partidaId
+                )
+                partidaDao.guardarPartida(entidad)
+            }
         }
     }
 
@@ -54,7 +62,8 @@ class RepositorioJuegoImpl @Inject constructor(
                 tablero = tablero,
                 puntuacion = entidad.puntuacion,
                 record = entidad.record,
-                nivelId = entidad.nivelId
+                nivelId = entidad.nivelId,
+                partidaId = entidad.partidaId
             )
         }.getOrNull()
     }
@@ -74,42 +83,44 @@ class RepositorioJuegoImpl @Inject constructor(
         nivelId: Int,
         partidaId: Long?
     ): Long {
-        return runCatching {
-            val tableroJson = Convertidores.tableroAJson(tablero)
-            val contadorFichas = Convertidores.obtenerMaximoId(tablero)
-            val fichaMaxima = tablero.flatten().filterNotNull().maxOfOrNull { it.valor } ?: 1
-            val ahora = System.currentTimeMillis()
+        return mutex.withLock {
+            runCatching {
+                val tableroJson = Convertidores.tableroAJson(tablero)
+                val contadorFichas = Convertidores.obtenerMaximoId(tablero)
+                val fichaMaxima = tablero.flatten().filterNotNull().maxOfOrNull { it.valor } ?: 1
+                val ahora = System.currentTimeMillis()
 
-            if (partidaId != null) {
-                // Actualizar partida existente
-                partidaDao.actualizarPartidaGuardada(
-                    id = partidaId,
-                    tableroJson = tableroJson,
-                    puntuacion = puntuacion,
-                    record = record,
-                    fichaMaxima = fichaMaxima,
-                    fechaModificacion = ahora,
-                    contadorFichas = contadorFichas,
-                    nivelId = nivelId
-                )
-                partidaId
-            } else {
-                // Crear nueva partida
-                val nombre = generarNombrePartida()
-                val entidad = PartidaGuardadaEntidad(
-                    nombre = nombre,
-                    tableroJson = tableroJson,
-                    puntuacion = puntuacion,
-                    record = record,
-                    fichaMaxima = fichaMaxima,
-                    fechaCreacion = ahora,
-                    fechaModificacion = ahora,
-                    contadorFichas = contadorFichas,
-                    nivelId = nivelId
-                )
-                partidaDao.insertarPartidaGuardada(entidad)
-            }
-        }.getOrElse { 0L }
+                if (partidaId != null) {
+                    // Actualizar partida existente
+                    partidaDao.actualizarPartidaGuardada(
+                        id = partidaId,
+                        tableroJson = tableroJson,
+                        puntuacion = puntuacion,
+                        record = record,
+                        fichaMaxima = fichaMaxima,
+                        fechaModificacion = ahora,
+                        contadorFichas = contadorFichas,
+                        nivelId = nivelId
+                    )
+                    partidaId
+                } else {
+                    // Crear nueva partida
+                    val nombre = generarNombrePartida()
+                    val entidad = PartidaGuardadaEntidad(
+                        nombre = nombre,
+                        tableroJson = tableroJson,
+                        puntuacion = puntuacion,
+                        record = record,
+                        fichaMaxima = fichaMaxima,
+                        fechaCreacion = ahora,
+                        fechaModificacion = ahora,
+                        contadorFichas = contadorFichas,
+                        nivelId = nivelId
+                    )
+                    partidaDao.insertarPartidaGuardada(entidad)
+                }
+            }.getOrElse { 0L }
+        }
     }
 
     override fun obtenerPartidasGuardadas(): Flow<List<PartidaGuardada>> {

@@ -32,7 +32,8 @@ interface RepositorioJuego {
         tablero: List<List<Ficha?>>,
         puntuacion: Long,
         record: Long,
-        nivelId: Int = 1
+        nivelId: Int = 1,
+        partidaId: Long? = null
     )
 
     /**
@@ -52,7 +53,8 @@ interface RepositorioJuego {
         val tablero: List<List<Ficha?>>,
         val puntuacion: Long,
         val record: Long,
-        val nivelId: Int
+        val nivelId: Int,
+        val partidaId: Long?
     )
 
     suspend fun cargarPartida(): DatosPartidaActual?

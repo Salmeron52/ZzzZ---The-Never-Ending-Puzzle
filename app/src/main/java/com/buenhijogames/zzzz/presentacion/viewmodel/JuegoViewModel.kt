@@ -58,7 +58,8 @@ class JuegoViewModel @Inject constructor(
                             cargando = false,
                             puedeDeshacer = false,
                             estadoAnterior = null,
-                            nivelActual = nivel
+                            nivelActual = nivel,
+                            partidaId = datosPartida.partidaId
                         )
                     }
                 } else {
@@ -224,7 +225,8 @@ class JuegoViewModel @Inject constructor(
                     tablero = estadoActual.tablero,
                     puntuacion = estadoActual.puntuacion,
                     record = estadoActual.record,
-                    nivelId = estadoActual.nivelActual.id
+                    nivelId = estadoActual.nivelActual.id,
+                    partidaId = estadoActual.partidaId
                 )
             }
         }
