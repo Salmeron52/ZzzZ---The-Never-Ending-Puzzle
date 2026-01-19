@@ -196,6 +196,16 @@ fun PantallaJuego(
 
                             Spacer(modifier = Modifier.height(24.dp))
 
+                            PieJuego(
+                                estado = estado,
+                                viewModel = viewModel,
+                                onMostrarDialogoNuevo = { mostrarDialogoNuevoJuego = true },
+                                onIrAPartidasGuardadas = onIrAPartidasGuardadas,
+                                onVolverAlMenu = onVolverAlMenu
+                            )
+
+                            Spacer(modifier = Modifier.height(24.dp))
+
                             // Tablero
                             Box(
                                 modifier = Modifier.weight(1f, fill = false),
@@ -208,16 +218,6 @@ fun PantallaJuego(
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
-
-                            Spacer(modifier = Modifier.height(24.dp))
-
-                            PieJuego(
-                                estado = estado,
-                                viewModel = viewModel,
-                                onMostrarDialogoNuevo = { mostrarDialogoNuevoJuego = true },
-                                onIrAPartidasGuardadas = onIrAPartidasGuardadas,
-                                onVolverAlMenu = onVolverAlMenu
-                            )
                         }
                     }
                 }
