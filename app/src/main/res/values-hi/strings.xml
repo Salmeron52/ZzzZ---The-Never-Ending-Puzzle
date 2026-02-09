@@ -2,8 +2,8 @@
     <string name="app_name">ZzzZ</string>
     <string name="splash_presents">buenhijoGames प्रस्तुत करता है अंतहीन पहेली</string>
     <string name="splash_presents_action">प्रस्तुत करता है</string>
-    <string name="splash_title_main">अंतहीन पहेली</string>
-    <string name="game_tagline">अंतहीन पहेली</string>
+    <string name="splash_title_main">The Never-Ending Puzzle</string>
+    <string name="game_tagline">The Never-Ending Puzzle</string>
     <string name="score_label">स्कोर</string>
     <string name="high_score_label">श्रेष्ठ</string>
     <string name="game_over_title">खेल खत्म!</string>

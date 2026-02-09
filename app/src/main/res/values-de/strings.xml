@@ -2,8 +2,8 @@
     <string name="app_name">ZzzZ</string>
     <string name="splash_presents">buenhijoGames präsentiert das endlose Puzzle</string>
     <string name="splash_presents_action">präsentiert</string>
-    <string name="splash_title_main">Das Endlose Puzzle</string>
-    <string name="game_tagline">Das endlose Puzzle</string>
+    <string name="splash_title_main">The Never-Ending Puzzle</string>
+    <string name="game_tagline">The Never-Ending Puzzle</string>
     <string name="score_label">Punktzahl</string>
     <string name="high_score_label">Rekord</string>
     <string name="game_over_title">Spiel Vorbei!</string>

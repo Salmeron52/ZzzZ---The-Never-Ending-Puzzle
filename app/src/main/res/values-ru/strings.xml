@@ -2,8 +2,8 @@
     <string name="app_name">ZzzZ</string>
     <string name="splash_presents">buenhijoGames представляет бесконечную головоломку</string>
     <string name="splash_presents_action">представляет</string>
-    <string name="splash_title_main">Бесконечная Головоломка</string>
-    <string name="game_tagline">Бесконечная головоломка</string>
+    <string name="splash_title_main">The Never-Ending Puzzle</string>
+    <string name="game_tagline">The Never-Ending Puzzle</string>
     <string name="score_label">Счет</string>
     <string name="high_score_label">Рекорд</string>
     <string name="game_over_title">Игра окончена!</string>
