@@ -328,20 +328,13 @@ private fun EncabezadoJuego(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Puntuación y Récord
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            TarjetaPuntuacion(
-                titulo = stringResource(R.string.score_label),
-                valor = estado.puntuacion
-            )
-            TarjetaPuntuacion(
-                titulo = stringResource(R.string.high_score_label),
-                valor = estado.record
-            )
-        }
+        // Puntuación y Récord con tarjetas adaptativas
+        TarjetasPuntuacionAdaptativas(
+            puntuacion = estado.puntuacion,
+            record = estado.record,
+            tituloPuntuacion = stringResource(R.string.score_label),
+            tituloRecord = stringResource(R.string.high_score_label)
+        )
     }
 }
 
@@ -458,22 +451,72 @@ private fun PieJuego(
 }
 
 /**
- * Tarjeta para mostrar puntuación o récord.
+ * Tarjetas de puntuación adaptativas que se ajustan a números muy grandes.
+ * - Las tarjetas ocupan el espacio disponible equitativamente
+ * - Los números se formatean con separadores de miles
+ * - El tamaño de fuente se reduce para números muy largos
  */
 @Composable
-private fun TarjetaPuntuacion(
-    titulo: String,
-    valor: Long
+private fun TarjetasPuntuacionAdaptativas(
+    puntuacion: Long,
+    record: Long,
+    tituloPuntuacion: String,
+    tituloRecord: String
 ) {
+    // Determinar el número más largo para calcular el tamaño de fuente
+    val maxDigitos = maxOf(puntuacion.toString().length, record.toString().length)
+    
+    // Tamaño de fuente adaptativo según dígitos
+    val fontSize = when {
+        maxDigitos <= 5 -> 20.sp   // Hasta 99,999
+        maxDigitos <= 7 -> 18.sp   // Hasta 9,999,999
+        maxDigitos <= 9 -> 15.sp   // Hasta 999,999,999
+        maxDigitos <= 11 -> 13.sp  // Hasta 99,999,999,999
+        else -> 11.sp              // Más de 100 billones
+    }
+    
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        TarjetaPuntuacionAdaptativa(
+            titulo = tituloPuntuacion,
+            valor = puntuacion,
+            fontSize = fontSize,
+            modifier = Modifier.weight(1f)
+        )
+        TarjetaPuntuacionAdaptativa(
+            titulo = tituloRecord,
+            valor = record,
+            fontSize = fontSize,
+            modifier = Modifier.weight(1f)
+        )
+    }
+}
+
+/**
+ * Tarjeta individual con formato de número y tamaño adaptativo.
+ */
+@Composable
+private fun TarjetaPuntuacionAdaptativa(
+    titulo: String,
+    valor: Long,
+    fontSize: androidx.compose.ui.unit.TextUnit,
+    modifier: Modifier = Modifier
+) {
+    // Formatear número con separadores de miles
+    val numeroFormateado = java.text.NumberFormat.getNumberInstance().format(valor)
+    
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
-        )
+        ),
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier
-                .width(100.dp) // Reducido un poco para que quepa mejor en pantallas pequeñas
-                .padding(8.dp),
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -481,13 +524,15 @@ private fun TarjetaPuntuacion(
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center,
-                lineHeight = 14.sp
+                maxLines = 1
             )
             Text(
-                text = valor.toString(),
-                fontSize = 20.sp,
+                text = numeroFormateado,
+                fontSize = fontSize,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                maxLines = 1,
+                textAlign = TextAlign.Center
             )
         }
     }
