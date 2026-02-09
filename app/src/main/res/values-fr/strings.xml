@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">ZzzZ</string>
-    <string name="splash_presents">buenhijoGames présente</string>
+    <string name="splash_presents">buenhijoGames présente le puzzle infini</string>
+    <string name="splash_presents_action">présente</string>
+    <string name="splash_title_main">Le Puzzle Infini</string>
     <string name="score_label">Score</string>
     <string name="high_score_label">Record</string>
     <string name="game_over_title">Jeu Terminé !</string>

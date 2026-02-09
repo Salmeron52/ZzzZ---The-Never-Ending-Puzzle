@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">ZzzZ</string>
-    <string name="splash_presents">buenhijoGames presents</string>
+    <string name="splash_presents">buenhijoGames presents the endless puzzle</string>
+    <string name="splash_presents_action">presents</string>
+    <string name="splash_title_main">The Endless Puzzle</string>
     <string name="score_label">Score</string>
     <string name="high_score_label">Best</string>
     <string name="game_over_title">Game Over!</string>

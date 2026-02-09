@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">ZzzZ</string>
-    <string name="splash_presents">buenhijoGames 呈现</string>
+    <string name="splash_presents">buenhijoGames 呈现无尽拼图</string>
+    <string name="splash_presents_action">呈现</string>
+    <string name="splash_title_main">无尽拼图</string>
     <string name="score_label">分数</string>
     <string name="high_score_label">最高纪录</string>
     <string name="game_over_title">游戏结束！</string>
