@@ -163,21 +163,35 @@ fun PantallaJuego(
 
                             Spacer(modifier = Modifier.width(24.dp))
 
-                            // Panel Derecho (Tablero)
+                            // Panel Derecho (Tablero + Tagline)
                             BoxWithConstraints(
                                 modifier = Modifier
                                     .weight(1.4f)
                                     .fillMaxHeight(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                val tamanoTablero = min(maxWidth, maxHeight)
+                                val tamanoTablero = min(maxWidth, maxHeight * 0.9f)
 
-                                TableroComposable(
-                                    tablero = estado.tablero,
-                                    conversorLetras = conversorLetras,
-                                    direccion = estado.ultimaDireccion,
-                                    modifier = Modifier.size(tamanoTablero)
-                                )
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    TableroComposable(
+                                        tablero = estado.tablero,
+                                        conversorLetras = conversorLetras,
+                                        direccion = estado.ultimaDireccion,
+                                        modifier = Modifier.size(tamanoTablero)
+                                    )
+                                    
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = stringResource(R.string.game_tagline),
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Light,
+                                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                                        textAlign = TextAlign.Center,
+                                        letterSpacing = 2.sp
+                                    )
+                                }
                             }
                         }
                     } else {
@@ -217,6 +231,18 @@ fun PantallaJuego(
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
+                            
+                            // Tagline en la parte inferior
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = stringResource(R.string.game_tagline),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Light,
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                                textAlign = TextAlign.Center,
+                                letterSpacing = 2.sp
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
                     }
                 }

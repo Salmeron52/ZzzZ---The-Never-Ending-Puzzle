@@ -3,6 +3,7 @@
     <string name="splash_presents">buenhijoGames presenta el puzzle interminable</string>
     <string name="splash_presents_action">presenta</string>
     <string name="splash_title_main">El Puzzle Interminable</string>
+    <string name="game_tagline">El puzzle interminable</string>
     <string name="score_label">Puntuación</string>
     <string name="high_score_label">Récord</string>
     <string name="game_over_title">¡Fin del juego!</string>

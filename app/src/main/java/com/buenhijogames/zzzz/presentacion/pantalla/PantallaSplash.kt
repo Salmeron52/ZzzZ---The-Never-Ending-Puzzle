@@ -19,13 +19,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -69,12 +73,12 @@ private val BlueElectric = Color(0xFF3498DB)
 
 // Clase para representar una partícula/estrella
 private data class Particle(
-    val x: Float,           // Posición X (0-1)
-    val startY: Float,      // Posición Y inicial (0-1)
-    val size: Float,        // Tamaño del punto
-    val speed: Float,       // Velocidad de movimiento
-    val alpha: Float,       // Transparencia
-    val twinkleSpeed: Float // Velocidad de parpadeo
+    val x: Float,
+    val startY: Float,
+    val size: Float,
+    val speed: Float,
+    val alpha: Float,
+    val twinkleSpeed: Float
 )
 
 // Genera partículas aleatorias
@@ -83,10 +87,10 @@ private fun generateParticles(count: Int): List<Particle> {
         Particle(
             x = Random.nextFloat(),
             startY = Random.nextFloat(),
-            size = Random.nextFloat() * 3f + 1f,  // 1-4 dp
-            speed = Random.nextFloat() * 0.15f + 0.05f,  // Velocidad variable
-            alpha = Random.nextFloat() * 0.6f + 0.2f,  // 0.2-0.8 alpha
-            twinkleSpeed = Random.nextFloat() * 2f + 1f  // Para el parpadeo
+            size = Random.nextFloat() * 3f + 1f,
+            speed = Random.nextFloat() * 0.15f + 0.05f,
+            alpha = Random.nextFloat() * 0.6f + 0.2f,
+            twinkleSpeed = Random.nextFloat() * 2f + 1f
         )
     }
 }
@@ -145,7 +149,7 @@ fun PantallaSplash(
         label = "buttonPulse"
     )
     
-    // Animación para el movimiento de partículas (0 a 1 en loop)
+    // Animación para el movimiento de partículas
     val particleProgress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -168,7 +172,6 @@ fun PantallaSplash(
     )
     
     LaunchedEffect(Unit) {
-        // Animaciones escalonadas
         delay(100)
         showStudio = true
         delay(400)
@@ -177,15 +180,21 @@ fun PantallaSplash(
         showTitle = true
         delay(400)
         showLogo = true
-        
-        // Obtener destino mientras se muestran las animaciones
         destino = viewModel.determinarDestino()
-        
         delay(600)
         showButton = true
     }
 
-    Box(
+    // Colores animados para el título
+    val animatedColors = listOf(
+        CyanBright,
+        BlueElectric,
+        PurpleDeep,
+        MagentaBright,
+        CyanBright
+    )
+
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(
@@ -201,244 +210,401 @@ fun PantallaSplash(
             ),
         contentAlignment = Alignment.Center
     ) {
-        // ═══════════════════════════════════════════════════════════
-        // CAPA DE PARTÍCULAS ESTELARES - Fondo animado
-        // ═══════════════════════════════════════════════════════════
+        val isLandscape = maxWidth > maxHeight
+
+        // Capa de partículas estelares
         Canvas(modifier = Modifier.fillMaxSize()) {
             val width = size.width
             val height = size.height
             
             particles.forEach { particle ->
-                // Calcular posición Y con movimiento hacia arriba
                 val rawY = particle.startY - (particleProgress * particle.speed * 5f)
-                val y = ((rawY % 1f) + 1f) % 1f  // Wrap around
-                
-                // Calcular parpadeo individual
+                val y = ((rawY % 1f) + 1f) % 1f
                 val individualTwinkle = kotlin.math.sin(
                     (twinkle * particle.twinkleSpeed * Math.PI * 2).toFloat()
                 ) * 0.3f + 0.7f
-                
                 val finalAlpha = particle.alpha * individualTwinkle
                 
                 drawCircle(
                     color = Color.White.copy(alpha = finalAlpha),
                     radius = particle.size,
-                    center = Offset(
-                        x = particle.x * width,
-                        y = y * height
-                    )
+                    center = Offset(x = particle.x * width, y = y * height)
                 )
             }
         }
-        
-        // ═══════════════════════════════════════════════════════════
-        // CONTENIDO PRINCIPAL
-        // ═══════════════════════════════════════════════════════════
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp)
-        ) {
-            Spacer(modifier = Modifier.weight(0.12f))
 
+        if (isLandscape) {
             // ═══════════════════════════════════════════════════════════
-            // LÍNEA 1: "buenhijoGames" - Elegante y sofisticado
+            // DISEÑO LANDSCAPE - Logo grande izquierda, textos derecha
             // ═══════════════════════════════════════════════════════════
-            AnimatedVisibility(
-                visible = showStudio,
-                enter = fadeIn(animationSpec = tween(800)) +
-                        slideInVertically(
-                            initialOffsetY = { -60 },
-                            animationSpec = tween(800, easing = FastOutSlowInEasing)
-                        )
-            ) {
-                Text(
-                    text = "buenhijoGames",
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Light,
-                        letterSpacing = 6.sp,
-                        color = Color.White.copy(alpha = 0.7f),
-                        shadow = Shadow(
-                            color = CyanBright.copy(alpha = 0.3f),
-                            offset = Offset(0f, 0f),
-                            blurRadius = 10f
-                        )
-                    ),
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // ═══════════════════════════════════════════════════════════
-            // LÍNEA 2: "presenta" - Sutil y minimalista
-            // ═══════════════════════════════════════════════════════════
-            AnimatedVisibility(
-                visible = showPresents,
-                enter = fadeIn(animationSpec = tween(600))
-            ) {
-                Text(
-                    text = stringResource(R.string.splash_presents_action),
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        letterSpacing = 4.sp,
-                        color = GoldLight.copy(alpha = 0.6f)
-                    ),
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // ═══════════════════════════════════════════════════════════
-            // LÍNEA 3: "El Puzzle Interminable" - ESPECTACULAR
-            // ═══════════════════════════════════════════════════════════
-            AnimatedVisibility(
-                visible = showTitle,
-                enter = fadeIn(animationSpec = tween(1000)) +
-                        scaleIn(
-                            initialScale = 0.7f,
-                            animationSpec = tween(1000, easing = FastOutSlowInEasing)
-                        )
-            ) {
-                // Gradiente animado para el título principal
-                val animatedColors = listOf(
-                    CyanBright,
-                    BlueElectric,
-                    PurpleDeep,
-                    MagentaBright,
-                    CyanBright
-                )
-                
-                Text(
-                    text = stringResource(R.string.splash_title_main),
-                    style = TextStyle(
-                        fontSize = 38.sp,
-                        fontWeight = FontWeight.Black,
-                        letterSpacing = 2.sp,
-                        brush = Brush.linearGradient(
-                            colors = animatedColors,
-                            start = Offset(gradientOffset * 500f, 0f),
-                            end = Offset(gradientOffset * 500f + 400f, 100f)
-                        ),
-                        shadow = Shadow(
-                            color = CyanBright.copy(alpha = glowAlpha * 0.6f),
-                            offset = Offset(0f, 0f),
-                            blurRadius = 20f
-                        )
-                    ),
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // ═══════════════════════════════════════════════════════════
-            // LOGO - Con efecto de aparición elegante
-            // ═══════════════════════════════════════════════════════════
-            AnimatedVisibility(
-                visible = showLogo,
+            Row(
                 modifier = Modifier
-                    .weight(0.45f)
-                    .fillMaxWidth(),
-                enter = fadeIn(animationSpec = tween(1200)) +
-                        scaleIn(
-                            initialScale = 0.85f,
-                            animationSpec = tween(1000, easing = FastOutSlowInEasing)
-                        )
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
+                // Logo grande a la izquierda
+                AnimatedVisibility(
+                    visible = showLogo,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    enter = fadeIn(animationSpec = tween(1200)) +
+                            scaleIn(
+                                initialScale = 0.85f,
+                                animationSpec = tween(1000, easing = FastOutSlowInEasing)
+                            )
                 ) {
-                    // Glow effect detrás del logo
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize(0.7f)
-                            .alpha(glowAlpha * 0.15f)
-                            .background(
-                                Brush.radialGradient(
-                                    colors = listOf(
-                                        CyanBright,
-                                        Color.Transparent
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(0.8f)
+                                .alpha(glowAlpha * 0.15f)
+                                .background(
+                                    Brush.radialGradient(
+                                        colors = listOf(CyanBright, Color.Transparent)
                                     )
                                 )
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.splash_logo),
+                            contentDescription = "Logo",
+                            contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+                            modifier = Modifier.fillMaxSize(0.9f)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(32.dp))
+
+                // Textos y botón a la derecha
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    // buenhijoGames
+                    AnimatedVisibility(
+                        visible = showStudio,
+                        enter = fadeIn(animationSpec = tween(800)) +
+                                slideInVertically(
+                                    initialOffsetY = { -60 },
+                                    animationSpec = tween(800, easing = FastOutSlowInEasing)
+                                )
+                    ) {
+                        Text(
+                            text = "buenhijoGames",
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Light,
+                                letterSpacing = 5.sp,
+                                color = Color.White.copy(alpha = 0.7f),
+                                shadow = Shadow(
+                                    color = CyanBright.copy(alpha = 0.3f),
+                                    offset = Offset(0f, 0f),
+                                    blurRadius = 10f
+                                )
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    // presenta
+                    AnimatedVisibility(
+                        visible = showPresents,
+                        enter = fadeIn(animationSpec = tween(600))
+                    ) {
+                        Text(
+                            text = stringResource(R.string.splash_presents_action),
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Normal,
+                                letterSpacing = 3.sp,
+                                color = GoldLight.copy(alpha = 0.6f)
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Título principal
+                    AnimatedVisibility(
+                        visible = showTitle,
+                        enter = fadeIn(animationSpec = tween(1000)) +
+                                scaleIn(
+                                    initialScale = 0.7f,
+                                    animationSpec = tween(1000, easing = FastOutSlowInEasing)
+                                )
+                    ) {
+                        Text(
+                            text = stringResource(R.string.splash_title_main),
+                            style = TextStyle(
+                                fontSize = 32.sp,
+                                fontWeight = FontWeight.Black,
+                                letterSpacing = 1.sp,
+                                brush = Brush.linearGradient(
+                                    colors = animatedColors,
+                                    start = Offset(gradientOffset * 500f, 0f),
+                                    end = Offset(gradientOffset * 500f + 400f, 100f)
+                                ),
+                                shadow = Shadow(
+                                    color = CyanBright.copy(alpha = glowAlpha * 0.6f),
+                                    offset = Offset(0f, 0f),
+                                    blurRadius = 20f
+                                )
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    // Botón
+                    AnimatedVisibility(
+                        visible = showButton,
+                        enter = fadeIn(animationSpec = tween(800)) +
+                                scaleIn(
+                                    initialScale = 0.5f,
+                                    animationSpec = tween(600, easing = FastOutSlowInEasing)
+                                )
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .scale(buttonScale)
+                                .size(64.dp)
+                                .background(
+                                    brush = Brush.linearGradient(
+                                        colors = listOf(
+                                            CyanBright.copy(alpha = 0.3f),
+                                            PurpleDeep.copy(alpha = 0.3f)
+                                        )
+                                    ),
+                                    shape = CircleShape
+                                )
+                                .border(
+                                    width = 2.dp,
+                                    brush = Brush.linearGradient(
+                                        colors = listOf(
+                                            CyanBright.copy(alpha = glowAlpha),
+                                            MagentaBright.copy(alpha = glowAlpha)
+                                        )
+                                    ),
+                                    shape = CircleShape
+                                )
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null
+                                ) {
+                                    destino?.let { dest ->
+                                        scope.launch { onNavegar(dest) }
+                                    }
+                                }
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = "Entrar",
+                                tint = Color.White,
+                                modifier = Modifier.size(28.dp)
                             )
-                    )
-                    
-                    Image(
-                        painter = painterResource(id = R.drawable.splash_logo),
-                        contentDescription = "Logo",
-                        contentScale = androidx.compose.ui.layout.ContentScale.Fit,
-                        modifier = Modifier.fillMaxSize(0.85f)
-                    )
+                        }
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
+        } else {
             // ═══════════════════════════════════════════════════════════
-            // BOTÓN ELEGANTE - Flecha circular con efecto pulsante
+            // DISEÑO PORTRAIT - Diseño vertical original
             // ═══════════════════════════════════════════════════════════
-            AnimatedVisibility(
-                visible = showButton,
-                enter = fadeIn(animationSpec = tween(800)) +
-                        scaleIn(
-                            initialScale = 0.5f,
-                            animationSpec = tween(600, easing = FastOutSlowInEasing)
-                        )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp)
             ) {
-                Box(
-                    contentAlignment = Alignment.Center,
+                Spacer(modifier = Modifier.weight(0.12f))
+
+                // buenhijoGames
+                AnimatedVisibility(
+                    visible = showStudio,
+                    enter = fadeIn(animationSpec = tween(800)) +
+                            slideInVertically(
+                                initialOffsetY = { -60 },
+                                animationSpec = tween(800, easing = FastOutSlowInEasing)
+                            )
+                ) {
+                    Text(
+                        text = "buenhijoGames",
+                        style = TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Light,
+                            letterSpacing = 6.sp,
+                            color = Color.White.copy(alpha = 0.7f),
+                            shadow = Shadow(
+                                color = CyanBright.copy(alpha = 0.3f),
+                                offset = Offset(0f, 0f),
+                                blurRadius = 10f
+                            )
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // presenta
+                AnimatedVisibility(
+                    visible = showPresents,
+                    enter = fadeIn(animationSpec = tween(600))
+                ) {
+                    Text(
+                        text = stringResource(R.string.splash_presents_action),
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Normal,
+                            letterSpacing = 4.sp,
+                            color = GoldLight.copy(alpha = 0.6f)
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Título principal
+                AnimatedVisibility(
+                    visible = showTitle,
+                    enter = fadeIn(animationSpec = tween(1000)) +
+                            scaleIn(
+                                initialScale = 0.7f,
+                                animationSpec = tween(1000, easing = FastOutSlowInEasing)
+                            )
+                ) {
+                    Text(
+                        text = stringResource(R.string.splash_title_main),
+                        style = TextStyle(
+                            fontSize = 38.sp,
+                            fontWeight = FontWeight.Black,
+                            letterSpacing = 2.sp,
+                            brush = Brush.linearGradient(
+                                colors = animatedColors,
+                                start = Offset(gradientOffset * 500f, 0f),
+                                end = Offset(gradientOffset * 500f + 400f, 100f)
+                            ),
+                            shadow = Shadow(
+                                color = CyanBright.copy(alpha = glowAlpha * 0.6f),
+                                offset = Offset(0f, 0f),
+                                blurRadius = 20f
+                            )
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Logo
+                AnimatedVisibility(
+                    visible = showLogo,
                     modifier = Modifier
-                        .scale(buttonScale)
-                        .size(72.dp)
-                        .background(
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    CyanBright.copy(alpha = 0.3f),
-                                    PurpleDeep.copy(alpha = 0.3f)
+                        .weight(0.45f)
+                        .fillMaxWidth(),
+                    enter = fadeIn(animationSpec = tween(1200)) +
+                            scaleIn(
+                                initialScale = 0.85f,
+                                animationSpec = tween(1000, easing = FastOutSlowInEasing)
+                            )
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(0.7f)
+                                .alpha(glowAlpha * 0.15f)
+                                .background(
+                                    Brush.radialGradient(
+                                        colors = listOf(CyanBright, Color.Transparent)
+                                    )
                                 )
-                            ),
-                            shape = CircleShape
                         )
-                        .border(
-                            width = 2.dp,
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    CyanBright.copy(alpha = glowAlpha),
-                                    MagentaBright.copy(alpha = glowAlpha)
-                                )
-                            ),
-                            shape = CircleShape
+                        Image(
+                            painter = painterResource(id = R.drawable.splash_logo),
+                            contentDescription = "Logo",
+                            contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+                            modifier = Modifier.fillMaxSize(0.85f)
                         )
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) {
-                            destino?.let { dest ->
-                                scope.launch {
-                                    onNavegar(dest)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Botón
+                AnimatedVisibility(
+                    visible = showButton,
+                    enter = fadeIn(animationSpec = tween(800)) +
+                            scaleIn(
+                                initialScale = 0.5f,
+                                animationSpec = tween(600, easing = FastOutSlowInEasing)
+                            )
+                ) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .scale(buttonScale)
+                            .size(72.dp)
+                            .background(
+                                brush = Brush.linearGradient(
+                                    colors = listOf(
+                                        CyanBright.copy(alpha = 0.3f),
+                                        PurpleDeep.copy(alpha = 0.3f)
+                                    )
+                                ),
+                                shape = CircleShape
+                            )
+                            .border(
+                                width = 2.dp,
+                                brush = Brush.linearGradient(
+                                    colors = listOf(
+                                        CyanBright.copy(alpha = glowAlpha),
+                                        MagentaBright.copy(alpha = glowAlpha)
+                                    )
+                                ),
+                                shape = CircleShape
+                            )
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) {
+                                destino?.let { dest ->
+                                    scope.launch { onNavegar(dest) }
                                 }
                             }
-                        }
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "Entrar",
-                        tint = Color.White,
-                        modifier = Modifier.size(32.dp)
-                    )
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = "Entrar",
+                            tint = Color.White,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
                 }
-            }
 
-            Spacer(modifier = Modifier.weight(0.08f))
+                Spacer(modifier = Modifier.weight(0.08f))
+            }
         }
     }
 }
+
 
 

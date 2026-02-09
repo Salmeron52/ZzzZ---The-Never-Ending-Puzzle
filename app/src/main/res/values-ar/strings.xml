@@ -3,6 +3,7 @@
     <string name="splash_presents">buenhijoGames يقدم اللغز اللانهائي</string>
     <string name="splash_presents_action">يقدم</string>
     <string name="splash_title_main">اللغز اللانهائي</string>
+    <string name="game_tagline">اللغز اللانهائي</string>
     <string name="score_label">النتيجة</string>
     <string name="high_score_label">أفضل نتيجة</string>
     <string name="game_over_title">انتهت اللعبة!</string>

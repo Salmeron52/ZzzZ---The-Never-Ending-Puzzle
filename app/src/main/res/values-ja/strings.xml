@@ -3,6 +3,7 @@
     <string name="splash_presents">buenhijoGames が贈る終わりなきパズル</string>
     <string name="splash_presents_action">が贈る</string>
     <string name="splash_title_main">終わりなきパズル</string>
+    <string name="game_tagline">終わりなきパズル</string>
     <string name="score_label">スコア</string>
     <string name="high_score_label">ベスト</string>
     <string name="game_over_title">ゲームオーバー！</string>

@@ -3,6 +3,7 @@
     <string name="splash_presents">buenhijoGames가 선보이는 끝없는 퍼즐</string>
     <string name="splash_presents_action">선보이는</string>
     <string name="splash_title_main">끝없는 퍼즐</string>
+    <string name="game_tagline">끝없는 퍼즐</string>
     <string name="score_label">점수</string>
     <string name="high_score_label">최고 기록</string>
     <string name="game_over_title">게임 오버!</string>

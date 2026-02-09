@@ -3,6 +3,7 @@
     <string name="splash_presents">buenhijoGames apresenta o puzzle infinito</string>
     <string name="splash_presents_action">apresenta</string>
     <string name="splash_title_main">O Puzzle Infinito</string>
+    <string name="game_tagline">O puzzle infinito</string>
     <string name="score_label">Pontuação</string>
     <string name="high_score_label">Recorde</string>
     <string name="game_over_title">Fim de jogo!</string>
