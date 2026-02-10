@@ -38,16 +38,6 @@ interface RepositorioJuego {
 
     /**
      * Carga la partida actual.
-     * Retorna: Triple(Tablero, Puntuacion, Record) + NivelId -> Vamos a usar una data class o Cuarteto si fuera posible,
-     * pero mejor cambiemos el retorno a un objeto simple o añadimos el Int al final.
-     * Para mantener compatibilidad simple, retornaremos un objeto con todo.
-     * O mejor, Quadruple no existe. Usaremos:
-     * Pair<Triple<List<List<Ficha?>>, Long, Long>, Int>?
-     * No, es muy feo.
-     * Vamos a retornar un objeto PartidaActual?
-     * O simplemente Triple y asumimos nivel? No, el bug es ese.
-     * Vamos a cambiar a:
-     * suspend fun cargarPartida(): DatosPartidaActual?
      */
     data class DatosPartidaActual(
         val tablero: List<List<Ficha?>>,
