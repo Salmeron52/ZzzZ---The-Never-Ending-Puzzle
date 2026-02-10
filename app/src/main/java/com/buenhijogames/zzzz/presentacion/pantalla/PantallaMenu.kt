@@ -60,6 +60,31 @@ fun PantallaMenu(
     temaViewModel: com.buenhijogames.zzzz.presentacion.viewmodel.TemaViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val esOscuro by temaViewModel.esTemaOscuro.collectAsState()
+    var mostrarCreditos by remember { mutableStateOf(false) }
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+    val licenseUrl = stringResource(R.string.license_url)
+
+    if (mostrarCreditos) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { mostrarCreditos = false },
+            title = { Text(text = stringResource(R.string.credits_title)) },
+            text = { Text(text = stringResource(R.string.credits_content)) },
+            confirmButton = {
+                androidx.compose.material3.TextButton(
+                    onClick = { mostrarCreditos = false }
+                ) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+            dismissButton = {
+                androidx.compose.material3.TextButton(
+                    onClick = { uriHandler.openUri(licenseUrl) }
+                ) {
+                    Text(stringResource(R.string.view_license))
+                }
+            }
+        )
+    }
     var animacionIniciada by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -199,6 +224,12 @@ fun PantallaMenu(
 
 
                 Spacer(modifier = Modifier.weight(1f))
+
+                androidx.compose.material3.TextButton(
+                    onClick = { mostrarCreditos = true }
+                ) {
+                    Text(stringResource(R.string.credits_button))
+                }
 
                 // Instrucciones
                 Text(

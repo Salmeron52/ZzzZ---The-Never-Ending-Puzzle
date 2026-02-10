@@ -30,3 +30,5 @@ If you love number logic games, you'll love this letter challenge. Instead of nu
 ---
 
 **ZzzZ - The Never-Ending Puzzle** is the perfect companion to exercise your brain in your spare time. Relaxing yet challenging, simple yet deep.
+
+Distributed under CC BY 4.0 license. Author: Manuel Salmerón Cerdán (buenhijoGames).

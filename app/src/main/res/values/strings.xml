@@ -54,4 +54,10 @@
     <string name="developed_by">Developed by</string>
     <string name="developer_site">Developer Site</string>
     <string name="version">Version</string>
+    <string name="credits_button">Credits / Legal</string>
+    <string name="credits_title">Credits &amp; License</string>
+    <string name="credits_content">Concept and development by Manuel Salmerón Cerdán (buenhijoGames).\n\nDistributed under CC BY 4.0 License.\n\nSource: ZzzZ: The Never-Ending Puzzle</string>
+    <string name="view_license">View License</string>
+    <string name="license_url">https://creativecommons.org/licenses/by/4.0/deed.en</string>
+    <string name="close">Close</string>
 </resources>

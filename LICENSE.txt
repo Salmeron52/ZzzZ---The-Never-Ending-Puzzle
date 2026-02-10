@@ -1,0 +1,34 @@
+=======================================================================
+LICENCIA DE USO - ZzzZ: The Never-Ending Puzzle
+=======================================================================
+
+Autor: Manuel Salmerón Cerdán
+Estudio: buenhijoGames
+Copyright © 2026 Manuel Salmerón Cerdán. Todos los derechos reservados.
+
+Este proyecto se distribuye bajo la licencia Creative Commons Atribución 4.0 
+Internacional (CC BY 4.0).
+
+Usted es libre de:
+- Compartir: Copiar y redistribuir el material en cualquier medio o formato.
+- Adaptar: Remezclar, transformar y construir a partir de este material 
+  para cualquier propósito, incluso comercialmente.
+
+Bajo las siguientes condiciones:
+
+1. ATRIBUCIÓN Y CRÉDITOS: 
+   Debe dar crédito de manera adecuada de la siguiente forma:
+   "Concepto original y desarrollo por Manuel Salmerón Cerdán (buenhijoGames)". 
+   
+2. CITA DE FUENTES:
+   Cualquier obra derivada, juego parecido o aplicación basada en este concepto 
+   deberá nombrar explícitamente a "ZzzZ: The Never-Ending Puzzle" como fuente 
+   original e incluir un enlace al proyecto original si está disponible.
+
+3. AVISO DE LICENCIA:
+   Debe proporcionar un enlace a esta licencia (CC BY 4.0) e indicar si se 
+   han realizado cambios. Puede hacerlo de cualquier manera razonable, pero 
+   no de una manera que sugiera que el autor original le apoya.
+
+Texto completo de la licencia: https://creativecommons.org/licenses/by/4.0/deed.es
+=======================================================================

@@ -48,3 +48,5 @@ ZzzZ es el compañero perfecto para ejercitar tu cerebro en tus ratos libres. Re
 *   **Fluidez Total:** Nuevas animaciones sincronizadas estilo "tren".
 
 ¡Gracias por jugar! Si te gusta el desafío limpio y honesto, déjanos tu valoración.
+
+Distribuido bajo licencia CC BY 4.0. Autor: Manuel Salmerón Cerdán (buenhijoGames).
